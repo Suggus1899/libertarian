@@ -68,6 +68,7 @@
     "h2": "Services for <em>libertarian movements</em>",
     "description": "We offer specialized advisory services for political parties, movements and organizations working from first principles of freedom.",
     "cta": "View All Services →",
+    "request": "Request →",
     "list": {
       "platforms": {
         "num": "01",
@@ -160,8 +161,7 @@
   "servicesPage": {
     "eyebrow": "What We Do",
     "h1": "Services for <em>libertarian movements</em>",
-    "intro": "We offer specialized advisory in research, strategy and political communication for libertarian parties and organizations.",
-    "request": "Request →"
+    "intro": "We offer specialized advisory in research, strategy and political communication for libertarian parties and organizations."
   },
   "essaysPage": {
     "eyebrow": "Publications",
