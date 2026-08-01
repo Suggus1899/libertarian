@@ -28,7 +28,7 @@
   },
   "hero": {
     "eyebrow": "Libertarian Think Tank",
-    "h1": "The ideas laboratory<br/>that <em>challenges the status quo</em>",
+    "h1": "The ideas laboratory<br></br>that <em>challenges the status quo</em>",
     "description": "The most powerful ideas about freedom deserve more than academic journals. We produce <strong>research, analysis and strategy</strong> to build strong libertarian parties and movements across the world.",
     "ctaPrimary": "Our Services",
     "ctaSecondary": "Read Our Essays →",
@@ -140,7 +140,7 @@
   },
   "cta": {
     "eyebrow": "Work With Us",
-    "h2": "Building a liberty<br/><em>movement</em>?",
+    "h2": "Building a liberty<br></br><em>movement</em>?",
     "description": "Whether you are launching a party, growing a movement, or developing policy from first principles — we bring the intellectual firepower and strategic experience to help you succeed.",
     "ctaPrimary": "Get in Touch",
     "ctaSecondary": "Explore Services"
@@ -160,7 +160,7 @@
   "aboutPage": {
     "pageTitle": "About",
     "eyebrow": "Who We Are",
-    "h1": "The think tank that brings freedom<br/>into the <em>political debate</em>",
+    "h1": "The think tank that brings freedom<br></br>into the <em>political debate</em>",
     "intro": "We are a ideas laboratory dedicated to researching, debating and promoting the ideas of individual freedom, free markets and limited government.",
     "p1": "Libertarian Forum was born from the conviction that <strong>the best ideas about freedom should not remain in books</strong>. We exist to bring them into the political debate, into public policy, and to the decision-makers who affect millions.",
     "p2": "We are a <strong>discussion forum and ideas laboratory</strong> where libertarian thought is researched, debated and refined. We produce essays, policy platforms, political analyses and strategy to build strong libertarian parties and movements.",
@@ -180,7 +180,7 @@
   "essaysPage": {
     "pageTitle": "Essays",
     "eyebrow": "Publications",
-    "h1": "Essays, <em>analysis</em><br/>and libertarian thought",
+    "h1": "Essays, <em>analysis</em><br></br>and libertarian thought",
     "intro": "Original libertarian research and thinking applied to the political, economic and institutional challenges of our time.",
     "meta": "Libertarian Forum · 2025"
   },

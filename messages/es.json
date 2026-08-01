@@ -28,7 +28,7 @@
   },
   "hero": {
     "eyebrow": "Think Tank Libertario",
-    "h1": "El laboratorio de ideas<br/>que <em>rompe paradigmas</em>",
+    "h1": "El laboratorio de ideas<br></br>que <em>rompe paradigmas</em>",
     "description": "Las mejores ideas sobre libertad no deberían quedarse en los libros. Producimos <strong>investigación, análisis y estrategia</strong> para construir partidos y movimientos libertarios sólidos en todo el mundo.",
     "ctaPrimary": "Nuestros Servicios",
     "ctaSecondary": "Ver Ensayos →",
@@ -141,7 +141,7 @@
   },
   "cta": {
     "eyebrow": "Trabajemos juntos",
-    "h2": "¿Estás construyendo un<br/>movimiento <em>libre</em>?",
+    "h2": "¿Estás construyendo un<br></br>movimiento <em>libre</em>?",
     "description": "Si estás organizando un partido o movimiento político desde los principios de libertad individual, mercados libres y Estado limitado, trabajamos contigo.",
     "ctaPrimary": "Contactar ahora",
     "ctaSecondary": "Ver servicios"
@@ -161,7 +161,7 @@
   "aboutPage": {
     "pageTitle": "Nosotros",
     "eyebrow": "Quiénes somos",
-    "h1": "El think tank que lleva la libertad<br/>al <em>debate político</em>",
+    "h1": "El think tank que lleva la libertad<br></br>al <em>debate político</em>",
     "intro": "Somos un laboratorio de pensamiento dedicado a investigar, debatir y promover las ideas de la libertad individual, los mercados libres y el Estado limitado.",
     "p1": "Libertarian Forum nació de la convicción de que <strong>las mejores ideas sobre libertad no deberían quedarse en los libros</strong>. Existimos para llevarlas al debate político, a las políticas de Estado y a quienes toman las decisiones que afectan a millones.",
     "p2": "Somos un <strong>foro de discusión y laboratorio de ideas</strong> donde el pensamiento libertario se investiga, debate y refina. Producimos ensayos, tesis programáticas, análisis políticos y estrategia para construir partidos y movimientos libertarios sólidos.",
@@ -181,7 +181,7 @@
   "essaysPage": {
     "pageTitle": "Ensayos",
     "eyebrow": "Publicaciones",
-    "h1": "Ensayos, <em>análisis</em><br/>y pensamiento libertario",
+    "h1": "Ensayos, <em>análisis</em><br></br>y pensamiento libertario",
     "intro": "Investigación original sobre libertad individual, mercados libres, filosofía política y estrategia para el cambio institucional.",
     "meta": "Libertarian Forum · 2025"
   },
