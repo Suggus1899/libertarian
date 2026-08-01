@@ -1,32 +1,18 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Metadata } from 'next';
-import { routing } from '@/i18n/routing';
 import { Link } from '@/i18n/routing';
 import { PageHero } from '@/components/PageHero';
+import { getEssayBySlug } from '@/lib/essays';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-const essaySlugs = [
-  'individuo-estado',
-  'mercados-prosperidad',
-  'movimiento-desde-cero',
-  'latinoamerica-resurgimiento',
-];
-
-export async function generateStaticParams() {
-  return routing.locales.flatMap((locale) =>
-    essaySlugs.map((slug) => ({ locale, slug })),
-  );
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const t = await getTranslations({ locale });
-  const items = t.raw('essays.items') as Array<{ slug: string; title: string }>;
-  const essay = items.find((item) => item.slug === slug);
+  const essay = await getEssayBySlug(locale, slug);
   return {
     title: essay ? `${t('metadata.title')} — ${essay.title}` : t('metadata.title'),
     description: t('metadata.description'),
@@ -38,15 +24,7 @@ export default async function EssayDetailPage({ params }: Props) {
   setRequestLocale(locale);
 
   const t = await getTranslations();
-  const items = t.raw('essays.items') as Array<{
-    slug: string;
-    category: string;
-    title: string;
-    date: string;
-    author: string;
-    full: string[];
-  }>;
-  const essay = items.find((item) => item.slug === slug);
+  const essay = await getEssayBySlug(locale, slug);
 
   if (!essay) {
     notFound();
@@ -84,10 +62,7 @@ export default async function EssayDetailPage({ params }: Props) {
             ))}
           </div>
           <div className="mt-12 border-t border-gris-brd pt-10">
-            <Link
-              href="/ensayos"
-              className="btn-p"
-            >
+            <Link href="/ensayos" className="btn-p">
               ← {t('essays.cta')}
             </Link>
           </div>

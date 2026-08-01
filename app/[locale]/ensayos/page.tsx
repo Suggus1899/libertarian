@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Metadata } from 'next';
 import { PageHero } from '@/components/PageHero';
 import { EssaysList } from '@/components/EssaysList';
+import { getEssays } from '@/lib/essays';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -20,6 +21,8 @@ export default async function EssaysPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
+  const items = await getEssays(locale);
+
   return (
     <>
       <PageHero
@@ -29,7 +32,7 @@ export default async function EssaysPage({ params }: Props) {
         bgText="ENSAYOS"
       />
       <div className="gold-divider" />
-      <EssaysList />
+      <EssaysList items={items} />
     </>
   );
 }

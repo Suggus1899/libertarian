@@ -6,6 +6,7 @@ import { AboutPreview } from '@/components/AboutPreview';
 import { ServicesPreview } from '@/components/ServicesPreview';
 import { EssaysPreview } from '@/components/EssaysPreview';
 import { FinalCta } from '@/components/FinalCta';
+import { getEssays } from '@/lib/essays';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -24,13 +25,15 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
+  const essays = await getEssays(locale);
+
   return (
     <>
       <Hero />
       <Features />
       <AboutPreview />
       <ServicesPreview />
-      <EssaysPreview />
+      <EssaysPreview items={essays} />
       <FinalCta />
     </>
   );
