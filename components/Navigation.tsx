@@ -36,7 +36,7 @@ export function Navigation() {
     <header className="fixed left-0 right-0 top-0 z-50 h-20 border-b border-gris-brd bg-blanco/97 backdrop-blur-md">
       <nav className="mx-auto flex h-full max-w-7xl items-center justify-between px-6 lg:px-14">
         <Link href="/" className="text-xl font-black uppercase tracking-tight text-negro">
-          Libertarian Forum
+          {t('brand')}
         </Link>
 
         {/* Desktop nav */}
@@ -98,7 +98,7 @@ export function Navigation() {
         <button
           className="flex flex-col gap-[5px] p-2 md:hidden"
           onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          aria-label={isOpen ? t('closeMenu') : t('openMenu')}
           aria-expanded={isOpen}
         >
           {isOpen ? (

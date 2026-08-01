@@ -1,14 +1,20 @@
 {
+  "a11y": {
+    "skipToContent": "Saltar al contenido principal"
+  },
   "metadata": {
     "title": "Libertarian Forum — Think Tank Libertario",
     "description": "Laboratorio de ideas libertario. Investigación, análisis y estrategia para construir partidos y movimientos libertarios sólidos."
   },
   "nav": {
+    "brand": "Libertarian Forum",
     "nosotros": "Nosotros",
     "servicios": "Servicios",
     "ensayos": "Ensayos",
     "contacto": "Contacto",
     "home": "Inicio",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
     "dropdown": {
       "who": "Quiénes Somos",
       "mission": "Misión y Visión",
@@ -144,9 +150,15 @@
     "navigation": "Navegación",
     "contact": "Contacto",
     "copy": "© 2025 Libertarian Forum. Todos los derechos reservados.",
-    "motto": "Propiedad, libertad, progreso."
+    "motto": "Propiedad, libertad, progreso.",
+    "social": {
+      "instagram": "Instagram",
+      "twitter": "Twitter / X",
+      "linkedin": "LinkedIn"
+    }
   },
   "aboutPage": {
+    "pageTitle": "Nosotros",
     "eyebrow": "Quiénes somos",
     "h1": "El think tank que lleva la libertad<br/>al <em>debate político</em>",
     "intro": "Somos un laboratorio de pensamiento dedicado a investigar, debatir y promover las ideas de la libertad individual, los mercados libres y el Estado limitado.",
@@ -160,17 +172,20 @@
     "ctaSecondary": "Contactar"
   },
   "servicesPage": {
+    "pageTitle": "Servicios",
     "eyebrow": "Lo que hacemos",
     "h1": "Servicios para <em>movimientos libertarios</em>",
     "intro": "Ofrecemos asesoramiento especializado en investigación, estrategia y comunicación política para partidos y organizaciones libertarias."
   },
   "essaysPage": {
+    "pageTitle": "Ensayos",
     "eyebrow": "Publicaciones",
     "h1": "Ensayos, <em>análisis</em><br/>y pensamiento libertario",
     "intro": "Investigación original sobre libertad individual, mercados libres, filosofía política y estrategia para el cambio institucional.",
     "meta": "Libertarian Forum · 2025"
   },
   "contactPage": {
+    "pageTitle": "Contacto",
     "eyebrow": "Contacto",
     "h1": "Hablemos sobre tu <em>proyecto</em>",
     "intro": "Si estás organizando un movimiento o partido político desde los principios libertarios, trabajamos contigo.",
@@ -194,6 +209,7 @@
       "Otro"
     ],
     "submit": "Enviar mensaje →",
+    "sending": "Enviando...",
     "success": "✓ Mensaje recibido. Te responderemos a la brevedad.",
     "errors": {
       "nameRequired": "El nombre es obligatorio.",

@@ -9,10 +9,10 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'metadata' });
+  const t = await getTranslations({ locale });
   return {
-    title: `${t('title')} — ${locale === 'es' ? 'Servicios' : 'Services'}`,
-    description: t('description'),
+    title: `${t('metadata.title')} — ${t('servicesPage.pageTitle')}`,
+    description: t('metadata.description'),
   };
 }
 

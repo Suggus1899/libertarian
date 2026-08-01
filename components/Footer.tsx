@@ -9,7 +9,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-3">
         <div>
           <div className="mb-4 text-xl font-black uppercase tracking-tight text-blanco">
-            Libertarian Forum
+            {t('nav.brand')}
           </div>
           <p className="max-w-sm text-[0.85rem] leading-[1.75] text-white/40">
             {t('footer.tagline')}
@@ -61,17 +61,17 @@ export function Footer() {
             </li>
             <li>
               <a href="#" className="transition hover:text-blanco">
-                Instagram
+                {t('footer.social.instagram')}
               </a>
             </li>
             <li>
               <a href="#" className="transition hover:text-blanco">
-                Twitter / X
+                {t('footer.social.twitter')}
               </a>
             </li>
             <li>
               <a href="#" className="transition hover:text-blanco">
-                LinkedIn
+                {t('footer.social.linkedin')}
               </a>
             </li>
           </ul>

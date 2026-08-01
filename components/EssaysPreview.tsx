@@ -49,7 +49,7 @@ export function EssaysPreview() {
                   </p>
                   <div className="flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[1px] text-gris-cla">
                     <span className="text-dorado">—</span>
-                    Libertarian Forum
+                    {t('meta')}
                   </div>
                 </div>
               </Link>

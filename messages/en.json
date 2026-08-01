@@ -1,14 +1,20 @@
 {
+  "a11y": {
+    "skipToContent": "Skip to main content"
+  },
   "metadata": {
     "title": "Libertarian Forum — Libertarian Think Tank",
     "description": "A libertarian ideas laboratory producing research, analysis and strategy to build strong libertarian parties and movements."
   },
   "nav": {
+    "brand": "Libertarian Forum",
     "nosotros": "About",
     "servicios": "Services",
     "ensayos": "Essays",
     "contacto": "Contact",
     "home": "Home",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
     "dropdown": {
       "who": "Who We Are",
       "mission": "Mission & Vision",
@@ -143,9 +149,15 @@
     "navigation": "Navigation",
     "contact": "Contact",
     "copy": "© 2025 Libertarian Forum. All rights reserved.",
-    "motto": "Property, freedom, progress."
+    "motto": "Property, freedom, progress.",
+    "social": {
+      "instagram": "Instagram",
+      "twitter": "Twitter / X",
+      "linkedin": "LinkedIn"
+    }
   },
   "aboutPage": {
+    "pageTitle": "About",
     "eyebrow": "Who We Are",
     "h1": "The think tank that brings freedom<br/>into the <em>political debate</em>",
     "intro": "We are a ideas laboratory dedicated to researching, debating and promoting the ideas of individual freedom, free markets and limited government.",
@@ -159,17 +171,20 @@
     "ctaSecondary": "Contact"
   },
   "servicesPage": {
+    "pageTitle": "Services",
     "eyebrow": "What We Do",
     "h1": "Services for <em>libertarian movements</em>",
     "intro": "We offer specialized advisory in research, strategy and political communication for libertarian parties and organizations."
   },
   "essaysPage": {
+    "pageTitle": "Essays",
     "eyebrow": "Publications",
     "h1": "Essays, <em>analysis</em><br/>and libertarian thought",
     "intro": "Original libertarian research and thinking applied to the political, economic and institutional challenges of our time.",
     "meta": "Libertarian Forum · 2025"
   },
   "contactPage": {
+    "pageTitle": "Contact",
     "eyebrow": "Contact",
     "h1": "Let's talk about your <em>project</em>",
     "intro": "If you are organizing a movement or political party from libertarian first principles, we work with you.",
@@ -193,6 +208,7 @@
       "Other"
     ],
     "submit": "Send message →",
+    "sending": "Sending...",
     "success": "✓ Message received. We will reply shortly.",
     "errors": {
       "nameRequired": "Name is required.",

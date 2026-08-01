@@ -89,7 +89,7 @@ export function ContactForm() {
 
       <div className="mt-6">
         <Button type="submit" variant="primary" className="w-full sm:w-auto">
-          {pending ? '...' : t('submit')}
+          {pending ? t('sending') : t('submit')}
         </Button>
       </div>
 
