@@ -2,6 +2,7 @@
 
 import { useActionState } from 'react';
 import type { Article } from '@/lib/db/schema';
+import { RichTextEditor } from '@/components/admin/RichTextEditor';
 
 type FormAction = (prevState: unknown, formData: FormData) => Promise<{ error: string } | void>;
 
@@ -120,17 +121,10 @@ export function ArticleForm({
       </div>
 
       <div>
-        <label htmlFor="content" className="mb-1 block text-xs font-semibold uppercase tracking-widest text-gris-med">
-          Contenido completo * — separá los párrafos con una línea en blanco
+        <label className="mb-1 block text-xs font-semibold uppercase tracking-widest text-gris-med">
+          Contenido completo *
         </label>
-        <textarea
-          id="content"
-          name="content"
-          required
-          rows={14}
-          defaultValue={article?.content}
-          className="w-full border border-gris-brd bg-blanco px-3 py-2.5 text-sm outline-none focus:border-negro"
-        />
+        <RichTextEditor name="content" defaultValue={article?.content} />
       </div>
 
       <div className="flex items-center gap-2">

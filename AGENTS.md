@@ -12,6 +12,8 @@
 - **Validation**: Zod (contact form server action)
 - **Database**: Postgres via Drizzle ORM (`lib/db`) — stores admin-created essays/opinion articles
 - **Admin auth**: single admin user, JWT session in httpOnly cookie (`lib/auth.ts`) + bcrypt password hash (no NextAuth, kept intentionally lightweight for one admin)
+- **Rich text editor**: Tiptap (`components/admin/RichTextEditor.tsx`) — WordPress-style editor with images (upload via Vercel Blob or URL) and YouTube video embeds. Article `content` is stored as HTML
+- **File uploads**: `@vercel/blob` via `app/admin/upload/route.ts`, protected by `requireAdmin()`. Falls back to a clear error (use "Imagen (URL)" instead) when `BLOB_READ_WRITE_TOKEN` isn't configured
 
 ## Commands
 
@@ -57,3 +59,6 @@
 - `pnpm` ignored build scripts for native deps (`sharp`, `@swc/core`). If image optimization is needed later, approve builds or use a CI with native tooling.
 - Required env vars for the admin/articles feature: `DATABASE_URL`, `SESSION_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` (see `.env.local.example`). Without `DATABASE_URL` the site still works — `lib/essays.ts` falls back to the static JSON essays only.
 - The `articles` table (`ensayo` | `opinion` type) is the single source for admin-created content; the JSON `essays.items` arrays remain as the original seed essays and are always merged in alongside DB rows.
+- **IMPORTANT**: any `$` in `.env.local` values (e.g. bcrypt hashes like `$2b$12$...`) MUST be escaped as `\$`. Next.js expands unescaped `$VAR`/`${VAR}` patterns in env files, which silently corrupts bcrypt hashes and breaks admin login with no obvious error.
+- Local Postgres for dev: this machine runs `postgresql-x64-18` as a Windows service (binaries at `D:\DB\bin`, data at `D:\DB\data`, port 5432, user `postgres`). The `libertarian` database was created for this project.
+- `drizzle.config.ts` manually parses `.env.local` (drizzle-kit is a standalone CLI and doesn't get Next.js's automatic env loading).

@@ -21,6 +21,12 @@ function slugify(input: string) {
     .replace(/(^-|-$)/g, '');
 }
 
+function isContentEmpty(html: string) {
+  const hasMedia = /<(img|iframe|video)\b/i.test(html);
+  const hasText = html.replace(/<[^>]*>/g, '').trim().length > 0;
+  return !hasMedia && !hasText;
+}
+
 export async function createArticle(_prevState: unknown, formData: FormData) {
   await requireAdmin();
 
@@ -34,7 +40,7 @@ export async function createArticle(_prevState: unknown, formData: FormData) {
   const content = formData.get('content') as string;
   const published = formData.get('published') === 'on';
 
-  if (!title || !locale || !type || !category || !description || !author || !content) {
+  if (!title || !locale || !type || !category || !description || !author || isContentEmpty(content)) {
     return { error: 'Completa todos los campos obligatorios.' };
   }
 
@@ -74,7 +80,7 @@ export async function updateArticle(id: number, _prevState: unknown, formData: F
   const content = formData.get('content') as string;
   const published = formData.get('published') === 'on';
 
-  if (!title || !locale || !type || !category || !description || !author || !content) {
+  if (!title || !locale || !type || !category || !description || !author || isContentEmpty(content)) {
     return { error: 'Completa todos los campos obligatorios.' };
   }
 

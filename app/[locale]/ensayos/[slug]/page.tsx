@@ -54,13 +54,12 @@ export default async function EssayDetailPage({ params }: Props) {
               <span>{essay.author}</span>
             </div>
           </div>
-          <div className="prose prose-lg max-w-none">
-            {essay.full.map((paragraph) => (
-              <p key={paragraph.slice(0, 20)} className="mb-6 leading-[1.9] text-gris-med">
-                {paragraph}
-              </p>
-            ))}
-          </div>
+          <div
+            className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-negro prose-p:text-gris-med prose-a:text-dorado"
+            // Content is authored exclusively by the site's single trusted admin via the
+            // Tiptap editor (or hardcoded in messages/*.json), never by public visitors.
+            dangerouslySetInnerHTML={{ __html: essay.contentHtml }}
+          />
           <div className="mt-12 border-t border-gris-brd pt-10">
             <Link href="/ensayos" className="btn-p">
               ← {t('essays.cta')}

@@ -10,7 +10,7 @@ export type EssayItem = {
   description: string;
   date: string;
   author: string;
-  full: string[];
+  contentHtml: string;
 };
 
 function formatDate(date: Date, locale: string) {
@@ -19,6 +19,13 @@ function formatDate(date: Date, locale: string) {
     month: 'long',
     year: 'numeric',
   }).format(date);
+}
+
+function escapeHtml(text: string) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 /** Merges the static (hardcoded) essays from messages/*.json with DB-backed
@@ -35,6 +42,16 @@ export async function getEssays(locale: string): Promise<EssayItem[]> {
     full: string[];
   }>;
 
+  const staticMapped: EssayItem[] = staticItems.map((item) => ({
+    slug: item.slug,
+    category: item.category,
+    title: item.title,
+    description: item.description,
+    date: item.date,
+    author: item.author,
+    contentHtml: item.full.map((p) => `<p>${escapeHtml(p)}</p>`).join(''),
+  }));
+
   let dbItems: EssayItem[] = [];
   try {
     const rows = await db
@@ -50,14 +67,15 @@ export async function getEssays(locale: string): Promise<EssayItem[]> {
       description: row.description,
       date: formatDate(row.createdAt, locale),
       author: row.author,
-      full: row.content.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean),
+      // Rich HTML authored by the (single, trusted) admin in the Tiptap editor.
+      contentHtml: row.content,
     }));
   } catch {
     // DB not configured yet (e.g. local dev without DATABASE_URL) — fall back to static content only.
     dbItems = [];
   }
 
-  return [...dbItems, ...staticItems];
+  return [...dbItems, ...staticMapped];
 }
 
 export async function getEssayBySlug(locale: string, slug: string): Promise<EssayItem | null> {
