@@ -1,3 +1,5 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
 import { FileText, Megaphone, Target, Search, GraduationCap } from 'lucide-react';
 import { Button } from './Button';

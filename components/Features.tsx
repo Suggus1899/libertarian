@@ -1,3 +1,5 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
 import { BookOpen, Scale, Globe } from 'lucide-react';
 

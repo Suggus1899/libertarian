@@ -1,3 +1,5 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
 import { Button } from './Button';
 import { GraduationCap, Flame, Landmark, Handshake } from 'lucide-react';
