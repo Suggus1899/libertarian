@@ -4,6 +4,11 @@ import { db } from '@/lib/db';
 import { articles } from '@/lib/db/schema';
 import { DeleteButton } from './DeleteButton';
 
+function publicUrl(locale: string, slug: string) {
+  const path = locale === 'en' ? 'essays' : 'ensayos';
+  return `/${locale}/${path}/${slug}`;
+}
+
 export default async function AdminDashboard() {
   const items = await db.select().from(articles).orderBy(desc(articles.createdAt));
 
@@ -47,6 +52,16 @@ export default async function AdminDashboard() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex gap-3">
+                      {item.published && (
+                        <a
+                          href={publicUrl(item.locale, item.slug)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs font-semibold uppercase tracking-widest text-gris-med hover:text-negro"
+                        >
+                          Ver
+                        </a>
+                      )}
                       <Link
                         href={`/admin/articles/${item.id}/edit`}
                         className="text-xs font-semibold uppercase tracking-widest text-negro hover:text-dorado"
