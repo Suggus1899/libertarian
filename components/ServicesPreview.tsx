@@ -13,37 +13,36 @@ export function ServicesPreview() {
   ] as const;
 
   return (
-    <section className="bg-background py-24">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="text-center">
-          <div className="eyebrow justify-center">{t('eyebrow')}</div>
-          <h2 className="mx-auto mt-6 max-w-2xl text-3xl font-bold leading-tight md:text-4xl">
+    <section className="bg-blanco px-6 py-24 lg:px-14">
+      <div className="mx-auto max-w-7xl">
+        <div className="section-hdr text-center">
+          <div className="eyebrow eyebrow-center">{t('eyebrow')}</div>
+          <h2>
             {t.rich('h2', {
-              em: (chunks) => <em className="text-gold not-italic">{chunks}</em>,
+              em: (chunks) => <em className="italic text-dorado">{chunks}</em>,
             })}
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-foreground/70">
-            {t('description')}
-          </p>
+          <p className="mx-auto">{t('description')}</p>
         </div>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-3">
           {services.map(({ key, icon: Icon }) => (
             <Link
               key={key}
               href="/servicios"
-              className="group block rounded-sm border border-border bg-gray-dark/40 p-8 transition hover:border-gold/40 hover:bg-gray-dark/60"
+              className="group relative block cursor-pointer overflow-hidden border border-gris-brd p-10 transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(0,0,0,0.08)]"
             >
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-bold text-gold/60">
-                  {t(`list.${key}.num`)}
-                </span>
-                <Icon className="h-6 w-6 text-gold transition group-hover:scale-110" />
+              <span className="absolute bottom-0 left-0 h-[3px] w-full origin-left scale-x-0 bg-dorado transition-transform duration-500 group-hover:scale-x-100" />
+              <span className="absolute right-4 top-2 font-display text-7xl font-black leading-none text-negro/[0.04]">
+                {t(`list.${key}.num`)}
+              </span>
+              <div className="relative z-10 mb-5 text-[1.6rem]">
+                <Icon className="h-8 w-8 text-negro" strokeWidth={1.5} />
               </div>
-              <h3 className="mt-6 text-xl font-bold text-foreground">
+              <h3 className="relative z-10 font-display text-[1.05rem] font-extrabold uppercase tracking-[1.5px] text-negro">
                 {t(`list.${key}.title`)}
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-foreground/70">
+              <p className="relative z-10 mt-3 text-[0.88rem] leading-[1.72] text-gris-med">
                 {t(`list.${key}.description`)}
               </p>
             </Link>

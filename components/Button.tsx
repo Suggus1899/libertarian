@@ -3,7 +3,7 @@
 import { Link } from '@/i18n/routing';
 import { ReactNode } from 'react';
 
-type Variant = 'primary' | 'secondary' | 'outline' | 'ghost';
+type Variant = 'primary' | 'secondary' | 'outline';
 
 interface ButtonProps {
   href?: string;
@@ -14,15 +14,10 @@ interface ButtonProps {
   type?: 'button' | 'submit';
 }
 
-const variantClasses: Record<Variant, string> = {
-  primary:
-    'bg-gold text-black hover:bg-gold-light focus:ring-gold',
-  secondary:
-    'bg-foreground text-background hover:bg-cream focus:ring-foreground',
-  outline:
-    'border border-foreground/30 text-foreground hover:border-gold hover:text-gold bg-transparent focus:ring-gold',
-  ghost:
-    'bg-transparent text-foreground hover:text-gold focus:ring-gold',
+const variantMap: Record<Variant, string> = {
+  primary: 'btn-p',
+  secondary: 'btn-g',
+  outline: 'btn-o',
 };
 
 export function Button({
@@ -33,13 +28,7 @@ export function Button({
   className = '',
   type = 'button',
 }: ButtonProps) {
-  const classes = `
-    inline-flex items-center justify-center gap-2 px-6 py-3
-    font-semibold text-sm tracking-wide uppercase transition
-    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background
-    ${variantClasses[variant]}
-    ${className}
-  `;
+  const classes = `${variantMap[variant]} ${className}`.trim();
 
   if (href) {
     return (

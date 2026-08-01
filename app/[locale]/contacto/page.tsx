@@ -2,7 +2,6 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Metadata } from 'next';
 import { PageHero } from '@/components/PageHero';
 import { ContactForm } from '@/components/ContactForm';
-import { Mail } from 'lucide-react';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -29,24 +28,27 @@ export default async function ContactPage({ params }: Props) {
         eyebrowKey="contactPage.eyebrow"
         titleKey="contactPage.h1"
         introKey="contactPage.intro"
+        bgText="CONTACT"
       />
       <div className="gold-divider" />
 
-      <section className="bg-background py-20">
-        <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-2">
+      <section className="bg-blanco px-6 py-16 lg:px-14">
+        <div className="mx-auto grid max-w-6xl gap-16 lg:grid-cols-[1fr_2fr]">
           <div>
-            <h3 className="text-2xl font-bold text-foreground">
+            <h3 className="font-display text-[1.4rem] font-bold text-negro">
               {t('contactPage.infoTitle')}
             </h3>
-            <p className="mt-4 leading-relaxed text-foreground/80">
+            <p className="mt-4 text-[0.92rem] leading-[1.75] text-gris-med">
               {t('contactPage.infoDescription')}
             </p>
 
             <a
               href="mailto:info@libertarianforum.org"
-              className="mt-8 inline-flex items-center gap-3 text-gold transition hover:text-gold-light"
+              className="mt-8 flex items-center gap-3 text-sm text-gris-med transition hover:text-negro"
             >
-              <Mail className="h-5 w-5" />
+              <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center bg-negro text-[0.8rem] font-bold text-blanco">
+                @
+              </span>
               info@libertarianforum.org
             </a>
           </div>

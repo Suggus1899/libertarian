@@ -26,6 +26,7 @@ export default async function EssaysPage({ params }: Props) {
         eyebrowKey="essaysPage.eyebrow"
         titleKey="essaysPage.h1"
         introKey="essaysPage.intro"
+        bgText="ENSAYOS"
       />
       <div className="gold-divider" />
       <EssaysList />

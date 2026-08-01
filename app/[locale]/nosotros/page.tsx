@@ -2,7 +2,6 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Metadata } from 'next';
 import { PageHero } from '@/components/PageHero';
 import { Button } from '@/components/Button';
-import { GraduationCap, Flame, Landmark, Handshake } from 'lucide-react';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -24,11 +23,11 @@ export default async function AboutPage({ params }: Props) {
   const t = await getTranslations();
 
   const values = [
-    { key: 'rigor', icon: GraduationCap, title: t('about.values.rigor.title') },
-    { key: 'freedom', icon: Flame, title: t('about.values.freedom.title') },
-    { key: 'state', icon: Landmark, title: t('about.values.state.title') },
-    { key: 'network', icon: Handshake, title: t('about.values.network.title') },
-  ];
+    { key: 'research', title: t('features.research.title') },
+    { key: 'debate', title: t('features.debate.title') },
+    { key: 'advice', title: t('features.advice.title') },
+    { key: 'network', title: t('about.values.network.title') },
+  ] as const;
 
   return (
     <>
@@ -36,61 +35,62 @@ export default async function AboutPage({ params }: Props) {
         eyebrowKey="aboutPage.eyebrow"
         titleKey="aboutPage.h1"
         introKey="aboutPage.intro"
+        bgText="IDEAS"
       />
       <div className="gold-divider" />
 
-      <section className="bg-background py-20">
-        <div className="mx-auto max-w-4xl px-6">
-          <p className="text-lg leading-relaxed text-foreground/80">
+      <section className="bg-blanco px-6 py-16 lg:px-14">
+        <div className="mx-auto max-w-4xl">
+          <p className="text-base leading-[1.9] text-gris-med">
             {t.rich('aboutPage.p1', {
-              strong: (chunks) => (
-                <strong className="text-foreground">{chunks}</strong>
-              ),
+              strong: (chunks) => <strong className="font-semibold text-negro">{chunks}</strong>,
             })}
           </p>
-          <p className="mt-6 text-lg leading-relaxed text-foreground/80">
+          <p className="mt-5 text-base leading-[1.9] text-gris-med">
             {t.rich('aboutPage.p2', {
-              strong: (chunks) => (
-                <strong className="text-foreground">{chunks}</strong>
-              ),
+              strong: (chunks) => <strong className="font-semibold text-negro">{chunks}</strong>,
             })}
           </p>
 
-          <div className="mt-16 grid gap-8 md:grid-cols-2">
-            <div className="rounded-sm border border-border bg-gray-dark/40 p-8">
-              <h3 className="text-xl font-bold text-gold">
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            <div className="border-l-[3px] border-l-dorado bg-gris-bg p-8">
+              <h3 className="font-display text-[1.5rem] font-bold text-negro">
                 {t('aboutPage.missionTitle')}
               </h3>
-              <p className="mt-4 leading-relaxed text-foreground/80">
+              <p className="mt-4 leading-[1.8] text-gris-med">
                 {t('aboutPage.mission')}
               </p>
             </div>
-            <div className="rounded-sm border border-border bg-gray-dark/40 p-8">
-              <h3 className="text-xl font-bold text-gold">
+            <div className="border-l-[3px] border-l-dorado bg-gris-bg p-8">
+              <h3 className="font-display text-[1.5rem] font-bold text-negro">
                 {t('aboutPage.visionTitle')}
               </h3>
-              <p className="mt-4 leading-relaxed text-foreground/80">
+              <p className="mt-4 leading-[1.8] text-gris-med">
                 {t('aboutPage.vision')}
               </p>
             </div>
           </div>
 
-          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {values.map(({ key, icon: Icon, title }) => (
+          <div className="mt-12 grid gap-6 sm:grid-cols-2">
+            {values.map(({ key, title }) => (
               <div
                 key={key}
-                className="rounded-sm border border-border bg-gray-dark/40 p-6 text-center transition hover:border-gold/40"
+                className="relative border border-gris-brd bg-gris-bg p-8"
               >
-                <Icon className="mx-auto h-8 w-8 text-gold" />
-                <h4 className="mt-4 font-bold text-foreground">{title}</h4>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/70">
-                  {t(`about.values.${key}.description`)}
+                <span className="absolute left-0 top-0 h-full w-[3px] bg-dorado" />
+                <h4 className="font-display text-[0.9rem] font-extrabold uppercase tracking-[2px] text-negro">
+                  {title}
+                </h4>
+                <p className="mt-2.5 text-[0.9rem] leading-[1.72] text-gris-med">
+                  {key === 'network'
+                    ? t('about.values.network.description')
+                    : t(`${key === 'research' || key === 'debate' || key === 'advice' ? 'features' : 'about.values'}.${key}.description`)}
                 </p>
               </div>
             ))}
           </div>
 
-          <div className="mt-14 flex flex-wrap gap-4">
+          <div className="mt-12 flex flex-wrap gap-3.5">
             <Button href="/servicios">{t('aboutPage.ctaPrimary')}</Button>
             <Button href="/contacto" variant="outline">
               {t('aboutPage.ctaSecondary')}

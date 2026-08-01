@@ -6,36 +6,30 @@ export function EssaysList() {
   const items = t.raw('items');
 
   return (
-    <section className="bg-background py-20">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="bg-blanco px-6 py-16 lg:px-14">
+      <div className="mx-auto max-w-6xl">
         <div className="grid gap-6 md:grid-cols-2">
           {items.map(
             (
               item: { category: string; title: string; description: string },
-              index: number,
             ) => (
               <article
                 key={item.title}
-                className="flex flex-col overflow-hidden rounded-sm border border-border bg-gray-dark/40 transition hover:border-gold/40"
+                className="cursor-pointer overflow-hidden border border-gris-brd transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_36px_rgba(0,0,0,0.08)]"
               >
-                <div
-                  className={`h-1 ${index % 2 === 0 ? 'bg-gold' : 'bg-foreground'}`}
-                />
-                <div className="flex flex-1 flex-col p-8">
-                  <span
-                    className={`text-xs font-bold uppercase tracking-widest ${
-                      index % 2 === 0 ? 'text-gold' : 'text-foreground'
-                    }`}
-                  >
+                <div className="border-b border-gris-brd bg-gris-bg p-8">
+                  <span className="font-display text-[0.68rem] font-bold uppercase tracking-[2.5px] text-dorado">
                     {item.category}
                   </span>
-                  <h3 className="mt-4 text-xl font-bold leading-snug text-foreground">
+                  <h3 className="mt-2.5 font-display text-[1.25rem] font-bold leading-[1.35] text-negro">
                     {item.title}
                   </h3>
-                  <p className="mt-4 flex-1 text-sm leading-relaxed text-foreground/70">
+                </div>
+                <div className="p-8">
+                  <p className="text-[0.9rem] leading-[1.72] text-gris-med">
                     {item.description}
                   </p>
-                  <div className="mt-6 text-xs font-bold uppercase tracking-widest text-foreground/40">
+                  <div className="mt-4 text-[0.72rem] font-semibold uppercase tracking-[1px] text-gris-cla">
                     {t('meta')}
                   </div>
                 </div>
@@ -44,12 +38,12 @@ export function EssaysList() {
           )}
         </div>
 
-        <div className="mt-16 rounded-sm border border-border bg-gray-dark/30 p-12 text-center">
-          <div className="eyebrow justify-center">{t('soon.eyebrow')}</div>
-          <h3 className="mt-4 text-2xl font-bold text-foreground">
+        <div className="mt-16 rounded-sm border border-gris-brd bg-gris-bg p-12 text-center">
+          <div className="eyebrow eyebrow-center">{t('soon.eyebrow')}</div>
+          <h3 className="mt-4 font-display text-2xl font-bold text-negro">
             {t('soon.title')}
           </h3>
-          <p className="mx-auto mt-3 max-w-xl text-foreground/70">
+          <p className="mx-auto mt-3 max-w-xl text-gris-med">
             {t('soon.description')}
           </p>
           <div className="mt-8">

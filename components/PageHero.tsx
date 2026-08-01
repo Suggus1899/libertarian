@@ -4,23 +4,31 @@ interface PageHeroProps {
   eyebrowKey: string;
   titleKey: string;
   introKey: string;
+  bgText?: string;
 }
 
-export function PageHero({ eyebrowKey, titleKey, introKey }: PageHeroProps) {
+export function PageHero({ eyebrowKey, titleKey, introKey, bgText }: PageHeroProps) {
   const t = useTranslations();
 
   return (
-    <div className="relative overflow-hidden bg-gray-dark pt-32 pb-16 md:pt-48 md:pb-24">
-      <div className="absolute inset-0 bg-gradient-to-br from-gold/5 via-transparent to-transparent" />
-      <div className="relative mx-auto max-w-7xl px-6">
-        <div className="eyebrow">{t(eyebrowKey)}</div>
-        <h1 className="mt-6 max-w-3xl text-4xl font-bold leading-tight text-foreground md:text-5xl lg:text-6xl">
+    <div className="relative overflow-hidden bg-negro px-6 py-20 lg:px-14 lg:py-24">
+      {bgText && (
+        <div className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 select-none overflow-hidden">
+          <span className="page-hero-watermark block -translate-x-5 font-display font-black uppercase">
+            {bgText}
+          </span>
+        </div>
+      )}
+
+      <div className="relative z-10 mx-auto max-w-3xl lg:mx-0">
+        <div className="eyebrow mb-3.5">{t(eyebrowKey)}</div>
+        <h1 className="font-display text-[clamp(2.4rem,4.5vw,3.6rem)] font-black leading-[1.1] text-blanco">
           {t.rich(titleKey, {
             br: () => <br />,
-            em: (chunks) => <em className="text-gold not-italic">{chunks}</em>,
+            em: (chunks) => <em className="italic text-dorado">{chunks}</em>,
           })}
         </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-foreground/80">
+        <p className="mt-5 max-w-[640px] text-base leading-[1.8] text-white/60">
           {t(introKey)}
         </p>
       </div>

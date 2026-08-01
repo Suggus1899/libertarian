@@ -7,50 +7,54 @@ export function EssaysPreview() {
   const items = t.raw('items').slice(0, 3);
 
   return (
-    <section className="bg-gray-dark py-24">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="text-center">
-          <div className="eyebrow justify-center">{t('eyebrow')}</div>
-          <h2 className="mx-auto mt-6 max-w-2xl text-3xl font-bold leading-tight md:text-4xl">
+    <section className="bg-gris-bg px-6 py-24 lg:px-14">
+      <div className="mx-auto max-w-7xl">
+        <div className="section-hdr text-center">
+          <div className="eyebrow eyebrow-center">{t('eyebrow')}</div>
+          <h2>
             {t.rich('h2', {
-              em: (chunks) => <em className="text-gold not-italic">{chunks}</em>,
+              em: (chunks) => <em className="italic text-dorado">{chunks}</em>,
             })}
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-foreground/70">
-            {t('description')}
-          </p>
+          <p className="mx-auto">{t('description')}</p>
         </div>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
-          {items.map((item: { category: string; title: string; description: string }, index: number) => (
-            <Link
-              key={item.title}
-              href="/ensayos"
-              className="group relative flex flex-col overflow-hidden rounded-sm border border-border bg-background transition hover:border-gold/40"
-            >
-              <div
-                className={`h-1 ${index % 2 === 0 ? 'bg-gold' : 'bg-foreground'}`}
-              />
-              <div className="flex flex-1 flex-col p-6">
-                <span
-                  className={`text-xs font-bold uppercase tracking-widest ${
-                    index % 2 === 0 ? 'text-gold' : 'text-foreground'
-                  }`}
-                >
-                  {item.category}
-                </span>
-                <h3 className="mt-3 text-lg font-bold leading-snug text-foreground">
-                  {item.title}
-                </h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-foreground/70">
-                  {item.description}
-                </p>
-                <div className="mt-6 text-xs font-bold uppercase tracking-widest text-foreground/40">
-                  Libertarian Forum
+        <div className="grid gap-6 md:grid-cols-3">
+          {items.map(
+            (
+              item: { category: string; title: string; description: string },
+              index: number,
+            ) => (
+              <Link
+                key={item.title}
+                href="/ensayos"
+                className="group block cursor-pointer overflow-hidden border border-gris-brd bg-blanco transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)]"
+              >
+                <div
+                  className={`h-[3px] ${index % 2 === 0 ? 'bg-dorado' : 'bg-negro'}`}
+                />
+                <div className="p-7">
+                  <span
+                    className={`font-display text-[0.68rem] font-bold uppercase tracking-[2.5px] ${
+                      index % 2 === 0 ? 'text-dorado' : 'text-negro'
+                    }`}
+                  >
+                    {item.category}
+                  </span>
+                  <h3 className="mt-2.5 font-display text-[1.15rem] font-bold leading-[1.35] text-negro">
+                    {item.title}
+                  </h3>
+                  <p className="mb-4 mt-2.5 text-[0.85rem] leading-[1.65] text-gris-med">
+                    {item.description}
+                  </p>
+                  <div className="flex items-center gap-2 text-[0.72rem] font-semibold uppercase tracking-[1px] text-gris-cla">
+                    <span className="text-dorado">—</span>
+                    Libertarian Forum
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ),
+          )}
         </div>
 
         <div className="mt-14 text-center">

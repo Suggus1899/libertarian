@@ -26,6 +26,7 @@ export default async function ServicesPage({ params }: Props) {
         eyebrowKey="servicesPage.eyebrow"
         titleKey="servicesPage.h1"
         introKey="servicesPage.intro"
+        bgText="STRATEGY"
       />
       <div className="gold-divider" />
       <ServicesList />

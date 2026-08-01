@@ -3,7 +3,7 @@ import { FileText, Megaphone, Target, Search, GraduationCap } from 'lucide-react
 import { Button } from './Button';
 
 export function ServicesList() {
-  const t = useTranslations('services.list');
+  const t = useTranslations('services');
 
   const services = [
     { key: 'platforms', icon: FileText },
@@ -14,33 +14,31 @@ export function ServicesList() {
   ] as const;
 
   return (
-    <section className="bg-background py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {services.map(({ key, icon: Icon }) => (
-            <article
-              key={key}
-              className="flex flex-col rounded-sm border border-border bg-gray-dark/40 p-8 transition hover:border-gold/40"
-            >
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gold/10 text-gold">
-                  <Icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-bold text-foreground">
-                  {t(`${key}.title`)}
-                </h3>
-              </div>
-              <p className="mt-6 flex-1 text-sm leading-relaxed text-foreground/70">
-                {t(`${key}.description`)}
+    <section className="bg-blanco px-6 py-16 lg:px-14">
+      <div className="mx-auto max-w-6xl">
+        {services.map(({ key, icon: Icon }) => (
+          <article
+            key={key}
+            className="mb-5 grid items-start gap-8 border border-gris-brd p-10 transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)] md:grid-cols-[80px_1fr]"
+          >
+            <div className="flex h-20 w-20 items-center justify-center bg-negro text-blanco">
+              <Icon className="h-9 w-9" strokeWidth={1.5} />
+            </div>
+            <div>
+              <h3 className="font-display text-[1.2rem] font-extrabold uppercase tracking-[1.5px] text-negro">
+                {t(`list.${key}.title`)}
+              </h3>
+              <p className="mt-2.5 text-[0.95rem] leading-[1.8] text-gris-med">
+                {t(`list.${key}.description`)}
               </p>
-              <div className="mt-8">
-                <Button href="/contacto" variant="outline" className="text-xs">
-                  {t('request', { defaultValue: 'Solicitar →' })}
+              <div className="mt-5">
+                <Button href="/contacto" className="py-2.5 text-xs">
+                  {t('request')}
                 </Button>
               </div>
-            </article>
-          ))}
-        </div>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );

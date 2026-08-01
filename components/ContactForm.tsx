@@ -19,15 +19,20 @@ export function ContactForm() {
   const serviceOptions = t.raw('serviceOptions') as string[];
 
   return (
-    <form action={formAction} className="rounded-sm border border-border bg-gray-dark/40 p-8">
-      <h3 className="text-2xl font-bold text-foreground">{t('formTitle')}</h3>
+    <form
+      action={formAction}
+      className="border border-gris-brd bg-gris-bg p-8 lg:p-12"
+    >
+      <h3 className="mb-7 font-display text-[1.6rem] font-bold text-negro">
+        {t('formTitle')}
+      </h3>
 
-      <div className="mt-8 grid gap-6 sm:grid-cols-2">
+      <div className="grid gap-5 md:grid-cols-2">
         {fields.map(({ name, type, required }) => (
-          <div key={name} className="space-y-2">
+          <div key={name} className="flex flex-col gap-1.5">
             <label
               htmlFor={name}
-              className="text-xs font-bold uppercase tracking-widest text-foreground/70"
+              className="font-display text-[0.72rem] font-bold uppercase tracking-[2px] text-negro"
             >
               {t(`fields.${name}.label`)}
             </label>
@@ -37,15 +42,15 @@ export function ContactForm() {
               type={type}
               required={required}
               placeholder={t(`fields.${name}.placeholder`)}
-              className="w-full rounded-sm border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-foreground/30 focus:border-gold focus:outline-none"
+              className="border border-gris-brd bg-blanco px-4 py-3 font-sans text-[0.95rem] text-negro outline-none transition focus:border-negro"
             />
           </div>
         ))}
 
-        <div className="space-y-2 sm:col-span-2">
+        <div className="flex flex-col gap-1.5 md:col-span-2">
           <label
             htmlFor="service"
-            className="text-xs font-bold uppercase tracking-widest text-foreground/70"
+            className="font-display text-[0.72rem] font-bold uppercase tracking-[2px] text-negro"
           >
             {t('fields.service.label')}
           </label>
@@ -53,7 +58,7 @@ export function ContactForm() {
             id="service"
             name="service"
             defaultValue=""
-            className="w-full rounded-sm border border-border bg-background px-4 py-3 text-sm text-foreground focus:border-gold focus:outline-none"
+            className="border border-gris-brd bg-blanco px-4 py-3 font-sans text-[0.95rem] text-negro outline-none transition focus:border-negro"
           >
             <option value="">{t('fields.service.placeholder')}</option>
             {serviceOptions.map((option) => (
@@ -64,10 +69,10 @@ export function ContactForm() {
           </select>
         </div>
 
-        <div className="space-y-2 sm:col-span-2">
+        <div className="flex flex-col gap-1.5 md:col-span-2">
           <label
             htmlFor="message"
-            className="text-xs font-bold uppercase tracking-widest text-foreground/70"
+            className="font-display text-[0.72rem] font-bold uppercase tracking-[2px] text-negro"
           >
             {t('fields.message.label')}
           </label>
@@ -77,22 +82,29 @@ export function ContactForm() {
             required
             rows={5}
             placeholder={t('fields.message.placeholder')}
-            className="w-full rounded-sm border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-foreground/30 focus:border-gold focus:outline-none"
+            className="min-h-[120px] resize-y border border-gris-brd bg-blanco px-4 py-3 font-sans text-[0.95rem] text-negro outline-none transition focus:border-negro"
           />
         </div>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-6">
         <Button type="submit" variant="primary" className="w-full sm:w-auto">
           {pending ? '...' : t('submit')}
         </Button>
       </div>
 
       {state?.success && (
-        <p className="mt-6 text-sm font-semibold text-gold">{t('success')}</p>
+        <p
+          className="mt-6 border border-dorado bg-dorado-p p-5 text-sm text-negro"
+          aria-live="polite"
+        >
+          {t('success')}
+        </p>
       )}
       {state?.error && (
-        <p className="mt-6 text-sm font-semibold text-red-400">{state.error}</p>
+        <p className="mt-6 text-sm font-semibold text-red-600" aria-live="assertive">
+          {state.error}
+        </p>
       )}
     </form>
   );

@@ -14,46 +14,49 @@ export function Hero() {
   ];
 
   return (
-    <section className="hero-bg relative overflow-hidden pt-32 pb-20 md:pt-48 md:pb-32">
-      <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2">
-        <div className="max-w-2xl">
-          <div className="eyebrow animate-fade-in-up opacity-0">
-            {t('eyebrow')}
-          </div>
-          <h1 className="animate-fade-in-up animation-delay-100 opacity-0 mt-6 text-4xl font-bold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
-            {t.rich('h1', {
-              br: () => <br />,
-              em: (chunks) => <em className="text-gold not-italic">{chunks}</em>,
-            })}
-          </h1>
-          <div className="animate-fade-in-up animation-delay-200 opacity-0 gold-rule mt-8" />
-          <p className="animate-fade-in-up animation-delay-200 opacity-0 mt-8 text-lg leading-relaxed text-foreground/80">
-            {t.rich('description', {
-              strong: (chunks) => <strong className="text-foreground">{chunks}</strong>,
-            })}
-          </p>
-          <div className="animate-fade-in-up animation-delay-300 opacity-0 mt-10 flex flex-wrap gap-4">
-            <Button href="/servicios">{t('ctaPrimary')}</Button>
-            <Button href="/ensayos" variant="outline">
-              {t('ctaSecondary')}
-            </Button>
-          </div>
-        </div>
+    <section className="relative grid min-h-screen items-center gap-20 overflow-hidden bg-blanco px-6 pb-20 pt-32 lg:grid-cols-2 lg:px-14 lg:pb-20 lg:pt-32">
+      {/* Decorative clipped background */}
+      <div className="absolute right-0 top-0 -z-0 hidden h-full w-[45%] bg-gris-bg hero-bg-shape lg:block" />
 
-        <div className="animate-fade-in-up animation-delay-300 opacity-0 hidden lg:block">
-          <div className="grid gap-4 sm:grid-cols-2">
-            {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-sm border border-border bg-gray-dark/50 p-6 backdrop-blur-sm transition hover:border-gold/30"
-              >
-                <div className="text-2xl font-bold text-gold">{stat.label}</div>
-                <div className="mt-1 text-xs font-bold uppercase tracking-widest text-foreground/60">
-                  {stat.desc}
-                </div>
+      <div className="relative z-10 max-w-2xl">
+        <div className="eyebrow animate-fade-up opacity-0">{t('eyebrow')}</div>
+        <h1 className="animate-fade-up animation-delay-200 font-display text-[clamp(2.8rem,5vw,4.4rem)] font-black uppercase leading-[1.08] tracking-[1px] text-negro opacity-0">
+          {t.rich('h1', {
+            br: () => <br />,
+            em: (chunks) => <em className="italic text-dorado">{chunks}</em>,
+          })}
+        </h1>
+        <div className="gold-rule animate-fade-up animation-delay-200 opacity-0" />
+        <p className="animate-fade-up animation-delay-300 max-w-[500px] text-[1.05rem] leading-[1.85] text-gris-med opacity-0">
+          {t.rich('description', {
+            strong: (chunks) => <strong className="font-semibold text-negro">{chunks}</strong>,
+          })}
+        </p>
+        <div className="animate-fade-up animation-delay-400 mt-10 flex flex-wrap gap-3.5 opacity-0">
+          <Button href="/servicios">{t('ctaPrimary')}</Button>
+          <Button href="/ensayos" variant="outline">
+            {t('ctaSecondary')}
+          </Button>
+        </div>
+      </div>
+
+      <div className="animate-fade-up animation-delay-300 relative z-10 hidden lg:block">
+        <div className="grid grid-cols-2 gap-4">
+          {stats.map((stat, index) => (
+            <div
+              key={stat.label}
+              className={`border border-gris-brd bg-gris-bg p-7 shadow-[0_2px_16px_rgba(0,0,0,0.04)] transition hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] ${
+                index === 0 || index === 3 ? 'border-t-[3px] border-t-dorado' : 'border-t-[3px] border-t-negro'
+              }`}
+            >
+              <div className="inline-block bg-negro px-3 py-1.5 font-display text-sm font-black uppercase tracking-[2px] text-blanco">
+                {stat.label}
               </div>
-            ))}
-          </div>
+              <div className="mt-3 text-xs font-semibold uppercase tracking-[1.5px] text-gris-med">
+                {stat.desc}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
