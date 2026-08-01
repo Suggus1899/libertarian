@@ -103,7 +103,7 @@ export function ContactForm() {
       )}
       {state?.error && (
         <p className="mt-6 text-sm font-semibold text-red-600" aria-live="assertive">
-          {state.error}
+          {t(`errors.${state.error}`)}
         </p>
       )}
     </form>

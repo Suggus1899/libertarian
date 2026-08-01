@@ -193,6 +193,13 @@
       "Other"
     ],
     "submit": "Send message →",
-    "success": "✓ Message received. We will reply shortly."
+    "success": "✓ Message received. We will reply shortly.",
+    "errors": {
+      "nameRequired": "Name is required.",
+      "invalidEmail": "Invalid email address.",
+      "messageTooShort": "Message must be at least 10 characters.",
+      "invalidInput": "Please check the form fields.",
+      "sendFailed": "Could not send the message. Please try again later."
+    }
   }
 }

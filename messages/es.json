@@ -194,6 +194,13 @@
       "Otro"
     ],
     "submit": "Enviar mensaje →",
-    "success": "✓ Mensaje recibido. Te responderemos a la brevedad."
+    "success": "✓ Mensaje recibido. Te responderemos a la brevedad.",
+    "errors": {
+      "nameRequired": "El nombre es obligatorio.",
+      "invalidEmail": "El correo electrónico no es válido.",
+      "messageTooShort": "El mensaje debe tener al menos 10 caracteres.",
+      "invalidInput": "Revisa los datos del formulario.",
+      "sendFailed": "No se pudo enviar el mensaje. Intenta de nuevo más tarde."
+    }
   }
 }
