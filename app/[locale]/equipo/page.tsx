@@ -40,7 +40,7 @@ export default async function TeamPage({ params }: Props) {
             {members.map((member) => (
               <article
                 key={member.name}
-                className="flex gap-6 border border-gris-brd bg-gris-bg p-8 transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)]"
+                className="flex gap-6 border border-gris-brd bg-gris-bg p-6 sm:p-8 transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)]"
               >
                 <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center bg-negro text-blanco">
                   <Users className="h-7 w-7" strokeWidth={1.5} />

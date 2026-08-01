@@ -55,7 +55,7 @@ export default async function AboutPage({ params }: Props) {
           </p>
 
           <div className="mt-12 grid gap-6 md:grid-cols-2">
-            <div className="border-l-[3px] border-l-dorado bg-gris-bg p-8">
+            <div className="border-l-[3px] border-l-dorado bg-gris-bg p-6 sm:p-8">
               <h3 className="font-display text-[1.5rem] font-bold text-negro">
                 {t('aboutPage.missionTitle')}
               </h3>
@@ -63,7 +63,7 @@ export default async function AboutPage({ params }: Props) {
                 {t('aboutPage.mission')}
               </p>
             </div>
-            <div className="border-l-[3px] border-l-dorado bg-gris-bg p-8">
+            <div className="border-l-[3px] border-l-dorado bg-gris-bg p-6 sm:p-8">
               <h3 className="font-display text-[1.5rem] font-bold text-negro">
                 {t('aboutPage.visionTitle')}
               </h3>
@@ -77,7 +77,7 @@ export default async function AboutPage({ params }: Props) {
             {values.map(({ key, title }) => (
               <div
                 key={key}
-                className="relative border border-gris-brd bg-gris-bg p-8"
+                className="relative border border-gris-brd bg-gris-bg p-6 sm:p-8"
               >
                 <span className="absolute left-0 top-0 h-full w-[3px] bg-dorado" />
                 <h4 className="font-display text-[0.9rem] font-extrabold uppercase tracking-[2px] text-negro">

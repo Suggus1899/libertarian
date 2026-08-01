@@ -31,3 +31,16 @@ export async function login(_prevState: unknown, formData: FormData) {
   await createSession(email);
   redirect('/admin');
 }
+
+// Demo login — bypasses password check. Only active when DEMO_MODE=true is
+// set in the environment. This lets reviewers try the admin panel without
+// knowing the real password. NEVER set DEMO_MODE in production.
+export async function demoLogin() {
+  if (process.env.DEMO_MODE !== 'true') {
+    return { error: 'El modo demo no está activo.' };
+  }
+
+  const adminEmail = process.env.ADMIN_EMAIL || 'demo@libertarianforum.org';
+  await createSession(adminEmail);
+  redirect('/admin');
+}

@@ -44,7 +44,7 @@ export default async function DonatePage({ params }: Props) {
             {methods.map((method) => (
               <div
                 key={method.name}
-                className="flex flex-col items-start border border-gris-brd bg-gris-bg p-8 transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)]"
+                className="flex flex-col items-start border border-gris-brd bg-gris-bg p-6 sm:p-8 transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)]"
               >
                 <div className="mb-4 flex h-12 w-12 items-center justify-center bg-negro text-blanco">
                   <Heart className="h-6 w-6" strokeWidth={1.5} />

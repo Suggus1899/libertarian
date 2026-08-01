@@ -45,7 +45,7 @@ export default async function ResourcesPage({ params }: Props) {
             {items.map((item) => (
               <article
                 key={item.title}
-                className="flex flex-col border border-gris-brd bg-gris-bg p-8 transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)]"
+                className="flex flex-col border border-gris-brd bg-gris-bg p-6 sm:p-8 transition hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)]"
               >
                 <div className="mb-5 flex h-14 w-14 items-center justify-center bg-negro text-blanco">
                   <FileText className="h-7 w-7" strokeWidth={1.5} />

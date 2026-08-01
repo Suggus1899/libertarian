@@ -140,10 +140,21 @@ body {
   letter-spacing: 2px;
   text-transform: uppercase;
   padding: 14px 32px;
+  min-height: 48px;
   text-decoration: none;
   border: 2px solid transparent;
   cursor: pointer;
   transition: all 0.3s;
+}
+
+@media (max-width: 640px) {
+  .btn-p,
+  .btn-g,
+  .btn-o {
+    padding: 14px 24px;
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 .btn-p {

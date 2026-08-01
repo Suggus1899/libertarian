@@ -1,21 +1,11 @@
 import { NextResponse } from 'next/server';
-import { put } from '@vercel/blob';
 import { requireAdmin } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { media } from '@/lib/db/schema';
+import { uploadImage } from '@/lib/uploads';
 
 export async function POST(request: Request) {
   await requireAdmin();
-
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    return NextResponse.json(
-      {
-        error:
-          'La subida de archivos no está configurada (falta BLOB_READ_WRITE_TOKEN). Usá "Imagen (URL)" mientras tanto.',
-      },
-      { status: 501 },
-    );
-  }
 
   const formData = await request.formData();
   const file = formData.get('file');
@@ -28,19 +18,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Solo se permiten imágenes.' }, { status: 400 });
   }
 
-  const blob = await put(`articles/${Date.now()}-${file.name}`, file, {
-    access: 'public',
-  });
+  try {
+    const url = await uploadImage(file);
 
-  const [record] = await db
-    .insert(media)
-    .values({
-      url: blob.url,
-      filename: file.name,
-      contentType: file.type,
-      size: file.size,
-    })
-    .returning();
+    const [record] = await db
+      .insert(media)
+      .values({
+        url,
+        filename: file.name,
+        contentType: file.type,
+        size: file.size,
+      })
+      .returning();
 
-  return NextResponse.json({ url: record.url, id: record.id });
+    return NextResponse.json({ url: record.url, id: record.id });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Error al subir el archivo.';
+    return NextResponse.json({ error: message }, { status: 501 });
+  }
 }

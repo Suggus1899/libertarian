@@ -98,19 +98,34 @@ export function Navigation() {
         <div className="border-b border-gris-brd bg-blanco px-6 pb-6 md:hidden">
           <div className="flex flex-col gap-1 pt-4">
             {navItems.map((item) => (
-              <Link
-                key={item.href as string}
-                href={item.href as Parameters<typeof Link>[0]['href']}
-                onClick={() => setIsOpen(false)}
-                className="py-3 text-sm font-semibold uppercase tracking-widest text-negro hover:text-dorado"
-              >
-                {item.label}
-              </Link>
+              <div key={item.href as string}>
+                <Link
+                  href={item.href as Parameters<typeof Link>[0]['href']}
+                  onClick={() => setIsOpen(false)}
+                  className="block py-3 text-sm font-semibold uppercase tracking-widest text-negro hover:text-dorado"
+                >
+                  {item.label}
+                </Link>
+                {item.dropdown && (
+                  <div className="ml-4 border-l border-gris-brd pl-4">
+                    {item.dropdown.map((d) => (
+                      <Link
+                        key={d.label}
+                        href={d.href as Parameters<typeof Link>[0]['href']}
+                        onClick={() => setIsOpen(false)}
+                        className="block py-2.5 text-xs font-semibold uppercase tracking-widest text-gris-med hover:text-negro"
+                      >
+                        {d.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
             <Link
               href="/contacto"
               onClick={() => setIsOpen(false)}
-              className="py-3 text-sm font-semibold uppercase tracking-widest text-negro hover:text-dorado"
+              className="block py-3 text-sm font-semibold uppercase tracking-widest text-negro hover:text-dorado"
             >
               {t('contacto')}
             </Link>

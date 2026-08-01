@@ -8,7 +8,7 @@ export function Footer() {
 
   return (
     <footer className="bg-negro px-6 py-14 lg:px-14">
-      <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-2 lg:grid-cols-5">
+      <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-2 lg:grid-cols-5 lg:gap-10">
         <div className="lg:col-span-2">
           <div className="mb-4 text-xl font-black uppercase tracking-tight text-blanco">
             {t('nav.brand')}

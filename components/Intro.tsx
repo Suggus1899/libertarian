@@ -30,7 +30,7 @@ export function Intro() {
       </div>
 
       <div className="relative z-[2] flex flex-col items-center gap-6 opacity-0 [animation:introCard_1s_cubic-bezier(0.22,1,0.36,1)_0.3s_forwards]">
-        <div className="h-28 text-negro">
+        <div className="h-20 text-negro sm:h-28">
           <svg
             viewBox="0 0 120 120"
             className="h-full w-auto drop-shadow-[0_2px_12px_rgba(212,160,23,0.15)]"

@@ -7,12 +7,12 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
   return (
     <div className="min-h-screen bg-gris-bg">
-      <header className="flex items-center justify-between border-b border-gris-brd bg-negro px-6 py-4">
+      <header className="flex flex-wrap items-center justify-between gap-2 border-b border-gris-brd bg-negro px-4 py-4 sm:px-6">
         <span className="font-display text-sm font-black uppercase tracking-[1px] text-blanco">
           Admin — Libertarian Forum
         </span>
-        <div className="flex items-center gap-4">
-          <span className="text-xs text-white/50">{session.email}</span>
+        <div className="flex items-center gap-3 sm:gap-4">
+          <span className="hidden text-xs text-white/50 sm:inline">{session.email}</span>
           <form action={logout}>
             <button
               type="submit"
@@ -23,7 +23,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
           </form>
         </div>
       </header>
-      <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
+      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">{children}</main>
     </div>
   );
 }

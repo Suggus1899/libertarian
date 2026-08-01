@@ -29,7 +29,7 @@ function ToolbarButton({
       type="button"
       title={title}
       onClick={onClick}
-      className={`border border-gris-brd px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wide transition ${
+      className={`border border-gris-brd px-3 py-2 text-xs font-semibold uppercase tracking-wide transition min-h-[40px] ${
         active ? 'bg-negro text-blanco' : 'bg-blanco text-gris-med hover:border-negro hover:text-negro'
       }`}
     >

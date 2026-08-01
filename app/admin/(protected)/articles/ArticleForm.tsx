@@ -47,7 +47,7 @@ export function ArticleForm({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="locale" className="mb-1 block text-xs font-semibold uppercase tracking-widest text-gris-med">
             Idioma *
@@ -81,7 +81,7 @@ export function ArticleForm({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="category" className="mb-1 block text-xs font-semibold uppercase tracking-widest text-gris-med">
             Categoría *

@@ -10,7 +10,7 @@ export function FinalCta() {
   return (
     <section className="relative overflow-hidden bg-negro px-6 py-24 text-center lg:px-14">
       <div className="pointer-events-none absolute inset-0 flex select-none items-center justify-center">
-        <span className="font-display text-[40rem] font-black leading-none text-white/[0.015]">
+        <span className="font-display text-[clamp(15rem,30vw,40rem)] font-black leading-none text-white/[0.015]">
           &rsquo;
         </span>
       </div>

@@ -2,11 +2,13 @@
 
 import { useActionState } from 'react';
 import Link from 'next/link';
-import { Lock, ArrowLeft } from 'lucide-react';
-import { login } from './actions';
+import { Lock, ArrowLeft, Sparkles } from 'lucide-react';
+import { login, demoLogin } from './actions';
 
 export default function AdminLoginPage() {
   const [state, formAction, pending] = useActionState(login, null);
+  const [demoState, demoAction, demoPending] = useActionState(demoLogin, null);
+  const demoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-negro px-6 py-16">
@@ -76,7 +78,38 @@ export default function AdminLoginPage() {
           >
             {pending ? 'Ingresando...' : 'Ingresar'}
           </button>
+
+          {state?.error && (
+            <p className="mt-5 border border-red-500/30 bg-red-500/10 px-3.5 py-2.5 text-sm font-medium text-red-400">
+              {state.error}
+            </p>
+          )}
         </form>
+
+        {demoMode && (
+          <form action={demoAction} className="mt-5">
+            <div className="mb-5 flex items-center gap-3">
+              <span className="h-px flex-1 bg-white/10" />
+              <span className="text-[0.65rem] font-semibold uppercase tracking-[2px] text-white/30">
+                o
+              </span>
+              <span className="h-px flex-1 bg-white/10" />
+            </div>
+            <button
+              type="submit"
+              disabled={demoPending}
+              className="flex w-full items-center justify-center gap-2 border border-dorado/40 bg-dorado/10 px-4 py-3 text-sm font-bold uppercase tracking-[1px] text-dorado transition hover:bg-dorado/20 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <Sparkles className="h-4 w-4" />
+              {demoPending ? 'Entrando...' : 'Probar demo'}
+            </button>
+            {demoState?.error && (
+              <p className="mt-3 border border-red-500/30 bg-red-500/10 px-3.5 py-2.5 text-sm font-medium text-red-400">
+                {demoState.error}
+              </p>
+            )}
+          </form>
+        )}
 
         <div className="mt-6 text-center">
           <Link

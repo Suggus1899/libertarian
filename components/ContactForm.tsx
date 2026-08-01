@@ -21,7 +21,7 @@ export function ContactForm() {
   return (
     <form
       action={formAction}
-      className="border border-gris-brd bg-gris-bg p-8 lg:p-12"
+      className="border border-gris-brd bg-gris-bg p-6 sm:p-8 lg:p-12"
     >
       <h3 className="mb-7 font-display text-[1.6rem] font-bold text-negro">
         {t('formTitle')}
