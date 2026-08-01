@@ -1,4 +1,4 @@
-import { pgTable, serial, text, boolean, timestamp, pgEnum } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, boolean, integer, timestamp, pgEnum } from 'drizzle-orm/pg-core';
 
 export const articleTypeEnum = pgEnum('article_type', ['ensayo', 'opinion']);
 export const articleLocaleEnum = pgEnum('article_locale', ['es', 'en']);
@@ -13,10 +13,23 @@ export const articles = pgTable('articles', {
   description: text('description').notNull(),
   author: text('author').notNull(),
   content: text('content').notNull(),
+  featuredImage: text('featured_image'),
+  seoTitle: text('seo_title'),
+  seoDescription: text('seo_description'),
   published: boolean('published').notNull().default(true),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const media = pgTable('media', {
+  id: serial('id').primaryKey(),
+  url: text('url').notNull(),
+  filename: text('filename').notNull(),
+  contentType: text('content_type').notNull(),
+  size: integer('size').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+});
+
 export type Article = typeof articles.$inferSelect;
 export type NewArticle = typeof articles.$inferInsert;
+export type Media = typeof media.$inferSelect;

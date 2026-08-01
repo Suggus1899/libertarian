@@ -38,6 +38,9 @@ export async function createArticle(_prevState: unknown, formData: FormData) {
   const description = formData.get('description') as string;
   const author = formData.get('author') as string;
   const content = formData.get('content') as string;
+  const featuredImage = (formData.get('featuredImage') as string) || null;
+  const seoTitle = (formData.get('seoTitle') as string) || null;
+  const seoDescription = (formData.get('seoDescription') as string) || null;
   const published = formData.get('published') === 'on';
 
   if (!title || !locale || !type || !category || !description || !author || isContentEmpty(content)) {
@@ -56,6 +59,9 @@ export async function createArticle(_prevState: unknown, formData: FormData) {
       title,
       author,
       content,
+      featuredImage,
+      seoTitle,
+      seoDescription,
       published,
     });
   } catch {
@@ -78,6 +84,9 @@ export async function updateArticle(id: number, _prevState: unknown, formData: F
   const description = formData.get('description') as string;
   const author = formData.get('author') as string;
   const content = formData.get('content') as string;
+  const featuredImage = (formData.get('featuredImage') as string) || null;
+  const seoTitle = (formData.get('seoTitle') as string) || null;
+  const seoDescription = (formData.get('seoDescription') as string) || null;
   const published = formData.get('published') === 'on';
 
   if (!title || !locale || !type || !category || !description || !author || isContentEmpty(content)) {
@@ -98,6 +107,9 @@ export async function updateArticle(id: number, _prevState: unknown, formData: F
         title,
         author,
         content,
+        featuredImage,
+        seoTitle,
+        seoDescription,
         published,
         updatedAt: new Date(),
       })

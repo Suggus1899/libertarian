@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { put } from '@vercel/blob';
 import { requireAdmin } from '@/lib/auth';
+import { db } from '@/lib/db';
+import { media } from '@/lib/db/schema';
 
 export async function POST(request: Request) {
   await requireAdmin();
@@ -30,5 +32,15 @@ export async function POST(request: Request) {
     access: 'public',
   });
 
-  return NextResponse.json({ url: blob.url });
+  const [record] = await db
+    .insert(media)
+    .values({
+      url: blob.url,
+      filename: file.name,
+      contentType: file.type,
+      size: file.size,
+    })
+    .returning();
+
+  return NextResponse.json({ url: record.url, id: record.id });
 }

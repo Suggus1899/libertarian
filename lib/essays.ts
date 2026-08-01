@@ -11,6 +11,9 @@ export type EssayItem = {
   date: string;
   author: string;
   contentHtml: string;
+  featuredImage: string | null;
+  seoTitle: string | null;
+  seoDescription: string | null;
 };
 
 function formatDate(date: Date, locale: string) {
@@ -50,6 +53,9 @@ export async function getEssays(locale: string): Promise<EssayItem[]> {
     date: item.date,
     author: item.author,
     contentHtml: item.full.map((p) => `<p>${escapeHtml(p)}</p>`).join(''),
+    featuredImage: null,
+    seoTitle: null,
+    seoDescription: null,
   }));
 
   let dbItems: EssayItem[] = [];
@@ -69,6 +75,9 @@ export async function getEssays(locale: string): Promise<EssayItem[]> {
       author: row.author,
       // Rich HTML authored by the (single, trusted) admin in the Tiptap editor.
       contentHtml: row.content,
+      featuredImage: row.featuredImage,
+      seoTitle: row.seoTitle,
+      seoDescription: row.seoDescription,
     }));
   } catch {
     // DB not configured yet (e.g. local dev without DATABASE_URL) — fall back to static content only.

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Metadata } from 'next';
+import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { PageHero } from '@/components/PageHero';
 import { getEssayBySlug } from '@/lib/essays';
@@ -13,9 +14,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const t = await getTranslations({ locale });
   const essay = await getEssayBySlug(locale, slug);
+
+  if (!essay) {
+    return { title: t('metadata.title'), description: t('metadata.description') };
+  }
+
+  const title = essay.seoTitle || `${t('metadata.title')} — ${essay.title}`;
+  const description = essay.seoDescription || essay.description;
+
   return {
-    title: essay ? `${t('metadata.title')} — ${essay.title}` : t('metadata.title'),
-    description: t('metadata.description'),
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: essay.featuredImage ? [essay.featuredImage] : undefined,
+    },
   };
 }
 
@@ -54,6 +68,11 @@ export default async function EssayDetailPage({ params }: Props) {
               <span>{essay.author}</span>
             </div>
           </div>
+          {essay.featuredImage && (
+            <div className="relative mb-10 h-72 w-full overflow-hidden bg-gris-bg sm:h-96">
+              <Image src={essay.featuredImage} alt="" fill unoptimized className="object-cover" />
+            </div>
+          )}
           <div
             className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-negro prose-p:text-gris-med prose-a:text-dorado"
             // Content is authored exclusively by the site's single trusted admin via the

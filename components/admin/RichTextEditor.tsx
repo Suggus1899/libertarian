@@ -5,7 +5,13 @@ import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import Youtube from '@tiptap/extension-youtube';
-import { useEffect, useRef, useState } from 'react';
+import Underline from '@tiptap/extension-underline';
+import TextAlign from '@tiptap/extension-text-align';
+import { Table, TableRow, TableHeader, TableCell } from '@tiptap/extension-table';
+import { useEffect, useState } from 'react';
+import { FigureImage } from './tiptap/FigureImage';
+import { EmbedHtml } from './tiptap/EmbedHtml';
+import { MediaLibrary } from './MediaLibrary';
 
 function ToolbarButton({
   onClick,
@@ -32,6 +38,10 @@ function ToolbarButton({
   );
 }
 
+function ToolbarDivider() {
+  return <span className="mx-0.5 w-px self-stretch bg-gris-brd" />;
+}
+
 export function RichTextEditor({
   name,
   defaultValue,
@@ -39,17 +49,23 @@ export function RichTextEditor({
   name: string;
   defaultValue?: string;
 }) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [mediaOpen, setMediaOpen] = useState(false);
 
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
-      StarterKit.configure({ link: false }),
+      StarterKit.configure({ link: false, underline: false }),
       Link.configure({ openOnClick: false, autolink: true }),
-      Image,
+      Underline,
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
+      Image, // kept for parsing legacy/plain <img> content
+      FigureImage,
+      EmbedHtml,
       Youtube.configure({ width: 640, height: 360 }),
+      Table.configure({ resizable: true }),
+      TableRow,
+      TableHeader,
+      TableCell,
     ],
     content: defaultValue || '<p></p>',
     editorProps: {
@@ -60,33 +76,58 @@ export function RichTextEditor({
   });
 
   const [html, setHtml] = useState(defaultValue || '');
+  // Forces a re-render on selection changes (e.g. clicking an image) even when
+  // the HTML content itself is unchanged — React bails out of re-rendering on
+  // an identical `setHtml` string, which would otherwise leave the contextual
+  // image/table toolbars stuck showing stale active state.
+  const [, forceRerender] = useState(0);
 
   useEffect(() => {
     if (!editor) return;
-    const update = () => setHtml(editor.getHTML());
-    editor.on('update', update);
+    const onUpdate = () => setHtml(editor.getHTML());
+    const onSelectionChange = () => forceRerender((n) => n + 1);
+    editor.on('update', onUpdate);
+    editor.on('selectionUpdate', onSelectionChange);
     return () => {
-      editor.off('update', update);
+      editor.off('update', onUpdate);
+      editor.off('selectionUpdate', onSelectionChange);
     };
   }, [editor]);
 
   if (!editor) return null;
 
-  // After inserting an image/video node, ProseMirror leaves it as the active
-  // "node selection". Moving the cursor to the end afterwards prevents the
-  // *next* inserted node from replacing it instead of being added after it.
+  function focusEnd() {
+    editor?.commands.focus('end');
+  }
+
   function insertImageFromUrl() {
     const url = window.prompt('URL de la imagen:');
     if (!url) return;
-    editor?.chain().focus().setImage({ src: url }).run();
-    editor?.commands.focus('end');
+    const caption = window.prompt('Leyenda (opcional, dejar vacío para omitir):') || '';
+    editor?.chain().focus().setFigureImage({ src: url, caption, align: 'center', width: '100%' }).run();
+    focusEnd();
+  }
+
+  function insertImageFromLibrary(url: string) {
+    const caption = window.prompt('Leyenda (opcional, dejar vacío para omitir):') || '';
+    editor?.chain().focus().setFigureImage({ src: url, caption, align: 'center', width: '100%' }).run();
+    focusEnd();
   }
 
   function insertVideo() {
     const url = window.prompt('URL del video de YouTube:');
     if (!url) return;
     editor?.commands.setYoutubeVideo({ src: url });
-    editor?.commands.focus('end');
+    focusEnd();
+  }
+
+  function insertEmbed() {
+    const input = window.prompt(
+      'Pegá una URL de Vimeo/Spotify, o el código de inserción ("embed code") de Twitter/X, Instagram, TikTok, etc.:',
+    );
+    if (!input) return;
+    editor?.chain().focus().setEmbedHtml({ html: input }).run();
+    focusEnd();
   }
 
   function insertLink() {
@@ -94,43 +135,60 @@ export function RichTextEditor({
     if (url) editor?.chain().focus().setLink({ href: url }).run();
   }
 
-  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploading(true);
-    setUploadError(null);
-
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/admin/upload', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Error al subir el archivo');
-      editor?.chain().focus().setImage({ src: data.url }).run();
-      editor?.commands.focus('end');
-    } catch (err) {
-      setUploadError(err instanceof Error ? err.message : 'Error al subir el archivo');
-    } finally {
-      setUploading(false);
-      if (fileInputRef.current) fileInputRef.current.value = '';
-    }
+  function insertTable() {
+    editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
   }
+
+  function editCaption() {
+    if (!editor) return;
+    const current = (editor.getAttributes('figureImage').caption as string) || '';
+    const caption = window.prompt('Leyenda de la imagen:', current);
+    if (caption === null) return;
+    editor.chain().focus().updateFigureImage({ caption }).run();
+  }
+
+  const isFigureSelected = editor.isActive('figureImage');
+  const isInTable = editor.isActive('table');
 
   return (
     <div className="border border-gris-brd bg-blanco">
-      <div className="flex flex-wrap gap-1.5 border-b border-gris-brd bg-gris-bg p-2">
+      <div className="flex flex-wrap items-center gap-1.5 border-b border-gris-brd bg-gris-bg p-2">
         <ToolbarButton title="Negrita" active={editor.isActive('bold')} onClick={() => editor.chain().focus().toggleBold().run()}>
           B
         </ToolbarButton>
         <ToolbarButton title="Cursiva" active={editor.isActive('italic')} onClick={() => editor.chain().focus().toggleItalic().run()}>
           I
         </ToolbarButton>
+        <ToolbarButton title="Subrayado" active={editor.isActive('underline')} onClick={() => editor.chain().focus().toggleUnderline().run()}>
+          U
+        </ToolbarButton>
+        <ToolbarButton title="Tachado" active={editor.isActive('strike')} onClick={() => editor.chain().focus().toggleStrike().run()}>
+          S
+        </ToolbarButton>
+
+        <ToolbarDivider />
+
         <ToolbarButton title="Título 2" active={editor.isActive('heading', { level: 2 })} onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
           H2
         </ToolbarButton>
         <ToolbarButton title="Título 3" active={editor.isActive('heading', { level: 3 })} onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}>
           H3
         </ToolbarButton>
+
+        <ToolbarDivider />
+
+        <ToolbarButton title="Alinear izquierda" active={editor.isActive({ textAlign: 'left' })} onClick={() => editor.chain().focus().setTextAlign('left').run()}>
+          ⇤
+        </ToolbarButton>
+        <ToolbarButton title="Centrar" active={editor.isActive({ textAlign: 'center' })} onClick={() => editor.chain().focus().setTextAlign('center').run()}>
+          ⇔
+        </ToolbarButton>
+        <ToolbarButton title="Alinear derecha" active={editor.isActive({ textAlign: 'right' })} onClick={() => editor.chain().focus().setTextAlign('right').run()}>
+          ⇥
+        </ToolbarButton>
+
+        <ToolbarDivider />
+
         <ToolbarButton title="Lista con viñetas" active={editor.isActive('bulletList')} onClick={() => editor.chain().focus().toggleBulletList().run()}>
           • Lista
         </ToolbarButton>
@@ -140,18 +198,33 @@ export function RichTextEditor({
         <ToolbarButton title="Cita" active={editor.isActive('blockquote')} onClick={() => editor.chain().focus().toggleBlockquote().run()}>
           Cita
         </ToolbarButton>
+        <ToolbarButton title="Línea horizontal" onClick={() => editor.chain().focus().setHorizontalRule().run()}>
+          ―
+        </ToolbarButton>
         <ToolbarButton title="Enlace" active={editor.isActive('link')} onClick={insertLink}>
           Enlace
         </ToolbarButton>
+
+        <ToolbarDivider />
+
         <ToolbarButton title="Imagen desde URL" onClick={insertImageFromUrl}>
           Imagen (URL)
         </ToolbarButton>
-        <ToolbarButton title="Subir imagen" onClick={() => fileInputRef.current?.click()}>
-          {uploading ? 'Subiendo...' : 'Subir imagen'}
+        <ToolbarButton title="Elegir de la biblioteca / subir" onClick={() => setMediaOpen(true)}>
+          Biblioteca de medios
         </ToolbarButton>
         <ToolbarButton title="Insertar video de YouTube" onClick={insertVideo}>
           Video
         </ToolbarButton>
+        <ToolbarButton title="Insertar embed (Vimeo, Spotify, Twitter/X, Instagram...)" onClick={insertEmbed}>
+          Embed
+        </ToolbarButton>
+        <ToolbarButton title="Insertar tabla" onClick={insertTable}>
+          Tabla
+        </ToolbarButton>
+
+        <ToolbarDivider />
+
         <ToolbarButton title="Deshacer" onClick={() => editor.chain().focus().undo().run()}>
           ↶
         </ToolbarButton>
@@ -160,22 +233,56 @@ export function RichTextEditor({
         </ToolbarButton>
       </div>
 
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={handleFileUpload}
-      />
+      {isFigureSelected && (
+        <div className="flex flex-wrap items-center gap-1.5 border-b border-gris-brd bg-dorado/10 p-2">
+          <span className="text-[0.68rem] font-bold uppercase tracking-widest text-gris-med">Imagen:</span>
+          <ToolbarButton title="Alinear a la izquierda" onClick={() => editor.chain().focus().updateFigureImage({ align: 'left' }).run()}>
+            Izquierda
+          </ToolbarButton>
+          <ToolbarButton title="Centrar" onClick={() => editor.chain().focus().updateFigureImage({ align: 'center' }).run()}>
+            Centro
+          </ToolbarButton>
+          <ToolbarButton title="Alinear a la derecha" onClick={() => editor.chain().focus().updateFigureImage({ align: 'right' }).run()}>
+            Derecha
+          </ToolbarButton>
+          <ToolbarDivider />
+          {['25%', '50%', '75%', '100%'].map((w) => (
+            <ToolbarButton key={w} title={`Ancho ${w}`} onClick={() => editor.chain().focus().updateFigureImage({ width: w }).run()}>
+              {w}
+            </ToolbarButton>
+          ))}
+          <ToolbarDivider />
+          <ToolbarButton title="Editar leyenda" onClick={editCaption}>
+            Leyenda
+          </ToolbarButton>
+        </div>
+      )}
 
-      {uploadError && (
-        <p className="border-b border-gris-brd bg-red-50 px-4 py-2 text-xs font-semibold text-red-600">
-          {uploadError}
-        </p>
+      {isInTable && (
+        <div className="flex flex-wrap items-center gap-1.5 border-b border-gris-brd bg-dorado/10 p-2">
+          <span className="text-[0.68rem] font-bold uppercase tracking-widest text-gris-med">Tabla:</span>
+          <ToolbarButton title="Agregar fila" onClick={() => editor.chain().focus().addRowAfter().run()}>
+            + Fila
+          </ToolbarButton>
+          <ToolbarButton title="Agregar columna" onClick={() => editor.chain().focus().addColumnAfter().run()}>
+            + Columna
+          </ToolbarButton>
+          <ToolbarButton title="Eliminar fila" onClick={() => editor.chain().focus().deleteRow().run()}>
+            − Fila
+          </ToolbarButton>
+          <ToolbarButton title="Eliminar columna" onClick={() => editor.chain().focus().deleteColumn().run()}>
+            − Columna
+          </ToolbarButton>
+          <ToolbarButton title="Eliminar tabla" onClick={() => editor.chain().focus().deleteTable().run()}>
+            Eliminar tabla
+          </ToolbarButton>
+        </div>
       )}
 
       <EditorContent editor={editor} />
       <input type="hidden" name={name} value={html} />
+
+      <MediaLibrary open={mediaOpen} onClose={() => setMediaOpen(false)} onSelect={insertImageFromLibrary} />
     </div>
   );
 }

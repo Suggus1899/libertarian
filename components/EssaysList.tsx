@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { Button } from './Button';
 import type { EssayItem } from '@/lib/essays';
@@ -22,6 +23,11 @@ export function EssaysList({ items }: { items: EssayItem[] }) {
               className="block overflow-hidden border border-gris-brd transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_36px_rgba(0,0,0,0.08)]"
             >
               <article>
+                {item.featuredImage && (
+                  <div className="relative h-48 w-full overflow-hidden bg-gris-bg">
+                    <Image src={item.featuredImage} alt="" fill unoptimized className="object-cover" />
+                  </div>
+                )}
                 <div className="border-b border-gris-brd bg-gris-bg p-8">
                   <span className="font-display text-[0.68rem] font-bold uppercase tracking-[2.5px] text-dorado">
                     {item.category}

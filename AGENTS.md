@@ -12,8 +12,9 @@
 - **Validation**: Zod (contact form server action)
 - **Database**: Postgres via Drizzle ORM (`lib/db`) — stores admin-created essays/opinion articles
 - **Admin auth**: single admin user, JWT session in httpOnly cookie (`lib/auth.ts`) + bcrypt password hash (no NextAuth, kept intentionally lightweight for one admin)
-- **Rich text editor**: Tiptap (`components/admin/RichTextEditor.tsx`) — WordPress-style editor with images (upload via Vercel Blob or URL) and YouTube video embeds. Article `content` is stored as HTML
-- **File uploads**: `@vercel/blob` via `app/admin/upload/route.ts`, protected by `requireAdmin()`. Falls back to a clear error (use "Imagen (URL)" instead) when `BLOB_READ_WRITE_TOKEN` isn't configured
+- **Rich text editor**: Tiptap (`components/admin/RichTextEditor.tsx`) — WordPress-level editor: bold/italic/underline/strike, headings, text align, lists, blockquote, horizontal rule, links, tables (with row/column controls), a custom `FigureImage` node (align/width/caption — `components/admin/tiptap/FigureImage.ts`), YouTube embeds, and a generic `EmbedHtml` node (`components/admin/tiptap/EmbedHtml.tsx`) that auto-converts Vimeo/Spotify URLs to iframes or renders pasted embed codes (Twitter/X, Instagram, TikTok, etc.) as-is. Article `content` is stored as HTML
+- **Media library**: `media` DB table + `app/admin/media/route.ts` (list) and `app/admin/upload/route.ts` (upload via `@vercel/blob`, also records the upload in `media`). `components/admin/MediaLibrary.tsx` is a reusable picker modal used both for the article's featured image and for inserting images in the content editor. Falls back to a clear error (use "Imagen (URL)" instead) when `BLOB_READ_WRITE_TOKEN` isn't configured
+- **Featured image & SEO fields**: `articles.featuredImage`, `articles.seoTitle`, `articles.seoDescription` — shown on essay cards/detail pages and used in `generateMetadata` (falls back to title/description when empty)
 
 ## Commands
 
@@ -62,3 +63,7 @@
 - **IMPORTANT**: any `$` in `.env.local` values (e.g. bcrypt hashes like `$2b$12$...`) MUST be escaped as `\$`. Next.js expands unescaped `$VAR`/`${VAR}` patterns in env files, which silently corrupts bcrypt hashes and breaks admin login with no obvious error.
 - Local Postgres for dev: this machine runs `postgresql-x64-18` as a Windows service (binaries at `D:\DB\bin`, data at `D:\DB\data`, port 5432, user `postgres`). The `libertarian` database was created for this project.
 - `drizzle.config.ts` manually parses `.env.local` (drizzle-kit is a standalone CLI and doesn't get Next.js's automatic env loading).
+- Tiptap v3's `StarterKit` already bundles `Link` and `Underline` — they must be disabled via `StarterKit.configure({ link: false, underline: false })` when adding your own instance, or Tiptap warns about "duplicate extension names" and behaves unpredictably.
+- `@tiptap/extension-table` v3 bundles `Table`, `TableRow`, `TableHeader` and `TableCell` as named exports from one package (no separate `-row`/`-header`/`-cell` packages needed).
+- Custom Tiptap node attributes must set `rendered: false` if `renderHTML` builds the DOM manually — otherwise Tiptap auto-serializes every attribute as a raw HTML attribute on top of your custom markup.
+- When syncing an editor's HTML to a hidden `<input>` via `setState` on Tiptap's `update`/`selectionUpdate` events: a selection-only change (e.g. clicking an image) doesn't change the HTML string, so `setState(sameString)` is a no-op in React and contextual toolbars relying on `editor.isActive(...)` won't refresh. Use a separate incrementing counter state to force re-render on `selectionUpdate`.
