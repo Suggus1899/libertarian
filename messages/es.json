@@ -23,7 +23,8 @@
     "lang": {
       "es": "ES",
       "en": "EN"
-    }
+    },
+    "selectLanguage": "Seleccionar idioma"
   },
   "hero": {
     "eyebrow": "Think Tank Libertario",

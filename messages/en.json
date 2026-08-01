@@ -23,7 +23,8 @@
     "lang": {
       "es": "ES",
       "en": "EN"
-    }
+    },
+    "selectLanguage": "Select language"
   },
   "hero": {
     "eyebrow": "Libertarian Think Tank",

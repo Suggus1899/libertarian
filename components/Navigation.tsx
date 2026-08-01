@@ -1,17 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { useParams } from 'next/navigation';
-import { Link, usePathname, useRouter } from '@/i18n/routing';
+import { Link, usePathname } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 import { X } from 'lucide-react';
+import { LocaleSwitcher } from './LocaleSwitcher';
 
 export function Navigation() {
   const t = useTranslations('nav');
   const pathname = usePathname();
-  const router = useRouter();
-  const params = useParams();
-  const locale = (params?.locale as string) ?? 'es';
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
@@ -27,10 +24,6 @@ export function Navigation() {
     { label: t('servicios'), href: '/servicios' },
     { label: t('ensayos'), href: '/ensayos' },
   ];
-
-  function switchLocale(nextLocale: string) {
-    router.replace(pathname, { locale: nextLocale });
-  }
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 h-20 border-b border-gris-brd bg-blanco/97 backdrop-blur-md">
@@ -76,21 +69,8 @@ export function Navigation() {
             {t('contacto')}
           </Link>
 
-          <div className="ml-3 flex items-center gap-1.5">
-            {(['es', 'en'] as const).map((l) => (
-              <button
-                key={l}
-                onClick={() => switchLocale(l)}
-                aria-pressed={locale === l}
-                className={`border px-2.5 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[1.5px] transition ${
-                  locale === l
-                    ? 'border-negro bg-negro text-blanco'
-                    : 'border-gris-brd text-gris-med hover:border-negro hover:text-negro'
-                }`}
-              >
-                {t(`lang.${l}`)}
-              </button>
-            ))}
+          <div className="ml-3 flex items-center">
+            <LocaleSwitcher />
           </div>
         </div>
 
@@ -136,19 +116,7 @@ export function Navigation() {
             </Link>
           </div>
           <div className="mt-6 flex gap-2 border-t border-gris-brd pt-4">
-            {(['es', 'en'] as const).map((l) => (
-              <button
-                key={l}
-                onClick={() => switchLocale(l)}
-                className={`border px-3 py-1.5 text-xs font-semibold uppercase tracking-widest ${
-                  locale === l
-                    ? 'border-negro bg-negro text-blanco'
-                    : 'border-gris-brd text-gris-med hover:border-negro hover:text-negro'
-                }`}
-              >
-                {t(`lang.${l}`)}
-              </button>
-            ))}
+            <LocaleSwitcher />
           </div>
         </div>
       )}
