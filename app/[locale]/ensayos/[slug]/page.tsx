@@ -16,21 +16,55 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const essay = await getEssayBySlug(locale, slug);
 
   if (!essay) {
-    return { title: t('metadata.title'), description: t('metadata.description') };
+    return { title: t('essaysPage.pageTitle'), description: t('metadata.description') };
   }
 
-  const title = essay.seoTitle || `${t('metadata.title')} — ${essay.title}`;
+  const title = essay.seoTitle || essay.title;
   const description = essay.seoDescription || essay.description;
 
+  // When the essay has a featured image, we set a full `openGraph`/`twitter`
+  // object with that image and `type: 'article'`.
+  //
+  // When it doesn't, we omit `openGraph` entirely so the parent [locale]
+  // layout's file-based opengraph-image.tsx is inherited as the preview image.
+  // Defining `openGraph` without `images` would still override the file-based
+  // convention, leaving the share preview with no image at all.
+  //
+  // Trade-off: without a featured image, `og:type` falls back to `website`
+  // (from the layout) instead of `article`. This is acceptable — the preview
+  // image is more important for CTR than the OG type, and admin-authored
+  // essays are expected to have a featured image anyway.
+  if (essay.featuredImage) {
+    return {
+      title: essay.seoTitle ? { absolute: title } : title,
+      description,
+      openGraph: {
+        title,
+        description,
+        type: 'article',
+        images: [essay.featuredImage],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: [essay.featuredImage],
+      },
+    };
+  }
+
   return {
-    title,
+    title: essay.seoTitle ? { absolute: title } : title,
     description,
-    openGraph: {
+    twitter: {
+      card: 'summary_large_image',
       title,
       description,
-      images: essay.featuredImage ? [essay.featuredImage] : undefined,
     },
   };
+  // No cross-locale `alternates.languages` here: admin-authored essays/opinion
+  // pieces don't generally have a matching translation at the same slug in
+  // the other locale, so we avoid sending Google an incorrect hreflang link.
 }
 
 export default async function EssayDetailPage({ params }: Props) {

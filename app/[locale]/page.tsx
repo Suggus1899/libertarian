@@ -7,6 +7,7 @@ import { ServicesPreview } from '@/components/ServicesPreview';
 import { EssaysPreview } from '@/components/EssaysPreview';
 import { FinalCta } from '@/components/FinalCta';
 import { getEssays } from '@/lib/essays';
+import { buildAlternates } from '@/lib/seo';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -16,8 +17,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'metadata' });
   return {
-    title: t('title'),
+    title: { absolute: t('title') },
     description: t('description'),
+    alternates: buildAlternates('/'),
   };
 }
 

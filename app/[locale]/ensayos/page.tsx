@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { PageHero } from '@/components/PageHero';
 import { EssaysList } from '@/components/EssaysList';
 import { getEssays } from '@/lib/essays';
+import { buildAlternates } from '@/lib/seo';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -12,8 +13,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale });
   return {
-    title: `${t('metadata.title')} — ${t('essaysPage.pageTitle')}`,
+    title: t('essaysPage.pageTitle'),
     description: t('metadata.description'),
+    alternates: buildAlternates('/ensayos'),
   };
 }
 

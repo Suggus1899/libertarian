@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { PageHero } from '@/components/PageHero';
 import { Link } from '@/i18n/routing';
 import { Heart } from 'lucide-react';
+import { buildAlternates } from '@/lib/seo';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -12,8 +13,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale });
   return {
-    title: `${t('metadata.title')} — ${t('donatePage.pageTitle')}`,
+    title: t('donatePage.pageTitle'),
     description: t('metadata.description'),
+    alternates: buildAlternates('/donar'),
   };
 }
 
