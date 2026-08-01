@@ -28,7 +28,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const locale = await getLocale();
 
   return (
-    <html lang={locale} className={`${montserrat.variable} antialiased`}>
+    <html lang={locale} data-scroll-behavior="smooth" className={`${montserrat.variable} antialiased`}>
       <body className="min-h-screen bg-blanco text-negro font-sans">
         {children}
       </body>

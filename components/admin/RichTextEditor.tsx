@@ -2,10 +2,12 @@
 
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+// Link and Underline are NOT imported separately — StarterKit v3 bundles both.
+// Passing options through StarterKit.configure({ link: {...}, underline: false })
+// avoids the "duplicate extension names" warning.
+
 import Image from '@tiptap/extension-image';
-import Link from '@tiptap/extension-link';
 import Youtube from '@tiptap/extension-youtube';
-import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import { Table, TableRow, TableHeader, TableCell } from '@tiptap/extension-table';
 import { useEffect, useState } from 'react';
@@ -54,9 +56,9 @@ export function RichTextEditor({
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
-      StarterKit.configure({ link: false, underline: false }),
-      Link.configure({ openOnClick: false, autolink: true }),
-      Underline,
+      StarterKit.configure({
+        link: { openOnClick: false, autolink: true },
+      }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Image, // kept for parsing legacy/plain <img> content
       FigureImage,
