@@ -8,8 +8,8 @@ export function Footer() {
 
   return (
     <footer className="bg-negro px-6 py-14 lg:px-14">
-      <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-3">
-        <div>
+      <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-2 lg:grid-cols-5">
+        <div className="lg:col-span-2">
           <div className="mb-4 text-xl font-black uppercase tracking-tight text-blanco">
             {t('nav.brand')}
           </div>
@@ -53,6 +53,50 @@ export function Footer() {
 
         <div>
           <h4 className="mb-4 font-display text-[0.72rem] font-bold uppercase tracking-[3px] text-dorado">
+            {t('footer.explore')}
+          </h4>
+          <ul className="space-y-2 text-[0.85rem]">
+            <li>
+              <Link href="/equipo" className="block text-white/45 transition hover:text-blanco">
+                {t('teamPage.pageTitle')}
+              </Link>
+            </li>
+            <li>
+              <Link href="/recursos" className="block text-white/45 transition hover:text-blanco">
+                {t('resourcesPage.pageTitle')}
+              </Link>
+            </li>
+            <li>
+              <Link href="/suscribirse" className="block text-white/45 transition hover:text-blanco">
+                {t('subscribePage.pageTitle')}
+              </Link>
+            </li>
+            <li>
+              <Link href="/donar" className="block text-white/45 transition hover:text-blanco">
+                {t('donatePage.pageTitle')}
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 className="mb-4 font-display text-[0.72rem] font-bold uppercase tracking-[3px] text-dorado">
+            {t('footer.legal')}
+          </h4>
+          <ul className="space-y-2 text-[0.85rem]">
+            <li>
+              <Link href="/privacidad" className="block text-white/45 transition hover:text-blanco">
+                {t('privacyPage.pageTitle')}
+              </Link>
+            </li>
+            <li>
+              <Link href="/terminos" className="block text-white/45 transition hover:text-blanco">
+                {t('termsPage.pageTitle')}
+              </Link>
+            </li>
+          </ul>
+
+          <h4 className="mb-4 mt-8 font-display text-[0.72rem] font-bold uppercase tracking-[3px] text-dorado">
             {t('footer.contact')}
           </h4>
           <ul className="space-y-2 text-[0.85rem] text-white/45">

@@ -12,7 +12,7 @@ export function LocaleSwitcher() {
   const locale = (params?.locale as string) ?? 'es';
 
   function onChange(nextLocale: string) {
-    router.replace(pathname, { locale: nextLocale });
+    router.replace(pathname as Parameters<typeof router.replace>[0], { locale: nextLocale });
   }
 
   return (

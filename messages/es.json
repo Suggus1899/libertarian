@@ -118,24 +118,60 @@
     },
     "items": [
       {
+        "slug": "individuo-estado",
         "category": "Filosofía Política",
         "title": "El individuo frente al Estado: fundamentos de la libertad moderna",
-        "description": "Un análisis sobre los principios filosóficos que sustentan la tradición libertaria y su vigencia en el siglo XXI."
+        "description": "Un análisis sobre los principios filosóficos que sustentan la tradición libertaria y su vigencia en el siglo XXI.",
+        "date": "15 enero 2025",
+        "author": "Dr. Alejandro Ríos",
+        "full": [
+          "La pregunta fundamental de la filosofía política libertaria es simple pero profunda: ¿quién es dueño de la vida de cada persona? La respuesta, sostenida desde Locke hasta Nozick, es que cada individuo es soberano de sí mismo.",
+          "El Estado, en esta tradición, no es un ente que otorga derechos, sino un mecanismo que debe protegerlos. Su legitimidad deriva del consentimiento y su función está limitada a la protección de la vida, la propiedad y la libertad.",
+          "En el siglo XXI, este principio sigue siendo vigente. Frente al crecimiento estatal, el autoritarismo tecnocrático y la erosión de las libertades individuales, recuperar el lenguaje de la soberanía personal es una tarea intelectual y política.",
+          "Este ensayo repasa los fundamentos filosóficos de la libertad individual, examina los principales objeciones y propone un marco para defenderla en el debate público contemporáneo."
+        ]
       },
       {
+        "slug": "mercados-prosperidad",
         "category": "Economía",
         "title": "Mercados libres y prosperidad: evidencia y argumentos",
-        "description": "Por qué la libertad económica es la base material del progreso humano, con datos y análisis comparativo."
+        "description": "Por qué la libertad económica es la base material del progreso humano, con datos y análisis comparativo.",
+        "date": "3 febrero 2025",
+        "author": "Mariana Gómez",
+        "full": [
+          "La evidencia empírica es clara: los países con mayor libertad económica crecen más, generan más empleo y reducen la pobreza con mayor velocidad. No se trata de una opinión ideológica, sino de un patrón observable durante décadas.",
+          "Los mercados libres no son sinónimo de ausencia de reglas, sino de un sistema de precios, propiedad y competencia que coordina el conocimiento disperso de millones de personas.",
+          "En este análisis revisamos índices de libertad económica, estudios comparados de países latinoamericanos y los mecanismos por los cuales la apertura comercial y la reducción regulatoria impulsan el bienestar.",
+          "La conclusión es contundente: defender el libre mercado no es defender privilegios, es defender la posibilidad real de prosperidad para la mayoría."
+        ]
       },
       {
+        "slug": "movimiento-desde-cero",
         "category": "Estrategia Política",
         "title": "Construir un movimiento libertario desde cero: lecciones y metodología",
-        "description": "Guía práctica para organizar partidos y movimientos libertarios exitosos en contextos democráticos y no democráticos."
+        "description": "Guía práctica para organizar partidos y movimientos libertarios exitosos en contextos democráticos y no democráticos.",
+        "date": "22 febrero 2025",
+        "author": "Julián Vargas",
+        "full": [
+          "Construir un movimiento libertario es un desafío distinto a construir cualquier otra fuerza política. Parte de una minoría de ideas, enfrenta a los medios tradicionales y debe articular principios abstractos con demandas concretas.",
+          "Este ensayo sistematiza lecciones de casos latinoamericanos y europeos. Analiza la formación de dirigentes, la captación de militantes, la construcción de discurso, el uso de redes sociales y la organización institucional.",
+          "Proponemos una metodología de etapas: definición de principios, formación de núcleo, comunicación pública, crecimiento territorial y participación electoral estratégica.",
+          "El objetivo no es imitar fórmulas ajenas, sino ofrecer un marco replicable que cada organización adapte a su contexto cultural e institucional."
+        ]
       },
       {
+        "slug": "latinoamerica-resurgimiento",
         "category": "América Latina",
         "title": "El resurgimiento libertario en Latinoamérica: contexto y perspectivas",
-        "description": "Análisis del crecimiento de los movimientos libertarios en América Latina, sus causas y perspectivas de consolidación."
+        "description": "Análisis del crecimiento de los movimientos libertarios en América Latina, sus causas y perspectivas de consolidación.",
+        "date": "10 marzo 2025",
+        "author": "Lucía Fernández",
+        "full": [
+          "En los últimos años, América Latina ha sido testigo de un fenómeno inesperado: el surgimiento de movimientos políticos abiertamente libertarios que lograron posicionarse en el debate público.",
+          "Este ensayo examina las causas del fenómeno: el fracaso de modelos económicos estatistas, la crisis de representación de los partidos tradicionales, la digitalización de la política y la aparición de una nueva generación de ciudadanos escépticos del Estado.",
+          "También analiza los riesgos: la tensión entre pureza ideológica y viabilidad electoral, la exposición mediática y la necesidad de construir equipos sólidos más allá de figuras individuales.",
+          "Las perspectivas son alentadoras pero exigen trabajo institucional, formación y paciencia estratégica. El resurgimiento es real; la consolidación depende de nosotros."
+        ]
       }
     ]
   },
@@ -149,6 +185,8 @@
   "footer": {
     "tagline": "El laboratorio de ideas libertario que rompe paradigmas políticos y académicos.",
     "navigation": "Navegación",
+    "explore": "Explorar",
+    "legal": "Legal",
     "contact": "Contacto",
     "copy": "© 2025 Libertarian Forum. Todos los derechos reservados.",
     "motto": "Propiedad, libertad, progreso.",
@@ -219,5 +257,87 @@
       "invalidInput": "Revisa los datos del formulario.",
       "sendFailed": "No se pudo enviar el mensaje. Intenta de nuevo más tarde."
     }
+  },
+  "teamPage": {
+    "pageTitle": "Equipo",
+    "eyebrow": "Quienes construyen",
+    "h1": "Conoce a nuestro <em>equipo</em>",
+    "intro": "Un grupo de investigadores, estrategas y activistas unidos por la misión de llevar las ideas de la libertad al centro del debate público."
+  },
+  "team": [
+    { "name": "Dr. Alejandro Ríos", "role": "Director Ejecutivo", "bio": "Doctor en Ciencia Política por la Universidad de Buenos Aires. Investigador en filosofía política libertaria y asesor en diseño institucional." },
+    { "name": "Mariana Gómez", "role": "Directora de Investigación", "bio": "Economista especializada en análisis comparado de políticas públicas y mercados libres en América Latina." },
+    { "name": "Julián Vargas", "role": "Estratega Político", "bio": "Consultor electoral con experiencia en campañas de partidos libertarios en Argentina, Chile y España." },
+    { "name": "Lucía Fernández", "role": "Comunicación y Contenidos", "bio": "Periodista y editora. Lidera la producción de ensayos, análisis y programas de formación." }
+  ],
+  "resourcesPage": {
+    "pageTitle": "Recursos",
+    "eyebrow": "Materiales",
+    "h1": "Descargas y <em>recursos</em>",
+    "intro": "Documentos, tesis programáticas y herramientas para militantes, dirigentes y académicos interesados en las ideas de la libertad."
+  },
+  "resources": {
+    "items": [
+      { "title": "Tesis Programática 2025", "description": "Propuestas de política pública fundamentadas en propiedad privada, libre mercado y Estado limitado.", "format": "PDF", "size": "2.4 MB" },
+      { "title": "Manual del Militante Libertario", "description": "Guía práctica de oratoria, debate y organización para activistas.", "format": "PDF", "size": "1.8 MB" },
+      { "title": "Análisis Económico Comparado", "description": "Estudio comparativo de libertad económica en América Latina.", "format": "PDF", "size": "3.1 MB" }
+    ],
+    "download": "Descargar",
+    "soon": "Próximamente: más recursos en audio y video."
+  },
+  "subscribePage": {
+    "pageTitle": "Suscribirse",
+    "eyebrow": "Newsletter",
+    "h1": "Recibí nuestros <em>ensayos y análisis</em>",
+    "intro": "Suscríbete para recibir publicaciones, análisis de coyuntura y novedades del think tank directamente en tu correo.",
+    "label": "Correo electrónico",
+    "placeholder": "correo@ejemplo.com",
+    "submit": "Suscribirse →",
+    "success": "✓ Suscripción exitosa. Revisá tu correo para confirmar.",
+    "errors": {
+      "invalidEmail": "El correo electrónico no es válido."
+    }
+  },
+  "donatePage": {
+    "pageTitle": "Donar",
+    "eyebrow": "Apoyá",
+    "h1": "Apoyá el <em>trabajo de Libertarian Forum</em>",
+    "intro": "Somos una organización independiente. Tu contribución nos permite producir investigación, formación y asesoramiento sin depender de partidos ni estados.",
+    "methodsTitle": "Formas de colaborar",
+    "methods": [
+      { "name": "PayPal", "description": "Donación rápida y segura desde cualquier país." },
+      { "name": "Patreon", "description": "Apoyo mensual con acceso anticipado a publicaciones." },
+      { "name": "Transferencia bancaria", "description": "Contactanos para recibir los datos de cuenta." },
+      { "name": "Criptomonedas", "description": "Aceptamos BTC, ETH y stablecoins. Solicitá la dirección." }
+    ],
+    "cta": "Contactar para donar"
+  },
+  "privacyPage": {
+    "pageTitle": "Privacidad",
+    "eyebrow": "Legal",
+    "h1": "Política de <em>privacidad</em>",
+    "content": [
+      "Libertarian Forum se compromete a proteger la privacidad de quienes visitan nuestro sitio web y utilizan nuestros formularios.",
+      "Solo solicitamos datos personales cuando es estrictamente necesario, como en el formulario de contacto o suscripción. La información recopilada se utiliza exclusivamente para responder consultas, enviar publicaciones y mejorar nuestros servicios.",
+      "No vendemos, alquilamos ni compartimos datos personales con terceros con fines comerciales. Podemos utilizar servicios de terceros de confianza para el alojamiento del sitio y el envío de correos electrónicos.",
+      "Los usuarios tienen derecho a acceder, rectificar o eliminar sus datos personales. Para ejercer estos derechos, escribinos a info@libertarianforum.org."
+    ]
+  },
+  "termsPage": {
+    "pageTitle": "Términos",
+    "eyebrow": "Legal",
+    "h1": "Términos de <em>uso</em>",
+    "content": [
+      "El uso de este sitio web implica la aceptación de los siguientes términos y condiciones. Si no estás de acuerdo, te pedimos que no utilices el sitio.",
+      "Todo el contenido publicado en Libertarian Forum, incluyendo ensayos, análisis e infografías, está protegido por derechos de autor. Se permite la reproducción parcial o total citando la fuente y sin fines comerciales, salvo autorización expresa.",
+      "Los enlaces a sitios de terceros se ofrecen solo con fines informativos. No nos responsabilizamos por el contenido ni las políticas de privacidad de esos sitios.",
+      "Nos reservamos el derecho de modificar estos términos en cualquier momento. Las modificaciones entrarán en vigor desde su publicación en esta página."
+    ]
+  },
+  "notFound": {
+    "title": "404",
+    "h1": "Página no encontrada",
+    "description": "La página que buscás no existe o fue movida.",
+    "cta": "Volver al inicio"
   }
 }

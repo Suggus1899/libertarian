@@ -1,0 +1,98 @@
+import { notFound } from 'next/navigation';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { Metadata } from 'next';
+import { routing } from '@/i18n/routing';
+import { Link } from '@/i18n/routing';
+import { PageHero } from '@/components/PageHero';
+
+type Props = {
+  params: Promise<{ locale: string; slug: string }>;
+};
+
+const essaySlugs = [
+  'individuo-estado',
+  'mercados-prosperidad',
+  'movimiento-desde-cero',
+  'latinoamerica-resurgimiento',
+];
+
+export async function generateStaticParams() {
+  return routing.locales.flatMap((locale) =>
+    essaySlugs.map((slug) => ({ locale, slug })),
+  );
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const t = await getTranslations({ locale });
+  const items = t.raw('essays.items') as Array<{ slug: string; title: string }>;
+  const essay = items.find((item) => item.slug === slug);
+  return {
+    title: essay ? `${t('metadata.title')} — ${essay.title}` : t('metadata.title'),
+    description: t('metadata.description'),
+  };
+}
+
+export default async function EssayDetailPage({ params }: Props) {
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
+
+  const t = await getTranslations();
+  const items = t.raw('essays.items') as Array<{
+    slug: string;
+    category: string;
+    title: string;
+    date: string;
+    author: string;
+    full: string[];
+  }>;
+  const essay = items.find((item) => item.slug === slug);
+
+  if (!essay) {
+    notFound();
+  }
+
+  return (
+    <>
+      <PageHero
+        eyebrowKey="essaysPage.eyebrow"
+        titleKey="essaysPage.h1"
+        introKey="essaysPage.intro"
+        bgText="ESSAY"
+      />
+      <div className="gold-divider" />
+      <article className="bg-blanco px-6 py-16 lg:px-14">
+        <div className="mx-auto max-w-3xl">
+          <div className="mb-10 border-b border-gris-brd pb-10">
+            <span className="font-display text-[0.72rem] font-bold uppercase tracking-[2px] text-dorado">
+              {essay.category}
+            </span>
+            <h1 className="mt-3 font-display text-[clamp(1.8rem,4vw,2.8rem)] font-black leading-[1.15] text-negro">
+              {essay.title}
+            </h1>
+            <div className="mt-4 flex gap-4 text-sm text-gris-cla">
+              <span>{essay.date}</span>
+              <span>·</span>
+              <span>{essay.author}</span>
+            </div>
+          </div>
+          <div className="prose prose-lg max-w-none">
+            {essay.full.map((paragraph) => (
+              <p key={paragraph.slice(0, 20)} className="mb-6 leading-[1.9] text-gris-med">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+          <div className="mt-12 border-t border-gris-brd pt-10">
+            <Link
+              href="/ensayos"
+              className="btn-p"
+            >
+              ← {t('essays.cta')}
+            </Link>
+          </div>
+        </div>
+      </article>
+    </>
+  );
+}

@@ -117,24 +117,60 @@
     },
     "items": [
       {
+        "slug": "individuo-estado",
         "category": "Political Philosophy",
         "title": "The Individual vs. the State: Foundations of Modern Freedom",
-        "description": "An analysis of the philosophical principles underpinning the libertarian tradition and their relevance in the 21st century."
+        "description": "An analysis of the philosophical principles underpinning the libertarian tradition and their relevance in the 21st century.",
+        "date": "January 15, 2025",
+        "author": "Dr. Alejandro Ríos",
+        "full": [
+          "The fundamental question of libertarian political philosophy is simple yet profound: who owns each person's life? The answer, held from Locke to Nozick, is that every individual is sovereign over themselves.",
+          "The State, in this tradition, is not an entity that grants rights, but a mechanism that must protect them. Its legitimacy derives from consent, and its function is limited to safeguarding life, property and liberty.",
+          "In the 21st century, this principle remains relevant. Faced with the growth of the state, technocratic authoritarianism and the erosion of individual liberties, recovering the language of personal sovereignty is both an intellectual and a political task.",
+          "This essay reviews the philosophical foundations of individual freedom, examines the main objections and proposes a framework for defending it in contemporary public debate."
+        ]
       },
       {
+        "slug": "mercados-prosperidad",
         "category": "Economics",
         "title": "Free Markets and Prosperity: Evidence and Arguments",
-        "description": "Why economic freedom is the material foundation of human progress — with data and comparative analysis across political systems."
+        "description": "Why economic freedom is the material foundation of human progress — with data and comparative analysis across political systems.",
+        "date": "February 3, 2025",
+        "author": "Mariana Gómez",
+        "full": [
+          "Empirical evidence is clear: countries with greater economic freedom grow faster, create more jobs and reduce poverty more quickly. This is not an ideological opinion, but an observable pattern over decades.",
+          "Free markets are not synonymous with the absence of rules, but with a system of prices, property and competition that coordinates the dispersed knowledge of millions of people.",
+          "In this analysis we review economic freedom indices, comparative studies of Latin American countries and the mechanisms by which trade openness and regulatory reduction drive well-being.",
+          "The conclusion is blunt: defending free markets is not defending privilege, it is defending the real possibility of prosperity for the majority."
+        ]
       },
       {
+        "slug": "movimiento-desde-cero",
         "category": "Political Strategy",
         "title": "Building a Libertarian Movement from Scratch",
-        "description": "A practical guide to organizing successful libertarian parties and movements in both democratic and non-democratic contexts."
+        "description": "A practical guide to organizing successful libertarian parties and movements in both democratic and non-democratic contexts.",
+        "date": "February 22, 2025",
+        "author": "Julián Vargas",
+        "full": [
+          "Building a libertarian movement is a different challenge than building any other political force. It starts from a minority of ideas, faces traditional media and must articulate abstract principles with concrete demands.",
+          "This essay systematizes lessons from Latin American and European cases. It analyzes leadership training, member recruitment, discourse construction, social media use and institutional organization.",
+          "We propose a staged methodology: definition of principles, core formation, public communication, territorial growth and strategic electoral participation.",
+          "The goal is not to imitate foreign formulas, but to offer a replicable framework that each organization adapts to its cultural and institutional context."
+        ]
       },
       {
+        "slug": "latinoamerica-resurgimiento",
         "category": "Latin America",
         "title": "The Libertarian Resurgence in Latin America: Context and Perspectives",
-        "description": "Analysis of the growth of libertarian movements in Latin America, their causes and prospects for consolidation as a relevant political force."
+        "description": "Analysis of the growth of libertarian movements in Latin America, their causes and prospects for consolidation as a relevant political force.",
+        "date": "March 10, 2025",
+        "author": "Lucía Fernández",
+        "full": [
+          "In recent years, Latin America has witnessed an unexpected phenomenon: the emergence of openly libertarian political movements that have managed to position themselves in the public debate.",
+          "This essay examines the causes of the phenomenon: the failure of statist economic models, the crisis of representation of traditional parties, the digitalization of politics and the appearance of a new generation of citizens skeptical of the State.",
+          "It also analyzes the risks: the tension between ideological purity and electoral viability, media exposure and the need to build solid teams beyond individual figures.",
+          "The outlook is encouraging but requires institutional work, training and strategic patience. The resurgence is real; consolidation depends on us."
+        ]
       }
     ]
   },
@@ -148,6 +184,8 @@
   "footer": {
     "tagline": "The libertarian ideas laboratory that challenges political and academic paradigms.",
     "navigation": "Navigation",
+    "explore": "Explore",
+    "legal": "Legal",
     "contact": "Contact",
     "copy": "© 2025 Libertarian Forum. All rights reserved.",
     "motto": "Property, freedom, progress.",
@@ -218,5 +256,87 @@
       "invalidInput": "Please check the form fields.",
       "sendFailed": "Could not send the message. Please try again later."
     }
+  },
+  "teamPage": {
+    "pageTitle": "Team",
+    "eyebrow": "The people",
+    "h1": "Meet our <em>team</em>",
+    "intro": "Researchers, strategists and activists united by the mission of bringing freedom to the center of public debate."
+  },
+  "team": [
+    { "name": "Dr. Alejandro Ríos", "role": "Executive Director", "bio": "PhD in Political Science from the University of Buenos Aires. Researcher in libertarian political philosophy and institutional design advisor." },
+    { "name": "Mariana Gómez", "role": "Research Director", "bio": "Economist specialized in comparative public policy analysis and free markets in Latin America." },
+    { "name": "Julián Vargas", "role": "Political Strategist", "bio": "Electoral consultant with experience in libertarian party campaigns across Argentina, Chile and Spain." },
+    { "name": "Lucía Fernández", "role": "Communications & Content", "bio": "Journalist and editor. Leads the production of essays, analyses and training programs." }
+  ],
+  "resourcesPage": {
+    "pageTitle": "Resources",
+    "eyebrow": "Materials",
+    "h1": "Downloads & <em>resources</em>",
+    "intro": "Documents, policy platforms and tools for activists, leaders and academics interested in ideas of freedom."
+  },
+  "resources": {
+    "items": [
+      { "title": "Policy Platform 2025", "description": "Public policy proposals grounded in private property, free markets and limited government.", "format": "PDF", "size": "2.4 MB" },
+      { "title": "Libertarian Activist Handbook", "description": "Practical guide on public speaking, debate and organization for activists.", "format": "PDF", "size": "1.8 MB" },
+      { "title": "Comparative Economic Analysis", "description": "Comparative study of economic freedom in Latin America.", "format": "PDF", "size": "3.1 MB" }
+    ],
+    "download": "Download",
+    "soon": "Coming soon: more audio and video resources."
+  },
+  "subscribePage": {
+    "pageTitle": "Subscribe",
+    "eyebrow": "Newsletter",
+    "h1": "Get our <em>essays and analyses</em>",
+    "intro": "Subscribe to receive publications, situational analyses and think tank updates directly in your inbox.",
+    "label": "Email address",
+    "placeholder": "you@example.com",
+    "submit": "Subscribe →",
+    "success": "✓ Subscription successful. Check your email to confirm.",
+    "errors": {
+      "invalidEmail": "Invalid email address."
+    }
+  },
+  "donatePage": {
+    "pageTitle": "Donate",
+    "eyebrow": "Support",
+    "h1": "Support <em>Libertarian Forum</em>",
+    "intro": "We are an independent organization. Your contribution allows us to produce research, training and advisory work without depending on parties or states.",
+    "methodsTitle": "Ways to contribute",
+    "methods": [
+      { "name": "PayPal", "description": "Quick and secure donation from any country." },
+      { "name": "Patreon", "description": "Monthly support with early access to publications." },
+      { "name": "Bank transfer", "description": "Contact us for account details." },
+      { "name": "Cryptocurrencies", "description": "We accept BTC, ETH and stablecoins. Request the address." }
+    ],
+    "cta": "Contact us to donate"
+  },
+  "privacyPage": {
+    "pageTitle": "Privacy",
+    "eyebrow": "Legal",
+    "h1": "Privacy <em>policy</em>",
+    "content": [
+      "Libertarian Forum is committed to protecting the privacy of those who visit our website and use our forms.",
+      "We only request personal data when strictly necessary, such as in the contact or subscription forms. The information collected is used exclusively to respond to inquiries, send publications and improve our services.",
+      "We do not sell, rent or share personal data with third parties for commercial purposes. We may use trusted third-party services for website hosting and email delivery.",
+      "Users have the right to access, rectify or delete their personal data. To exercise these rights, write to info@libertarianforum.org."
+    ]
+  },
+  "termsPage": {
+    "pageTitle": "Terms",
+    "eyebrow": "Legal",
+    "h1": "Terms of <em>use</em>",
+    "content": [
+      "Using this website implies acceptance of the following terms and conditions. If you do not agree, please do not use the site.",
+      "All content published by Libertarian Forum, including essays, analyses and infographics, is protected by copyright. Partial or total reproduction is permitted provided the source is cited and it is not for commercial purposes, unless expressly authorized.",
+      "Links to third-party sites are provided for informational purposes only. We are not responsible for the content or privacy policies of those sites.",
+      "We reserve the right to modify these terms at any time. Changes will take effect from the moment they are published on this page."
+    ]
+  },
+  "notFound": {
+    "title": "404",
+    "h1": "Page not found",
+    "description": "The page you are looking for does not exist or has been moved.",
+    "cta": "Back to home"
   }
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import { Button } from './Button';
 
 export function EssaysList() {
@@ -13,29 +14,35 @@ export function EssaysList() {
         <div className="grid gap-6 md:grid-cols-2">
           {items.map(
             (
-              item: { category: string; title: string; description: string },
+              item: { slug: string; category: string; title: string; description: string },
             ) => (
-              <article
-                key={item.title}
-                className="cursor-pointer overflow-hidden border border-gris-brd transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_36px_rgba(0,0,0,0.08)]"
+              <Link
+                key={item.slug}
+                href={{
+                  pathname: '/ensayos/[slug]',
+                  params: { slug: item.slug },
+                } as Parameters<typeof Link>[0]['href']}
+                className="block overflow-hidden border border-gris-brd transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_36px_rgba(0,0,0,0.08)]"
               >
-                <div className="border-b border-gris-brd bg-gris-bg p-8">
-                  <span className="font-display text-[0.68rem] font-bold uppercase tracking-[2.5px] text-dorado">
-                    {item.category}
-                  </span>
-                  <h3 className="mt-2.5 font-display text-[1.25rem] font-bold leading-[1.35] text-negro">
-                    {item.title}
-                  </h3>
-                </div>
-                <div className="p-8">
-                  <p className="text-[0.9rem] leading-[1.72] text-gris-med">
-                    {item.description}
-                  </p>
-                  <div className="mt-4 text-[0.72rem] font-semibold uppercase tracking-[1px] text-gris-cla">
-                    {t('meta')}
+                <article>
+                  <div className="border-b border-gris-brd bg-gris-bg p-8">
+                    <span className="font-display text-[0.68rem] font-bold uppercase tracking-[2.5px] text-dorado">
+                      {item.category}
+                    </span>
+                    <h3 className="mt-2.5 font-display text-[1.25rem] font-bold leading-[1.35] text-negro">
+                      {item.title}
+                    </h3>
                   </div>
-                </div>
-              </article>
+                  <div className="p-8">
+                    <p className="text-[0.9rem] leading-[1.72] text-gris-med">
+                      {item.description}
+                    </p>
+                    <div className="mt-4 text-[0.72rem] font-semibold uppercase tracking-[1px] text-gris-cla">
+                      {t('meta')}
+                    </div>
+                  </div>
+                </article>
+              </Link>
             ),
           )}
         </div>

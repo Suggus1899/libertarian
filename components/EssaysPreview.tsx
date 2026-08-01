@@ -24,12 +24,15 @@ export function EssaysPreview() {
         <div className="grid gap-6 md:grid-cols-3">
           {items.map(
             (
-              item: { category: string; title: string; description: string },
+              item: { slug: string; category: string; title: string; description: string },
               index: number,
             ) => (
               <Link
-                key={item.title}
-                href="/ensayos"
+                key={item.slug}
+                href={{
+                  pathname: '/ensayos/[slug]',
+                  params: { slug: item.slug },
+                } as Parameters<typeof Link>[0]['href']}
                 className="group block cursor-pointer overflow-hidden border border-gris-brd bg-blanco transition duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)]"
               >
                 <div

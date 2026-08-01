@@ -12,6 +12,7 @@ interface ButtonProps {
   children: ReactNode;
   className?: string;
   type?: 'button' | 'submit';
+  disabled?: boolean;
 }
 
 const variantMap: Record<Variant, string> = {
@@ -27,6 +28,7 @@ export function Button({
   children,
   className = '',
   type = 'button',
+  disabled = false,
 }: ButtonProps) {
   const classes = `${variantMap[variant]} ${className}`.trim();
 
@@ -39,7 +41,7 @@ export function Button({
   }
 
   return (
-    <button type={type} onClick={onClick} className={classes}>
+    <button type={type} onClick={onClick} className={classes} disabled={disabled}>
       {children}
     </button>
   );

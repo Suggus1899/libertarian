@@ -18,9 +18,37 @@ export const routing = defineRouting({
       es: '/ensayos',
       en: '/essays',
     },
+    '/ensayos/[slug]': {
+      es: '/ensayos/[slug]',
+      en: '/essays/[slug]',
+    },
     '/contacto': {
       es: '/contacto',
       en: '/contact',
+    },
+    '/equipo': {
+      es: '/equipo',
+      en: '/team',
+    },
+    '/recursos': {
+      es: '/recursos',
+      en: '/resources',
+    },
+    '/suscribirse': {
+      es: '/suscribirse',
+      en: '/subscribe',
+    },
+    '/donar': {
+      es: '/donar',
+      en: '/donate',
+    },
+    '/privacidad': {
+      es: '/privacidad',
+      en: '/privacy',
+    },
+    '/terminos': {
+      es: '/terminos',
+      en: '/terms',
     },
   },
 });
