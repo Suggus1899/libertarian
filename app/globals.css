@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-black: var(--black);
+  --color-cream: var(--cream);
+  --color-gray: var(--gray);
+  --color-gray-dark: var(--gray-dark);
+  --font-sans: var(--font-sans);
+}
+
+:root {
+  --background: #0d0d0d;
+  --foreground: #f5f5f0;
+  --gold: #c9a227;
+  --gold-light: #e3c565;
+  --black: #0d0d0d;
+  --cream: #f5f5f0;
+  --gray: #1a1a1a;
+  --gray-dark: #141414;
+  --border: #2a2a2a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+::selection {
+  background-color: var(--gold);
+  color: var(--black);
+}
+
+.gold-rule {
+  width: 64px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+}
+
+.gold-rule-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gold-divider {
+  height: 4px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--gold);
+}
+
+/* Hero gradient background */
+.hero-bg {
+  background: radial-gradient(ellipse at top right, rgba(201, 162, 39, 0.15), transparent 50%),
+              radial-gradient(ellipse at bottom left, rgba(201, 162, 39, 0.08), transparent 40%),
+              var(--background);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animation-delay-100 {
+  animation-delay: 0.1s;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-300 {
+  animation-delay: 0.3s;
+}
+
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
+
+/* Focus visibility */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

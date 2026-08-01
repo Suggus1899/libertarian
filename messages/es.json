@@ -1,0 +1,198 @@
+{
+  "metadata": {
+    "title": "Libertarian Forum — Think Tank Libertario",
+    "description": "Laboratorio de ideas libertario. Investigación, análisis y estrategia para construir partidos y movimientos libertarios sólidos."
+  },
+  "nav": {
+    "nosotros": "Nosotros",
+    "servicios": "Servicios",
+    "ensayos": "Ensayos",
+    "contacto": "Contacto",
+    "home": "Inicio",
+    "dropdown": {
+      "who": "Quiénes Somos",
+      "mission": "Misión y Visión",
+      "values": "Valores"
+    },
+    "lang": {
+      "es": "ES",
+      "en": "EN"
+    }
+  },
+  "hero": {
+    "eyebrow": "Think Tank Libertario",
+    "h1": "El laboratorio de ideas<br/>que <em>rompe paradigmas</em>",
+    "description": "Las mejores ideas sobre libertad no deberían quedarse en los libros. Producimos <strong>investigación, análisis y estrategia</strong> para construir partidos y movimientos libertarios sólidos en todo el mundo.",
+    "ctaPrimary": "Nuestros Servicios",
+    "ctaSecondary": "Ver Ensayos →",
+    "stats": {
+      "ideas": { "label": "Ideas.", "desc": "Investigación & Análisis" },
+      "tesis": { "label": "Tesis.", "desc": "Programas Políticos" },
+      "strat": { "label": "Strat.", "desc": "Estrategia Electoral" },
+      "mktg": { "label": "Mktg.", "desc": "Marketing Político" }
+    }
+  },
+  "features": {
+    "research": {
+      "num": "01",
+      "title": "Investigación",
+      "description": "Producimos ensayos, tesis y análisis sobre libertad individual, mercados libres y Estado limitado, con rigor académico y visión práctica."
+    },
+    "debate": {
+      "num": "02",
+      "title": "Debate de Ideas",
+      "description": "Somos un foro abierto donde las ideas libertarias se confrontan, refinan y fortalecen. El debate intelectual es nuestro método."
+    },
+    "advice": {
+      "num": "03",
+      "title": "Asesoramiento",
+      "description": "Trabajamos con partidos y movimientos libertarios para desarrollar programas políticos sólidos y estrategias efectivas de crecimiento."
+    }
+  },
+  "about": {
+    "eyebrow": "Quiénes somos",
+    "h2": "Un foro donde las ideas de la <em>libertad</em> toman forma",
+    "p1": "Libertarian Forum es un <strong>laboratorio de pensamiento (think tank)</strong> dedicado a promover y desarrollar las ideas de la libertad individual, los mercados libres y el Estado limitado.",
+    "p2": "Existimos para llevar las mejores ideas libertarias al debate político, a las políticas de Estado y a quienes toman las decisiones que afectan a millones de personas, con especial foco en <strong>América Latina</strong>.",
+    "p3": "No somos un partido político. Somos el espacio intelectual donde los movimientos libertarios encuentran sus fundamentos teóricos, sus programas y su estrategia.",
+    "cta": "Conocer más →",
+    "values": {
+      "rigor": { "title": "Rigor Académico", "description": "Cada publicación y análisis cumple estándares de investigación serios, con fuentes y argumentación sólida." },
+      "freedom": { "title": "Libertad Individual", "description": "Defendemos el principio de que cada individuo es dueño de su vida, sus decisiones y el fruto de su trabajo." },
+      "state": { "title": "Estado Limitado", "description": "Propugnamos instituciones mínimas, eficientes y transparentes, al servicio del ciudadano, no al revés." },
+      "network": { "title": "Red Global", "description": "Conectamos a pensadores, activistas y organizaciones libertarias de todo el mundo para multiplicar el impacto." }
+    }
+  },
+  "services": {
+    "eyebrow": "Lo que hacemos",
+    "h2": "Servicios para <em>movimientos libertarios</em>",
+    "description": "Ofrecemos asesoramiento especializado para partidos políticos, movimientos y organizaciones que trabajan desde los principios de la libertad.",
+    "cta": "Ver todos los servicios →",
+    "list": {
+      "platforms": {
+        "num": "01",
+        "title": "Tesis Programáticas",
+        "description": "Desarrollamos programas políticos completos fundamentados en principios libertarios, adaptados al contexto de cada país o región."
+      },
+      "marketing": {
+        "num": "02",
+        "title": "Marketing Político",
+        "description": "Estrategias de comunicación y posicionamiento para partidos y movimientos libertarios, con enfoque en autenticidad y persuasión."
+      },
+      "consulting": {
+        "num": "03",
+        "title": "Consultoría Estratégica",
+        "description": "Acompañamos organizaciones en su construcción institucional, estructura interna y estrategia de crecimiento a largo plazo."
+      },
+      "research": {
+        "num": "04",
+        "title": "Investigación & Análisis",
+        "description": "Realizamos investigaciones a pedido sobre temas de política, economía y filosofía política libertaria."
+      },
+      "training": {
+        "num": "05",
+        "title": "Formación & Capacitación",
+        "description": "Programas de formación para militantes, dirigentes y candidatos libertarios. Talleres sobre pensamiento libertario, oratoria y comunicación."
+      }
+    }
+  },
+  "essays": {
+    "eyebrow": "Publicaciones",
+    "h2": "Ensayos & <em>Análisis</em>",
+    "description": "Investigación y pensamiento libertario aplicado a los desafíos políticos y económicos de nuestro tiempo.",
+    "cta": "Ver todas las publicaciones →",
+    "soon": {
+      "eyebrow": "Próximamente",
+      "title": "Más publicaciones en camino",
+      "description": "Suscríbete para recibir nuestros nuevos ensayos y análisis directamente en tu correo.",
+      "cta": "Suscribirse →"
+    },
+    "items": [
+      {
+        "category": "Filosofía Política",
+        "title": "El individuo frente al Estado: fundamentos de la libertad moderna",
+        "description": "Un análisis sobre los principios filosóficos que sustentan la tradición libertaria y su vigencia en el siglo XXI."
+      },
+      {
+        "category": "Economía",
+        "title": "Mercados libres y prosperidad: evidencia y argumentos",
+        "description": "Por qué la libertad económica es la base material del progreso humano, con datos y análisis comparativo."
+      },
+      {
+        "category": "Estrategia Política",
+        "title": "Construir un movimiento libertario desde cero: lecciones y metodología",
+        "description": "Guía práctica para organizar partidos y movimientos libertarios exitosos en contextos democráticos y no democráticos."
+      },
+      {
+        "category": "América Latina",
+        "title": "El resurgimiento libertario en Latinoamérica: contexto y perspectivas",
+        "description": "Análisis del crecimiento de los movimientos libertarios en América Latina, sus causas y perspectivas de consolidación."
+      }
+    ]
+  },
+  "cta": {
+    "eyebrow": "Trabajemos juntos",
+    "h2": "¿Estás construyendo un<br/>movimiento <em>libre</em>?",
+    "description": "Si estás organizando un partido o movimiento político desde los principios de libertad individual, mercados libres y Estado limitado, trabajamos contigo.",
+    "ctaPrimary": "Contactar ahora",
+    "ctaSecondary": "Ver servicios"
+  },
+  "footer": {
+    "tagline": "El laboratorio de ideas libertario que rompe paradigmas políticos y académicos.",
+    "navigation": "Navegación",
+    "contact": "Contacto",
+    "copy": "© 2025 Libertarian Forum. Todos los derechos reservados.",
+    "motto": "Propiedad, libertad, progreso."
+  },
+  "aboutPage": {
+    "eyebrow": "Quiénes somos",
+    "h1": "El think tank que lleva la libertad<br/>al <em>debate político</em>",
+    "intro": "Somos un laboratorio de pensamiento dedicado a investigar, debatir y promover las ideas de la libertad individual, los mercados libres y el Estado limitado.",
+    "p1": "Libertarian Forum nació de la convicción de que <strong>las mejores ideas sobre libertad no deberían quedarse en los libros</strong>. Existimos para llevarlas al debate político, a las políticas de Estado y a quienes toman las decisiones que afectan a millones.",
+    "p2": "Somos un <strong>foro de discusión y laboratorio de ideas</strong> donde el pensamiento libertario se investiga, debate y refina. Producimos ensayos, tesis programáticas, análisis políticos y estrategia para construir partidos y movimientos libertarios sólidos.",
+    "missionTitle": "Nuestra Misión",
+    "mission": "Promover y desarrollar las ideas de la libertad individual, la propiedad privada y el Estado limitado a través de la investigación rigurosa, el debate intelectual abierto y el asesoramiento estratégico a organizaciones libertarias.",
+    "visionTitle": "Nuestra Visión",
+    "vision": "Un mundo donde las ideas de la libertad sean la base de los sistemas políticos y económicos, donde el individuo sea el centro de toda organización social y el Estado sea verdaderamente un servidor y no un dueño de los ciudadanos.",
+    "ctaPrimary": "Ver nuestros servicios →",
+    "ctaSecondary": "Contactar"
+  },
+  "servicesPage": {
+    "eyebrow": "Lo que hacemos",
+    "h1": "Servicios para <em>movimientos libertarios</em>",
+    "intro": "Ofrecemos asesoramiento especializado en investigación, estrategia y comunicación política para partidos y organizaciones libertarias.",
+    "request": "Solicitar →"
+  },
+  "essaysPage": {
+    "eyebrow": "Publicaciones",
+    "h1": "Ensayos, <em>análisis</em><br/>y pensamiento libertario",
+    "intro": "Investigación original sobre libertad individual, mercados libres, filosofía política y estrategia para el cambio institucional.",
+    "meta": "Libertarian Forum · 2025"
+  },
+  "contactPage": {
+    "eyebrow": "Contacto",
+    "h1": "Hablemos sobre tu <em>proyecto</em>",
+    "intro": "Si estás organizando un movimiento o partido político desde los principios libertarios, trabajamos contigo.",
+    "infoTitle": "Ponte en contacto",
+    "infoDescription": "Escríbenos para consultas sobre servicios, colaboraciones, publicaciones o cualquier proyecto relacionado con el pensamiento libertario.",
+    "formTitle": "Envíanos un mensaje",
+    "fields": {
+      "name": { "label": "Nombre *", "placeholder": "Tu nombre" },
+      "org": { "label": "Organización", "placeholder": "Partido, movimiento u org." },
+      "email": { "label": "Correo electrónico *", "placeholder": "correo@ejemplo.com" },
+      "country": { "label": "País", "placeholder": "Tu país" },
+      "service": { "label": "Servicio de interés", "placeholder": "Selecciona una opción" },
+      "message": { "label": "Mensaje *", "placeholder": "Cuéntanos sobre tu proyecto o consulta..." }
+    },
+    "serviceOptions": [
+      "Tesis Programática",
+      "Marketing Político",
+      "Consultoría Estratégica",
+      "Investigación & Análisis",
+      "Formación & Capacitación",
+      "Otro"
+    ],
+    "submit": "Enviar mensaje →",
+    "success": "✓ Mensaje recibido. Te responderemos a la brevedad."
+  }
+}
