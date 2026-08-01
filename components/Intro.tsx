@@ -5,13 +5,23 @@ import { useTranslations } from 'next-intl';
 
 export function Intro() {
   const t = useTranslations('metadata');
-  const [visible, setVisible] = useState(true);
+  // Start hidden on the server and first client paint; the effect decides
+  // whether to show the intro. This avoids hydration mismatches and prevents
+  // the intro from re-playing on every navigation (e.g. language switch),
+  // which was covering the hamburger menu on mobile.
+  const [visible, setVisible] = useState(false);
   const [fading, setFading] = useState(false);
 
   useEffect(() => {
+    if (sessionStorage.getItem('intro-played')) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional: must check sessionStorage on client only to avoid SSR mismatch
+    setVisible(true);
     const timer = setTimeout(() => {
       setFading(true);
-      setTimeout(() => setVisible(false), 800);
+      setTimeout(() => {
+        setVisible(false);
+        sessionStorage.setItem('intro-played', '1');
+      }, 800);
     }, 3200);
     return () => clearTimeout(timer);
   }, []);

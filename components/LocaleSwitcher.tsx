@@ -9,10 +9,14 @@ export function LocaleSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
-  const locale = (params?.locale as string) ?? 'es';
+  const currentLocale = (params?.locale as string) ?? 'es';
 
   function onChange(nextLocale: string) {
-    router.replace(pathname as Parameters<typeof router.replace>[0], { locale: nextLocale });
+    // next-intl 4.13.4 returns the pathname WITH the locale prefix (e.g. "/en"
+    // instead of "/"). Strip it so router.replace doesn't double-nest the
+    // locale (e.g. "/es/en").
+    const stripped = pathname.replace(new RegExp(`^/${currentLocale}`), '') || '/';
+    router.replace(stripped as Parameters<typeof router.replace>[0], { locale: nextLocale });
   }
 
   return (
@@ -22,7 +26,7 @@ export function LocaleSwitcher() {
       </label>
       <select
         id="locale-switch"
-        value={locale}
+        value={currentLocale}
         onChange={(e) => onChange(e.target.value)}
         className="border border-gris-brd bg-blanco px-2 py-1.5 text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-negro outline-none transition focus:border-negro"
       >
