@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t('aboutPage.pageTitle'),
     description: t('metadata.description'),
-    alternates: buildAlternates('/nosotros'),
+    alternates: buildAlternates(locale, '/nosotros'),
   };
 }
 

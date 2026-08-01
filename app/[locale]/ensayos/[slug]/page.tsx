@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { PageHero } from '@/components/PageHero';
 import { getEssayBySlug } from '@/lib/essays';
+import { buildCanonical } from '@/lib/seo';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -12,36 +13,31 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const t = await getTranslations({ locale });
   const essay = await getEssayBySlug(locale, slug);
 
   if (!essay) {
+    const t = await getTranslations({ locale });
     return { title: t('essaysPage.pageTitle'), description: t('metadata.description') };
   }
 
   const title = essay.seoTitle || essay.title;
   const description = essay.seoDescription || essay.description;
 
-  // When the essay has a featured image, we set a full `openGraph`/`twitter`
-  // object with that image and `type: 'article'`.
-  //
-  // When it doesn't, we omit `openGraph` entirely so the parent [locale]
-  // layout's file-based opengraph-image.tsx is inherited as the preview image.
-  // Defining `openGraph` without `images` would still override the file-based
-  // convention, leaving the share preview with no image at all.
-  //
-  // Trade-off: without a featured image, `og:type` falls back to `website`
-  // (from the layout) instead of `article`. This is acceptable — the preview
-  // image is more important for CTR than the OG type, and admin-authored
-  // essays are expected to have a featured image anyway.
+  // Always define openGraph so the page gets og:title/og:description from the
+  // essay (not the layout defaults). When there's no featured image we omit
+  // `images` so the file-based app/[locale]/opengraph-image.tsx is inherited.
+  // `type: 'article'` is set only when there's a featured image, because
+  // without one the essay is more of a text opinion piece.
   if (essay.featuredImage) {
     return {
       title: essay.seoTitle ? { absolute: title } : title,
       description,
+      alternates: { canonical: buildCanonical(locale, `/ensayos/${slug}`) },
       openGraph: {
         title,
         description,
         type: 'article',
+        url: buildCanonical(locale, `/ensayos/${slug}`),
         images: [essay.featuredImage],
       },
       twitter: {
@@ -56,6 +52,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: essay.seoTitle ? { absolute: title } : title,
     description,
+    alternates: { canonical: buildCanonical(locale, `/ensayos/${slug}`) },
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      url: buildCanonical(locale, `/ensayos/${slug}`),
+      // Explicitly reference the file-based OG image so it appears even though
+      // we're defining openGraph here (which would otherwise suppress the
+      // inherited file-based convention).
+      images: [buildCanonical(locale, '/opengraph-image')],
+    },
     twitter: {
       card: 'summary_large_image',
       title,

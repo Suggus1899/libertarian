@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t('resourcesPage.pageTitle'),
     description: t('metadata.description'),
-    alternates: buildAlternates('/recursos'),
+    alternates: buildAlternates(locale, '/recursos'),
   };
 }
 

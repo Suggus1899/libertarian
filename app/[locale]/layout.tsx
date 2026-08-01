@@ -3,11 +3,12 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { ReactNode } from 'react';
 import { Metadata } from 'next';
-import { routing } from '@/i18n/routing';
+import { routing, getPathname } from '@/i18n/routing';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { SkipLink } from '@/components/SkipLink';
 import { Intro } from '@/components/Intro';
+import { buildCanonical } from '@/lib/seo';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -27,14 +28,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       default: t('title'),
     },
     description: t('description'),
+    alternates: {
+      canonical: buildCanonical(locale, '/'),
+      languages: {
+        es: getPathname({ locale: 'es', href: '/' }),
+        en: getPathname({ locale: 'en', href: '/' }),
+        'x-default': getPathname({ locale: 'es', href: '/' }),
+      },
+    },
     // `images` is intentionally omitted so the file-based
     // app/[locale]/opengraph-image.tsx convention supplies the default image.
-    // Pages that need a specific image (e.g. essay detail) override
-    // `openGraph.images` themselves.
     openGraph: {
       siteName: 'Libertarian Forum',
       locale: locale === 'es' ? 'es_ES' : 'en_US',
       type: 'website',
+      url: buildCanonical(locale, '/'),
     },
     twitter: {
       card: 'summary_large_image',

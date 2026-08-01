@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: { absolute: t('title') },
     description: t('description'),
-    alternates: buildAlternates('/'),
+    alternates: buildAlternates(locale, '/'),
   };
 }
 

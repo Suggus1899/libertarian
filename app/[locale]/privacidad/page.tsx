@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t('privacyPage.pageTitle'),
     description: t('metadata.description'),
-    alternates: buildAlternates('/privacidad'),
+    alternates: buildAlternates(locale, '/privacidad'),
   };
 }
 
