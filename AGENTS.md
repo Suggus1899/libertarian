@@ -8,6 +8,7 @@
 - **Internationalization**: next-intl (locales: `es`, `en`)
 - **Package Manager**: pnpm
 - **Icons**: lucide-react
+- **Font**: Montserrat (Google Fonts) — used because Gotham in the wireframe is not freely redistributable
 - **Validation**: Zod (contact form server action)
 
 ## Commands
@@ -40,5 +41,6 @@
 
 ## Notes
 
+- The frontend is designed to match the original HTML wireframe: light theme, gold/black palette, uppercase display typography and clip-path hero background.
 - The middleware file convention is deprecated in Next.js 16; `proxy.ts` is the new convention, but `middleware.ts` still works.
 - `pnpm` ignored build scripts for native deps (`sharp`, `@swc/core`). If image optimization is needed later, approve builds or use a CI with native tooling.
