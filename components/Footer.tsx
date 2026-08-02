@@ -1,16 +1,38 @@
 'use client';
 
+import { useRef } from 'react';
+import { useRouter } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 
 export function Footer() {
   const t = useTranslations();
+  const router = useRouter();
+  const clickCount = useRef(0);
+  const clickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function handleBrandClick() {
+    clickCount.current += 1;
+    if (clickTimer.current) clearTimeout(clickTimer.current);
+    clickTimer.current = setTimeout(() => {
+      clickCount.current = 0;
+    }, 600);
+
+    if (clickCount.current >= 3) {
+      clickCount.current = 0;
+      router.push('/admin/login' as Parameters<typeof router.push>[0]);
+    }
+  }
 
   return (
     <footer className="bg-negro px-6 py-14 lg:px-14">
       <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-2 lg:grid-cols-5 lg:gap-10">
         <div className="lg:col-span-2">
-          <div className="mb-4 text-xl font-black uppercase tracking-tight text-blanco">
+          <div
+            className="mb-4 cursor-default select-none text-xl font-black uppercase tracking-tight text-blanco"
+            onClick={handleBrandClick}
+            title={t('nav.brand')}
+          >
             {t('nav.brand')}
           </div>
           <p className="max-w-sm text-[0.85rem] leading-[1.75] text-white/40">
