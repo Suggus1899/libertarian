@@ -14,6 +14,7 @@ export type EssayItem = {
   featuredImage: string | null;
   seoTitle: string | null;
   seoDescription: string | null;
+  type: 'ensayo' | 'opinion' | null;
 };
 
 function formatDate(date: Date, locale: string) {
@@ -56,6 +57,7 @@ export async function getEssays(locale: string): Promise<EssayItem[]> {
     featuredImage: null,
     seoTitle: null,
     seoDescription: null,
+    type: null,
   }));
 
   let dbItems: EssayItem[] = [];
@@ -78,13 +80,20 @@ export async function getEssays(locale: string): Promise<EssayItem[]> {
       featuredImage: row.featuredImage,
       seoTitle: row.seoTitle,
       seoDescription: row.seoDescription,
+      type: row.type,
     }));
   } catch {
     // DB not configured yet (e.g. local dev without DATABASE_URL) — fall back to static content only.
     dbItems = [];
   }
 
-  return [...dbItems, ...staticMapped];
+  // Deduplicate: if a DB article has the same slug as a static essay, skip
+  // the static one. This lets the admin "override" or delete original essays
+  // by managing them from the DB.
+  const dbSlugs = new Set(dbItems.map((i) => i.slug));
+  const staticFiltered = staticMapped.filter((i) => !dbSlugs.has(i.slug));
+
+  return [...dbItems, ...staticFiltered];
 }
 
 export async function getEssayBySlug(locale: string, slug: string): Promise<EssayItem | null> {

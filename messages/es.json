@@ -110,6 +110,11 @@
     "description": "Investigación y pensamiento libertario aplicado a los desafíos políticos y económicos de nuestro tiempo.",
     "cta": "Ver todas las publicaciones →",
     "meta": "Libertarian Forum · 2025",
+    "filter": {
+      "all": "Todos",
+      "essays": "Ensayos",
+      "opinion": "Artículos de opinión"
+    },
     "soon": {
       "eyebrow": "Próximamente",
       "title": "Más publicaciones en camino",

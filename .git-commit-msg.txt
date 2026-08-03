@@ -1,0 +1,12 @@
+feat: essay filter tabs, DB seed script, hero card position
+
+- Add filter tabs (All/Ensayos/Opinion) to EssaysList component
+- Add `type` field to EssayItem, deduplicate DB vs static essays by slug
+- Add seed script (scripts/seed.ts) that imports 4 static essays (es+en)
+  + 5 new essays about Devin Desktop/CLI + 5 opinion articles about Claude Code
+- Move hero stat cards to mid-position (items-start + pt-16)
+- Add filter translations (es + en)
+
+Generated with [Devin](https://devin.ai)
+
+Co-Authored-By: Devin <158243242+devin-ai-integration[bot]@users.noreply.github.com>

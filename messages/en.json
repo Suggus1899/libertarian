@@ -109,6 +109,11 @@
     "h2": "Essays & <em>Analysis</em>",
     "description": "Original libertarian research and thinking applied to the political and economic challenges of our time.",
     "cta": "View All Publications →",
+    "filter": {
+      "all": "All",
+      "essays": "Essays",
+      "opinion": "Opinion articles"
+    },
     "soon": {
       "eyebrow": "Coming Soon",
       "title": "More publications on the way",

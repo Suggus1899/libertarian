@@ -1,19 +1,60 @@
 'use client';
 
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { Button } from './Button';
 import type { EssayItem } from '@/lib/essays';
 
+type FilterType = 'all' | 'ensayo' | 'opinion';
+
 export function EssaysList({ items }: { items: EssayItem[] }) {
   const t = useTranslations('essays');
+  const [filter, setFilter] = useState<FilterType>('all');
+
+  // Only show filter tabs if there are DB articles with a type
+  const hasEnsayos = items.some((i) => i.type === 'ensayo');
+  const hasOpinion = items.some((i) => i.type === 'opinion');
+  const showFilters = hasEnsayos || hasOpinion;
+
+  const filtered = showFilters
+    ? items.filter((i) => {
+        if (filter === 'all') return true;
+        if (filter === 'ensayo') return i.type === 'ensayo' || i.type === null;
+        if (filter === 'opinion') return i.type === 'opinion';
+        return true;
+      })
+    : items;
+
+  const tabs: { key: FilterType; label: string; show: boolean }[] = [
+    { key: 'all', label: t('filter.all'), show: true },
+    { key: 'ensayo', label: t('filter.essays'), show: true },
+    { key: 'opinion', label: t('filter.opinion'), show: hasOpinion },
+  ];
 
   return (
     <section className="bg-blanco px-6 py-16 lg:px-14">
       <div className="mx-auto max-w-6xl">
+        {showFilters && (
+          <div className="mb-10 flex flex-wrap gap-2 border-b border-gris-brd pb-4">
+            {tabs.filter((tab) => tab.show).map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setFilter(tab.key)}
+                className={`px-5 py-2.5 text-[0.72rem] font-bold uppercase tracking-[1.5px] transition ${
+                  filter === tab.key
+                    ? 'bg-negro text-blanco'
+                    : 'border border-gris-brd text-gris-med hover:border-negro hover:text-negro'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        )}
         <div className="grid gap-6 md:grid-cols-2">
-          {items.map((item) => (
+          {filtered.map((item) => (
             <Link
               key={item.slug}
               href={{

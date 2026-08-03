@@ -40,7 +40,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="animate-fade-up animation-delay-200 relative z-10 hidden lg:block">
+      <div className="animate-fade-up animation-delay-200 relative z-10 hidden lg:block lg:pt-16">
         <div className="grid grid-cols-2 gap-4">
           {stats.map((stat, index) => (
             <div
