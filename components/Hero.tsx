@@ -14,7 +14,7 @@ export function Hero() {
   ];
 
   return (
-    <section className="relative grid min-h-screen items-center gap-20 overflow-hidden bg-blanco px-6 pb-20 pt-32 lg:grid-cols-2 lg:px-14 lg:pb-20 lg:pt-32">
+    <section className="relative grid min-h-screen items-start gap-12 overflow-hidden bg-blanco px-6 pb-20 pt-32 lg:grid-cols-2 lg:items-start lg:px-14 lg:pb-20 lg:pt-32">
       {/* Decorative clipped background */}
       <div className="absolute right-0 top-0 -z-0 hidden h-full w-[45%] bg-gris-bg hero-bg-shape lg:block" />
 
@@ -40,7 +40,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="animate-fade-up animation-delay-300 relative z-10 hidden lg:block">
+      <div className="animate-fade-up animation-delay-200 relative z-10 hidden lg:block">
         <div className="grid grid-cols-2 gap-4">
           {stats.map((stat, index) => (
             <div
