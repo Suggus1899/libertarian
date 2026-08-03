@@ -2,10 +2,11 @@
 
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { eq } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 import { db } from '@/lib/db';
 import { articles } from '@/lib/db/schema';
 import { requireAdmin, destroySession } from '@/lib/auth';
+import { translateArticleFields } from '@/lib/translate';
 
 export async function logout() {
   await destroySession();
@@ -68,9 +69,67 @@ export async function createArticle(_prevState: unknown, formData: FormData) {
     return { error: 'Ya existe un artículo con ese slug en ese idioma. Elegí otro.' };
   }
 
+  // Auto-translate to the other locale if published and no translation exists
+  if (published) {
+    await autoTranslateToOtherLocale(slug, locale as 'es' | 'en');
+  }
+
   revalidatePath('/[locale]/ensayos', 'page');
   revalidatePath('/admin');
   redirect('/admin');
+}
+
+/**
+ * If no translation exists in the other locale, auto-translate and insert.
+ * Best-effort: silently fails if LibreTranslate is unavailable.
+ */
+async function autoTranslateToOtherLocale(slug: string, sourceLocale: 'es' | 'en') {
+  const targetLocale = sourceLocale === 'es' ? 'en' : 'es';
+
+  // Check if translation already exists
+  const [existing] = await db
+    .select()
+    .from(articles)
+    .where(and(eq(articles.slug, slug), eq(articles.locale, targetLocale)));
+  if (existing) return;
+
+  // Fetch the source article
+  const [source] = await db
+    .select()
+    .from(articles)
+    .where(and(eq(articles.slug, slug), eq(articles.locale, sourceLocale)));
+  if (!source) return;
+
+  try {
+    const translated = await translateArticleFields(
+      {
+        title: source.title,
+        description: source.description,
+        category: source.category,
+        content: source.content,
+        author: source.author,
+      },
+      sourceLocale,
+      targetLocale
+    );
+
+    await db.insert(articles).values({
+      slug: source.slug,
+      locale: targetLocale,
+      type: source.type,
+      category: translated.category,
+      title: translated.title,
+      description: translated.description,
+      author: translated.author,
+      content: translated.content,
+      featuredImage: source.featuredImage,
+      seoTitle: source.seoTitle,
+      seoDescription: source.seoDescription,
+      published: true,
+    });
+  } catch {
+    // Silent fail — the article is still published in the source locale
+  }
 }
 
 export async function updateArticle(id: number, _prevState: unknown, formData: FormData) {
@@ -118,6 +177,11 @@ export async function updateArticle(id: number, _prevState: unknown, formData: F
     return { error: 'Ya existe un artículo con ese slug en ese idioma. Elegí otro.' };
   }
 
+  // Auto-translate to the other locale if published and no translation exists
+  if (published) {
+    await autoTranslateToOtherLocale(slug, locale as 'es' | 'en');
+  }
+
   revalidatePath('/[locale]/ensayos', 'page');
   revalidatePath('/admin');
   redirect('/admin');
@@ -128,4 +192,92 @@ export async function deleteArticle(id: number) {
   await db.delete(articles).where(eq(articles.id, id));
   revalidatePath('/[locale]/ensayos', 'page');
   revalidatePath('/admin');
+}
+
+/**
+ * Translates an article to the other locale and saves it as a new DB row.
+ * If a translation with the same slug already exists in the target locale,
+ * it updates that row instead of creating a duplicate.
+ *
+ * Returns { success, error, targetLocale, targetId }
+ */
+export async function translateArticle(
+  id: number
+): Promise<{ success?: boolean; error?: string; targetLocale?: string; targetId?: number }> {
+  await requireAdmin();
+
+  // Fetch the source article
+  const [source] = await db.select().from(articles).where(eq(articles.id, id));
+  if (!source) {
+    return { error: 'Artículo no encontrado.' };
+  }
+
+  const targetLocale = source.locale === 'es' ? 'en' : 'es';
+
+  // Check if a translation already exists
+  const [existing] = await db
+    .select()
+    .from(articles)
+    .where(and(eq(articles.slug, source.slug), eq(articles.locale, targetLocale)));
+
+  try {
+    const translated = await translateArticleFields(
+      {
+        title: source.title,
+        description: source.description,
+        category: source.category,
+        content: source.content,
+        author: source.author,
+      },
+      source.locale,
+      targetLocale
+    );
+
+    if (existing) {
+      // Update existing translation
+      await db
+        .update(articles)
+        .set({
+          title: translated.title,
+          description: translated.description,
+          category: translated.category,
+          content: translated.content,
+          type: source.type,
+          published: source.published,
+          featuredImage: source.featuredImage,
+          updatedAt: new Date(),
+        })
+        .where(eq(articles.id, existing.id));
+
+      revalidatePath('/[locale]/ensayos', 'page');
+      revalidatePath('/admin');
+      return { success: true, targetLocale, targetId: existing.id };
+    } else {
+      // Create new translation
+      const [inserted] = await db
+        .insert(articles)
+        .values({
+          slug: source.slug,
+          locale: targetLocale,
+          type: source.type,
+          category: translated.category,
+          title: translated.title,
+          description: translated.description,
+          author: translated.author,
+          content: translated.content,
+          featuredImage: source.featuredImage,
+          seoTitle: source.seoTitle,
+          seoDescription: source.seoDescription,
+          published: source.published,
+        })
+        .returning({ id: articles.id });
+
+      revalidatePath('/[locale]/ensayos', 'page');
+      revalidatePath('/admin');
+      return { success: true, targetLocale, targetId: inserted.id };
+    }
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Error desconocido';
+    return { error: `Error al traducir: ${msg}` };
+  }
 }

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { db } from '@/lib/db';
 import { articles } from '@/lib/db/schema';
 import { DeleteButton } from './DeleteButton';
+import { TranslateButton } from './TranslateButton';
 
 function publicUrl(locale: string, slug: string) {
   const path = locale === 'en' ? 'essays' : 'ensayos';
@@ -70,6 +71,7 @@ export default async function AdminDashboard() {
                         >
                           Editar
                         </Link>
+                        <TranslateButton id={item.id} locale={item.locale} />
                         <DeleteButton id={item.id} />
                       </div>
                     </td>
@@ -112,6 +114,7 @@ export default async function AdminDashboard() {
                   >
                     Editar
                   </Link>
+                  <TranslateButton id={item.id} locale={item.locale} />
                   <DeleteButton id={item.id} />
                 </div>
               </article>
