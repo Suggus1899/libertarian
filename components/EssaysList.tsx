@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
@@ -11,7 +12,9 @@ type FilterType = 'all' | 'ensayo' | 'opinion';
 
 export function EssaysList({ items }: { items: EssayItem[] }) {
   const t = useTranslations('essays');
-  const [filter, setFilter] = useState<FilterType>('all');
+  const searchParams = useSearchParams();
+  const initialFilter = (searchParams.get('type') as FilterType) || 'all';
+  const [filter, setFilter] = useState<FilterType>(initialFilter);
 
   // Only show filter tabs if there are DB articles with a type
   const hasEnsayos = items.some((i) => i.type === 'ensayo');

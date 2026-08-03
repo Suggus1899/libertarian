@@ -1,11 +1,11 @@
-feat: essay filter tabs, DB seed script, hero card position
+feat: add essays dropdown in navbar with filter links
 
-- Add filter tabs (All/Ensayos/Opinion) to EssaysList component
-- Add `type` field to EssayItem, deduplicate DB vs static essays by slug
-- Add seed script (scripts/seed.ts) that imports 4 static essays (es+en)
-  + 5 new essays about Devin Desktop/CLI + 5 opinion articles about Claude Code
-- Move hero stat cards to mid-position (items-start + pt-16)
-- Add filter translations (es + en)
+- Add cascading dropdown under "Ensayos" in navbar with:
+  All articles, Essays, Opinion articles
+- Links use ?type= query param to pre-filter EssaysList
+- EssaysList reads initial filter from useSearchParams
+- Wrap EssaysList in Suspense (required by useSearchParams)
+- Add nav.dropdown translations (es + en)
 
 Generated with [Devin](https://devin.ai)
 

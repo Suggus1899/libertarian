@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { PageHero } from '@/components/PageHero';
 import { EssaysList } from '@/components/EssaysList';
 import { getEssays } from '@/lib/essays';
@@ -34,7 +35,9 @@ export default async function EssaysPage({ params }: Props) {
         bgText="ENSAYOS"
       />
       <div className="gold-divider" />
-      <EssaysList items={items} />
+      <Suspense fallback={null}>
+        <EssaysList items={items} />
+      </Suspense>
     </>
   );
 }

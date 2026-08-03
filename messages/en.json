@@ -18,7 +18,10 @@
     "dropdown": {
       "who": "Who We Are",
       "mission": "Mission & Vision",
-      "values": "Values"
+      "values": "Values",
+      "allEssays": "All articles",
+      "essaysOnly": "Essays",
+      "opinionOnly": "Opinion articles"
     },
     "lang": {
       "es": "ES",

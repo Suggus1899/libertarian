@@ -22,7 +22,15 @@ export function Navigation() {
       ],
     },
     { label: t('servicios'), href: '/servicios' },
-    { label: t('ensayos'), href: '/ensayos' },
+    {
+      label: t('ensayos'),
+      href: '/ensayos',
+      dropdown: [
+        { label: t('dropdown.allEssays'), href: '/ensayos' },
+        { label: t('dropdown.essaysOnly'), href: '/ensayos?type=ensayo' },
+        { label: t('dropdown.opinionOnly'), href: '/ensayos?type=opinion' },
+      ],
+    },
   ];
 
   return (
