@@ -253,6 +253,94 @@ const claudeOpinionEs = [
   },
 ];
 
+// ─── 5 Essays about Devin Desktop & Devin CLI (English) ───
+const devinEssaysEn = [
+  {
+    slug: 'devin-desktop-ia-colaborador',
+    category: 'Artificial Intelligence',
+    title: 'Devin Desktop: the AI collaborator that lives on your desktop',
+    description: 'A review of Devin Desktop, the Cognition app that brings an autonomous AI agent directly to your local work environment.',
+    author: 'Editorial Team',
+    content: `<h2>Devin Desktop: real autonomy, not just autocomplete</h2><p>Devin Desktop, developed by Cognition, represents a qualitative leap in how we interact with artificial intelligence for software development. Unlike traditional code assistants that suggest lines or functions, Devin Desktop operates as a full collaborator: it reads your codebase, understands project context, executes commands and delivers verifiable results.</p><p>The app runs locally on your machine, meaning it has direct access to your files, your terminal and your development environment. This eliminates the friction of copying and pasting context between a browser and your editor.</p><h2>Key capabilities</h2><p>Devin Desktop can: browse and explore complete codebases, execute terminal commands, create and edit files, make git commits, open browser previews to verify visual changes, and handle multi-step tasks that require planning and sequential execution.</p><p>Most impressive is its ability to maintain context throughout a long work session. You can ask it to implement a complete feature —with tests, documentation and database migrations— and Devin will orchestrate every step.</p><h2>Limitations and considerations</h2><p>Like any AI tool, Devin Desktop is not perfect. Very specific tasks or those requiring deep domain knowledge may need human supervision. However, the human-AI collaboration model it proposes is the future of software development.</p>`,
+  },
+  {
+    slug: 'devin-cli-terminal-inteligente',
+    category: 'Artificial Intelligence',
+    title: 'Devin CLI: your terminal now thinks with you',
+    description: 'How the Devin command-line interface transforms the way you interact with code from the terminal.',
+    author: 'Editorial Team',
+    content: `<h2>The terminal as a natural interface for AI</h2><p>Devin CLI is the command-line version of Cognition's AI agent. For developers who live in the terminal, this is a game-changer: instead of switching context between your editor, your browser and an AI chat, everything happens where you're already working.</p><p>The CLI installs with a simple command and integrates with your existing shell. It requires no complex configuration: it automatically detects your project, your dependencies and your file structure.</p><h2>Real workflow</h2><p>A typical use case: you're working on a bug and can't find the origin. You describe the symptom to Devin CLI, and it explores the codebase, traces the execution flow, identifies the root cause and proposes a fix. All from the terminal, without leaving your flow.</p><p>Another scenario: you need to refactor a large module. Devin CLI can plan the steps, execute them one by one, run tests after each change and make atomic commits for each step of the refactor.</p><h2>Why the CLI matters</h2><p>The terminal is never going away. It's the most efficient interface for those who master it. Devin CLI doesn't replace that efficiency — it amplifies it. It combines the speed of the command line with the contextual understanding of a large language model.</p>`,
+  },
+  {
+    slug: 'devin-cognition-futuro-desarrollo',
+    category: 'Artificial Intelligence',
+    title: 'Cognition and the future of AI development: beyond Copilot',
+    description: "An analysis of Cognition Labs' approach to autonomous AI agents and how it differs from traditional code assistants.",
+    author: 'Editorial Team',
+    content: `<h2>From Copilot to agent: the paradigm shift</h2><p>GitHub Copilot and similar tools work as intelligent autocomplete: they suggest code based on immediate context. Cognition, with Devin, proposes something fundamentally different: an agent that receives a goal, plans how to achieve it and executes the plan autonomously.</p><p>The difference is not of degree but of kind. A Copilot helps you write code you already know you want to write. Devin helps you solve problems you don't exactly know how to solve.</p><h2>Cognition's model</h2><p>Cognition Labs has built Devin on a large language model with long-chain reasoning capabilities. This allows it to hold a complex plan in memory, adapt when something fails and learn from project context in real time.</p><p>The result is an agent that can take tasks like "implement JWT authentication for this API" and deliver functional code, with tests, documentation and error handling — not a snippet, but a complete feature.</p><h2>Implications for development</h2><p>The developer of the future is not someone who writes every line of code, but someone who directs, reviews and validates the work of AI agents. This doesn't eliminate the need for technical expertise — it amplifies it. You need to know what to ask, how to verify and when to intervene.</p>`,
+  },
+  {
+    slug: 'devin-desktop-workflow-real',
+    category: 'Artificial Intelligence',
+    title: 'Real workflow with Devin Desktop: from ticket to deploy',
+    description: 'A practical case study of using Devin Desktop to implement a complete feature, from analysis to deploy.',
+    author: 'Editorial Team',
+    content: `<h2>The scenario</h2><p>Imagine you receive a ticket: "add an admin panel with article CRUD". With Devin Desktop, the workflow is radically different from coding everything by hand.</p><h2>Step 1: Exploration</h2><p>You ask Devin to explore the codebase and understand the existing architecture. Devin reads the files, identifies patterns (App Router, server components, server actions) and summarizes what it finds. In minutes, you have a mental map of the project without having opened a single file.</p><h2>Step 2: Planning</h2><p>You describe the feature. Devin proposes a plan: database schema, server actions, admin components, routes. You can adjust the plan before it starts executing.</p><h2>Step 3: Execution</h2><p>Devin executes the plan step by step. Each step includes: creating files, writing code, running the build, fixing type errors, linting. If something fails, Devin identifies it and fixes it without your intervention.</p><h2>Step 4: Verification</h2><p>Devin opens a browser preview, navigates the new feature and verifies it works. If it finds a visual bug, it fixes it. When everything passes, it makes the commit.</p><h2>The result</h2><p>What would have taken a full day of work is completed in an hour of supervision. It's not magic — it's a workflow where AI does the heavy lifting and you make the decisions.</p>`,
+  },
+  {
+    slug: 'devin-cli-skills-configuracion',
+    category: 'Artificial Intelligence',
+    title: 'Devin CLI Skills: extending AI with domain knowledge',
+    description: 'How Devin CLI skills let you encapsulate patterns, conventions and project knowledge so the agent works better.',
+    author: 'Editorial Team',
+    content: `<h2>What are Skills?</h2><p>Skills in Devin CLI are markdown files that encapsulate instructions, patterns and conventions of a project. They work as a knowledge system that the agent loads on demand, allowing it to work more precisely without you having to repeat context every time.</p><h2>Structure of a Skill</h2><p>A typical skill includes: a descriptive name, a trigger (when it should activate), content (instructions, examples, rules) and optionally tool permissions. They are stored in <code>.devin/skills/</code> inside the project.</p><p>For example, an "atomic commits" skill can define: what constitutes a work unit, how to structure the commit message, which files to include together and when to split. Devin loads it automatically when it detects you're working on commits.</p><h2>Skills vs. AGENTS.md</h2><p>AGENTS.md is the global project instructions file — always active. Skills are modular: they load on demand based on context. This avoids saturating the model's context with instructions that aren't relevant to the current task.</p><h2>The future: shared knowledge</h2><p>Skills open the possibility of sharing knowledge between teams and projects. A well-written skill encapsulates months of experience in a file that any team member (human or AI) can use. It's the equivalent of living project documentation.</p>`,
+  },
+];
+
+// ─── 5 Opinion articles about Claude Code (English) ───
+const claudeOpinionEn = [
+  {
+    slug: 'claude-code-terminal-revolucion',
+    category: 'Artificial Intelligence',
+    title: 'Claude Code: the terminal as an interface for AI',
+    description: 'Opinion on how Anthropic transformed the command line into a space for AI collaboration.',
+    author: 'Editorial Team',
+    content: `<h2>A different bet</h2><p>While others build IDEs with chat panels, Anthropic chose the terminal. Claude Code is a pure CLI — no graphical UI, no buttons, no panels. Just text, commands and context. And it works surprisingly well.</p><p>The terminal is already the developer's natural home. Claude Code doesn't ask you to change environments; it asks you to speak in the language you already speak: commands, files and code.</p><h2>What makes it different</h2><p>Claude Code is not a chatbot in the terminal. It's an agent that can read files, execute commands, make diffs and propose changes. Git integration is native: you can ask it to review a PR, explain a commit or suggest a commit message based on the diff.</p><p>The Claude Sonnet 4 model that powers it has remarkable reasoning for code tasks. It doesn't always get it right, but when it does, the output quality rivals that of a competent junior developer.</p>`,
+  },
+  {
+    slug: 'claude-code-vs-devin-comparacion',
+    category: 'Artificial Intelligence',
+    title: 'Claude Code vs. Devin: two AI philosophies for developers',
+    description: "A comparative analysis of Anthropic and Cognition's approaches to assisting software development.",
+    author: 'Editorial Team',
+    content: `<h2>Two paths, same destination</h2><p>Claude Code (Anthropic) and Devin (Cognition) share a goal: using AI to make development more efficient. But their philosophies are nearly opposite.</p><h2>Claude Code: the conversational assistant</h2><p>Claude Code works as a conversation. You describe what you need, it proposes changes, you review and accept. It's a collaborative model where the human maintains control at every step. It's ideal for developers who want to supervise every change.</p><h2>Devin: the autonomous agent</h2><p>Devin works as a delegate. You give it a goal, it plans and executes autonomously. It can make commits, open PRs and resolve errors without intervention. It's ideal for repetitive tasks or when you trust the agent to deliver results.</p><h2>Which is better?</h2><p>The answer is: it depends. For tasks that require precision and where the cost of an error is high, Claude Code is safer. For low-risk or highly repetitive tasks, Devin is more efficient. The ideal would be to have both and choose based on the task.</p>`,
+  },
+  {
+    slug: 'claude-code-productividad-real',
+    category: 'Artificial Intelligence',
+    title: 'Claude Code in production: does it really improve productivity?',
+    description: "An honest assessment of Claude Code's impact on day-to-day development, beyond the hype.",
+    author: 'Editorial Team',
+    content: `<h2>The hype vs. reality</h2><p>Claude Code demos are impressive: "build a complete app in 5 minutes". But in production, with real codebases, complex dependencies and ambiguous requirements, the story is more nuanced.</p><h2>Where it shines</h2><p>Claude Code is exceptional at: writing tests (especially unit tests), generating boilerplate, explaining legacy code, refactoring small functions, finding bugs in simple logic and writing documentation. In these tasks, the time savings are real and significant.</p><h2>Where it struggles</h2><p>It struggles with: architecting complete systems, design decisions that require business context, debugging concurrency issues, and anything that requires understanding the "why" behind a design. In these cases, the AI can generate code that looks correct but introduces subtle bugs.</p><h2>The verdict</h2><p>Claude Code doesn't replace the developer. It amplifies them. Used well, it can reduce time on mechanical tasks by 50-70%. Used poorly, it can generate technical debt rapidly. The key is knowing when to delegate and when to maintain control.</p>`,
+  },
+  {
+    slug: 'claude-code-contexto-limites',
+    category: 'Artificial Intelligence',
+    title: 'The context problem in Claude Code: finite windows, infinite codebases',
+    description: 'A reflection on how the context limit affects the usefulness of AI agents in large projects.',
+    author: 'Editorial Team',
+    content: `<h2>The bottleneck</h2><p>All language models have a context limit: how many tokens they can process at once. Claude Code, even with 200K token windows, can't load a 500-file codebase in full. And here lies the fundamental problem.</p><h2>The relevance challenge</h2><p>In a large project, when you ask "fix the login bug", Claude Code needs to know: which file handles login, what DB schema it uses, what conventions the project follows, what tests exist. All of that is context. And not everything fits in the window.</p><h2>Mitigation strategies</h2><p>Developers have found ways to deal with this: giving explicit context ("login is in auth/login.ts"), referencing specific files, breaking large tasks into small subtasks, and using AGENTS.md to give global project context.</p><h2>The future</h2><p>The context problem isn't solved just with bigger windows. It's solved with better information retrieval, semantic indexing of the codebase and architectures that separate reasoning from memory. Meanwhile, the developer remains the project's index.</p>`,
+  },
+  {
+    slug: 'claude-code-herramienta-no-reemplazo',
+    category: 'Artificial Intelligence',
+    title: 'Claude Code is a tool, not a replacement: a lesson for developers',
+    description: 'Why the "AI will replace developers" narrative misses the point and what it really means for the profession.',
+    author: 'Editorial Team',
+    content: `<h2>The myth of replacement</h2><p>Every time a new AI code tool appears, the narrative resurfaces: "developers will be replaced". Claude Code is no exception. But this narrative misses the fundamental point.</p><h2>What AI does well</h2><p>Claude Code and similar tools are excellent at mechanical tasks: writing repetitive code, generating tests, formatting, refactoring known patterns. In these tasks, AI is faster and sometimes more precise than a human.</p><h2>What AI doesn't do</h2><p>AI doesn't understand the business. It doesn't know why a client needs a specific feature. It can't negotiate requirements with stakeholders. It can't decide between two architectures with different tradeoffs. It can't mentor a junior developer. It can't take responsibility for a design decision.</p><h2>The new role</h2><p>The developer of the future is not a typist who writes code. They're an architect who directs AI agents, a reviewer who validates their output, a translator between business needs and technical capabilities. The most valuable skill won't be writing code fast — it will be knowing what code to ask for, how to verify it and when not to trust the machine.</p><p>Claude Code is a powerful tool. Use it as such. Don't confuse it with a colleague.</p>`,
+  },
+];
+
 async function retry<T>(fn: () => Promise<T>, retries = 3): Promise<T> {
   for (let i = 0; i < retries; i++) {
     try {
@@ -277,7 +365,7 @@ async function seed() {
       sql`
         INSERT INTO articles (slug, locale, type, category, title, description, author, content, published)
         VALUES (${essay.slug}, 'es', 'ensayo', ${essay.category}, ${essay.title}, ${essay.description}, ${essay.author}, ${content}, true)
-        ON CONFLICT (slug) DO NOTHING
+        ON CONFLICT (slug, locale) DO NOTHING
       `
     );
     console.log(`  [es] ${essay.slug}`);
@@ -289,34 +377,56 @@ async function seed() {
       sql`
         INSERT INTO articles (slug, locale, type, category, title, description, author, content, published)
         VALUES (${essay.slug}, 'en', 'ensayo', ${essay.category}, ${essay.title}, ${essay.description}, ${essay.author}, ${content}, true)
-        ON CONFLICT (slug) DO NOTHING
+        ON CONFLICT (slug, locale) DO NOTHING
       `
     );
     console.log(`  [en] ${essay.slug}`);
   }
 
-  // 2. Insert Devin essays (es only)
+  // 2. Insert Devin essays (es + en)
   for (const essay of devinEssaysEs) {
     await retry(() =>
       sql`
         INSERT INTO articles (slug, locale, type, category, title, description, author, content, published)
         VALUES (${essay.slug}, 'es', 'ensayo', ${essay.category}, ${essay.title}, ${essay.description}, ${essay.author}, ${essay.content}, true)
-        ON CONFLICT (slug) DO NOTHING
+        ON CONFLICT (slug, locale) DO NOTHING
       `
     );
     console.log(`  [devin/es] ${essay.slug}`);
   }
 
-  // 3. Insert Claude Code opinion articles (es only)
+  for (const essay of devinEssaysEn) {
+    await retry(() =>
+      sql`
+        INSERT INTO articles (slug, locale, type, category, title, description, author, content, published)
+        VALUES (${essay.slug}, 'en', 'ensayo', ${essay.category}, ${essay.title}, ${essay.description}, ${essay.author}, ${essay.content}, true)
+        ON CONFLICT (slug, locale) DO NOTHING
+      `
+    );
+    console.log(`  [devin/en] ${essay.slug}`);
+  }
+
+  // 3. Insert Claude Code opinion articles (es + en)
   for (const article of claudeOpinionEs) {
     await retry(() =>
       sql`
         INSERT INTO articles (slug, locale, type, category, title, description, author, content, published)
         VALUES (${article.slug}, 'es', 'opinion', ${article.category}, ${article.title}, ${article.description}, ${article.author}, ${article.content}, true)
-        ON CONFLICT (slug) DO NOTHING
+        ON CONFLICT (slug, locale) DO NOTHING
       `
     );
     console.log(`  [claude/es] ${article.slug}`);
+  }
+
+  for (const article of claudeOpinionEn) {
+    await retry(() =>
+      sql`
+        INSERT INTO articles (slug, locale, type, category, title, description, author, content, published)
+        VALUES (${article.slug}, 'en', 'opinion', ${article.category}, ${article.title}, ${article.description}, ${article.author}, ${article.content}, true)
+        ON CONFLICT (slug, locale) DO NOTHING
+      `
+    );
+    console.log(`  [claude/en] ${article.slug}`);
   }
 
   console.log('Done!');

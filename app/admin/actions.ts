@@ -65,7 +65,7 @@ export async function createArticle(_prevState: unknown, formData: FormData) {
       published,
     });
   } catch {
-    return { error: 'Ya existe un artículo con ese slug. Elegí otro.' };
+    return { error: 'Ya existe un artículo con ese slug en ese idioma. Elegí otro.' };
   }
 
   revalidatePath('/[locale]/ensayos', 'page');
@@ -115,7 +115,7 @@ export async function updateArticle(id: number, _prevState: unknown, formData: F
       })
       .where(eq(articles.id, id));
   } catch {
-    return { error: 'Ya existe un artículo con ese slug. Elegí otro.' };
+    return { error: 'Ya existe un artículo con ese slug en ese idioma. Elegí otro.' };
   }
 
   revalidatePath('/[locale]/ensayos', 'page');
