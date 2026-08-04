@@ -263,7 +263,8 @@
       "invalidEmail": "El correo electrónico no es válido.",
       "messageTooShort": "El mensaje debe tener al menos 10 caracteres.",
       "invalidInput": "Revisa los datos del formulario.",
-      "sendFailed": "No se pudo enviar el mensaje. Intenta de nuevo más tarde."
+      "sendFailed": "No se pudo enviar el mensaje. Intenta de nuevo más tarde.",
+      "rateLimited": "Demasiados intentos. Esperá una hora y volvé a probar."
     }
   },
   "teamPage": {
@@ -303,7 +304,8 @@
     "submit": "Suscribirse →",
     "success": "✓ Suscripción exitosa. Revisá tu correo para confirmar.",
     "errors": {
-      "invalidEmail": "El correo electrónico no es válido."
+      "invalidEmail": "El correo electrónico no es válido.",
+      "rateLimited": "Demasiadas suscripciones desde tu IP. Esperá una hora."
     }
   },
   "donatePage": {

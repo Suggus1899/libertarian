@@ -262,7 +262,8 @@
       "invalidEmail": "Invalid email address.",
       "messageTooShort": "Message must be at least 10 characters.",
       "invalidInput": "Please check the form fields.",
-      "sendFailed": "Could not send the message. Please try again later."
+      "sendFailed": "Could not send the message. Please try again later.",
+      "rateLimited": "Too many attempts. Please wait an hour and try again."
     }
   },
   "teamPage": {
@@ -302,7 +303,8 @@
     "submit": "Subscribe →",
     "success": "✓ Subscription successful. Check your email to confirm.",
     "errors": {
-      "invalidEmail": "Invalid email address."
+      "invalidEmail": "Invalid email address.",
+      "rateLimited": "Too many subscriptions from your IP. Please wait an hour."
     }
   },
   "donatePage": {

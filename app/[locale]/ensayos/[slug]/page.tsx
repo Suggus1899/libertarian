@@ -85,8 +85,35 @@ export default async function EssayDetailPage({ params }: Props) {
     notFound();
   }
 
+  const canonicalUrl = buildCanonical(locale, `/ensayos/${slug}`);
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: essay.title,
+    description: essay.description,
+    author: { '@type': 'Person', name: essay.author },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Libertarian Forum',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/icon`,
+      },
+    },
+    datePublished: essay.publishedAt?.toISOString(),
+    dateModified: (essay.updatedAt ?? essay.publishedAt)?.toISOString(),
+    mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
+    inLanguage: locale === 'es' ? 'es-ES' : 'en-US',
+    articleSection: essay.category,
+    ...(essay.featuredImage && { image: [essay.featuredImage] }),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <PageHero
         eyebrowKey="essaysPage.eyebrow"
         titleKey="essaysPage.h1"
@@ -111,7 +138,14 @@ export default async function EssayDetailPage({ params }: Props) {
           </div>
           {essay.featuredImage && (
             <div className="relative mb-10 h-72 w-full overflow-hidden bg-gris-bg sm:h-96">
-              <Image src={essay.featuredImage} alt="" fill unoptimized className="object-cover" />
+              <Image
+                src={essay.featuredImage}
+                alt={essay.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 768px"
+                className="object-cover"
+                priority
+              />
             </div>
           )}
           <div

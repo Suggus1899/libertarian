@@ -2,6 +2,8 @@ import { Montserrat } from 'next/font/google';
 import { getLocale } from 'next-intl/server';
 import { ReactNode } from 'react';
 import { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 
 const montserrat = Montserrat({
@@ -31,6 +33,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     <html lang={locale} data-scroll-behavior="smooth" className={`${montserrat.variable} antialiased`}>
       <body className="min-h-screen bg-blanco text-negro font-sans">
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

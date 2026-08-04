@@ -15,6 +15,8 @@ export type EssayItem = {
   seoTitle: string | null;
   seoDescription: string | null;
   type: 'ensayo' | 'opinion' | null;
+  publishedAt: Date | null;
+  updatedAt: Date | null;
 };
 
 function formatDate(date: Date, locale: string) {
@@ -58,6 +60,8 @@ export async function getEssays(locale: string): Promise<EssayItem[]> {
     seoTitle: null,
     seoDescription: null,
     type: null,
+    publishedAt: null,
+    updatedAt: null,
   }));
 
   let dbItems: EssayItem[] = [];
@@ -81,6 +85,8 @@ export async function getEssays(locale: string): Promise<EssayItem[]> {
       seoTitle: row.seoTitle,
       seoDescription: row.seoDescription,
       type: row.type,
+      publishedAt: row.createdAt,
+      updatedAt: row.updatedAt,
     }));
   } catch {
     // DB not configured yet (e.g. local dev without DATABASE_URL) — fall back to static content only.

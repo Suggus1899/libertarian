@@ -3,7 +3,10 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const nextConfig: NextConfig = {
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      { protocol: 'https', hostname: '**.public.blob.vercel-storage.com' },
+      { protocol: 'https', hostname: '**.supabase.co' },
+    ],
   },
 };
 

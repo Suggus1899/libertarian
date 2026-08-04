@@ -28,6 +28,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       default: t('title'),
     },
     description: t('description'),
+    keywords: [
+      'libertarianismo',
+      'think tank',
+      'libertad',
+      'mercado libre',
+      'ensayos políticos',
+      'libertarian forum',
+      'libertarianism',
+    ],
+    authors: [{ name: 'Libertarian Forum' }],
+    creator: 'Libertarian Forum',
+    publisher: 'Libertarian Forum',
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
     alternates: {
       canonical: buildCanonical(locale, '/'),
       languages: {
@@ -63,9 +87,33 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
+  const t = await getTranslations({ locale, namespace: 'metadata' });
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'Libertarian Forum',
+      url: siteUrl,
+      logo: `${siteUrl}/icon`,
+      description: t('description'),
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: t('title'),
+      url: buildCanonical(locale, '/'),
+      inLanguage: locale === 'es' ? 'es-ES' : 'en-US',
+    },
+  ];
 
   return (
     <NextIntlClientProvider messages={messages}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Intro />
       <SkipLink />
       <Navigation />

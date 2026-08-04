@@ -2,6 +2,7 @@
 
 import { Resend } from 'resend';
 import { z } from 'zod';
+import { checkRateLimit } from '@/lib/ratelimit';
 
 const schema = z.object({
   name: z.string().min(2, 'nameRequired'),
@@ -16,6 +17,11 @@ export async function sendContactMessage(
   _prevState: unknown,
   formData: FormData,
 ) {
+  const { success: allowed } = await checkRateLimit('contact', 3, 3600);
+  if (!allowed) {
+    return { success: false, error: 'rateLimited' };
+  }
+
   const parsed = schema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
