@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libertarian Forum — Think Tank Libertario</title>
+  <style>
+/* ============================================================
+   TOKENS
+============================================================ */
+:root {
+  --negro: #0d0d0d; --negro-s: #1a1a1a;
+  --gris-med: #666; --gris-cla: #999;
+  --gris-bg: #f5f5f3; --gris-brd: #e0e0dc;
+  --blanco: #fff; --dorado: #d4a017; --dorado-v: #e8b420;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --negro: #f0ede8; --negro-s: #e8e5e0;
+    --gris-med: #aaa; --gris-cla: #707070;
+    --gris-bg: #161614; --gris-brd: #2c2c2a;
+    --blanco: #0e0e0c;
+  }
+}
+:root[data-theme="dark"]  { --negro:#f0ede8;--negro-s:#e8e5e0;--gris-med:#aaa;--gris-cla:#707070;--gris-bg:#161614;--gris-brd:#2c2c2a;--blanco:#0e0e0c; }
+:root[data-theme="light"] { --negro:#0d0d0d;--negro-s:#1a1a1a;--gris-med:#666;--gris-cla:#999;--gris-bg:#f5f5f3;--gris-brd:#e0e0dc;--blanco:#fff; }
+
+/* ============================================================
+   BASE
+============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--blanco);color:var(--negro);font-family:'Montserrat','Arial Black','Arial',system-ui,sans-serif;overflow-x:hidden;line-height:1.6}
+::selection{background:var(--dorado);color:#0d0d0d}
+a{text-decoration:none;color:inherit}
+:focus-visible{outline:2px solid var(--dorado);outline-offset:2px}
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.au{animation:fadeUp .7s ease both}
+.d1{animation-delay:.10s}.d2{animation-delay:.22s}.d3{animation-delay:.36s}.d4{animation-delay:.50s}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+
+/* ============================================================
+   HELPERS
+============================================================ */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.72rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--dorado);margin-bottom:16px}
+.eyebrow::before{content:'';width:28px;height:2px;background:var(--dorado);flex-shrink:0}
+.eyebrow-center{justify-content:center}
+.gold-rule{width:48px;height:3px;background:var(--dorado);margin:20px 0}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:inherit;font-size:.88rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:14px 32px;min-height:48px;border:2px solid transparent;cursor:pointer;transition:all .3s}
+.btn-p{background:var(--negro);color:var(--blanco);border-color:var(--negro)}
+.btn-p:hover{background:transparent;color:var(--negro)}
+.btn-g{background:var(--dorado);color:#0d0d0d;border-color:var(--dorado)}
+.btn-g:hover{background:transparent;color:var(--dorado)}
+.btn-o{background:transparent;color:var(--negro);border-color:var(--gris-brd)}
+.btn-o:hover{border-color:var(--negro)}
+
+/* ============================================================
+   NAV
+============================================================ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:72px;background:var(--blanco);border-bottom:1px solid var(--gris-brd);transition:background .3s,border-color .3s}
+.nav-brand{font-size:1rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:var(--negro)}
+.nav-brand-gold{color:var(--dorado)}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gris-med);transition:color .2s}
+.nav-links a:hover{color:var(--negro)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.lang-btn{font-family:inherit;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 12px;background:transparent;border:1px solid var(--gris-brd);color:var(--gris-med);cursor:pointer;transition:all .2s}
+.lang-btn:hover{border-color:var(--dorado);color:var(--dorado)}
+.nav-cta{font-size:.78rem;padding:10px 22px;min-height:40px}
+.nav-link-active{color:var(--negro)!important}
+
+/* Hamburger */
+.nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--negro);transition:transform .25s,opacity .25s}
+.nav-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
+.nav-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* Mobile menu */
+.nav-mobile{display:none;position:fixed;top:72px;left:0;right:0;bottom:0;background:var(--blanco);border-top:1px solid var(--gris-brd);padding:24px 24px 40px;z-index:98;overflow-y:auto}
+.nav-mobile.open{display:block}
+.nav-mobile-links{list-style:none;display:flex;flex-direction:column}
+.nav-mobile-links a{display:block;padding:16px 0;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--negro);border-bottom:1px solid var(--gris-brd);transition:color .2s}
+.nav-mobile-links a:hover{color:var(--dorado)}
+.nav-mobile-footer{margin-top:28px;display:flex;align-items:center;gap:12px}
+
+@media(max-width:800px){.nav{padding:0 24px}.nav-links{display:none}.nav-hamburger{display:flex}}
+
+/* ============================================================
+   HERO
+============================================================ */
+.hero{position:relative;min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:flex-start;gap:48px;padding:128px 56px 80px;background:var(--blanco);overflow:hidden}
+.hero-shape{position:absolute;top:0;right:0;width:45%;height:100%;background:var(--gris-bg);clip-path:polygon(8% 0,100% 0,100% 100%,0% 100%);z-index:0;pointer-events:none}
+.hero-watermark{position:absolute;bottom:-40px;left:-20px;font-size:clamp(6rem,18vw,18rem);font-weight:900;text-transform:uppercase;color:var(--negro);opacity:.025;line-height:1;pointer-events:none;user-select:none;z-index:0;letter-spacing:-4px}
+.hero-left{position:relative;z-index:1;max-width:560px}
+.hero-right{position:relative;z-index:1;padding-top:64px}
+.hero-h1{font-size:clamp(2.8rem,5vw,4.4rem);font-weight:900;text-transform:uppercase;line-height:1.08;letter-spacing:1px;color:var(--negro);text-wrap:balance}
+.hero-h1 em{font-style:italic;color:var(--dorado)}
+.hero-p{font-size:1.05rem;line-height:1.85;color:var(--gris-med);max-width:500px}
+.hero-p strong{font-weight:600;color:var(--negro)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stat-card{background:var(--gris-bg);border:1px solid var(--gris-brd);padding:28px;box-shadow:0 2px 16px rgba(0,0,0,.04);transition:transform .25s,box-shadow .25s}
+.stat-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.08)}
+.sc-gold{border-top:3px solid var(--dorado)}
+.sc-dark{border-top:3px solid var(--negro)}
+.stat-badge{display:inline-block;background:var(--negro);color:var(--blanco);font-size:.875rem;font-weight:900;text-transform:uppercase;letter-spacing:2px;padding:6px 12px}
+.stat-desc{margin-top:12px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gris-med)}
+@media(max-width:900px){.hero{grid-template-columns:1fr;padding:120px 24px 60px}.hero-shape,.hero-right{display:none}}
+
+/* ============================================================
+   FEATURES — always dark
+============================================================ */
+.features{display:grid;grid-template-columns:repeat(3,1fr);background:#1a1a1a}
+.feature{padding:48px 40px;border-right:1px solid rgba(255,255,255,.06);transition:background .25s}
+.feature:last-child{border-right:none}
+.feature:hover{background:rgba(255,255,255,.03)}
+.feature-num{font-size:3rem;font-weight:900;line-height:1;color:var(--dorado-v)}
+.feature-icon{display:block;width:32px;height:32px;margin:20px 0 16px}
+.feature-icon svg{width:32px;height:32px;stroke:#fff;stroke-width:1.5;fill:none}
+.feature-title{font-size:1.1rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#fff}
+.feature-p{margin-top:12px;font-size:.9rem;line-height:1.75;color:rgba(255,255,255,.5)}
+.feature-rule{width:48px;height:3px;background:var(--dorado);margin-top:24px}
+@media(max-width:768px){.features{grid-template-columns:1fr}.feature{border-right:none;border-bottom:1px solid rgba(255,255,255,.06);padding:36px 24px}.feature:last-child{border-bottom:none}}
+
+/* ============================================================
+   ABOUT
+============================================================ */
+.about{background:var(--gris-bg);padding:96px 56px}
+.about-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:96px}
+.about-h2{font-size:clamp(2rem,3.5vw,3rem);font-weight:900;text-transform:uppercase;line-height:1.15;letter-spacing:1px;color:var(--negro);text-wrap:balance}
+.about-h2 em{font-style:italic;color:var(--dorado)}
+.about-p{font-size:1rem;line-height:1.85;color:var(--gris-med);margin-top:16px}
+.about-p strong{font-weight:600;color:var(--negro)}
+.about-cta{margin-top:32px}
+.values{display:flex;flex-direction:column;gap:24px}
+.value-card{display:flex;align-items:flex-start;gap:20px;border:1px solid var(--gris-brd);background:var(--blanco);padding:24px;transition:box-shadow .25s}
+.value-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.07)}
+.value-icon{width:44px;height:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--negro)}
+.value-icon svg{width:20px;height:20px;stroke:#fff;stroke-width:1.5;fill:none}
+.value-title{font-size:.9rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--negro)}
+.value-desc{font-size:.85rem;line-height:1.65;color:var(--gris-med);margin-top:6px}
+@media(max-width:900px){.about{padding:64px 24px}.about-inner{grid-template-columns:1fr;gap:48px}}
+
+/* ============================================================
+   SERVICES
+============================================================ */
+.services{background:var(--blanco);padding:96px 56px}
+.services-wrap{max-width:1200px;margin:0 auto}
+.section-hdr{margin-bottom:56px}
+.section-h2{font-size:clamp(2rem,3.5vw,2.8rem);font-weight:900;text-transform:uppercase;line-height:1.15;letter-spacing:1px;color:var(--negro);text-wrap:balance}
+.section-h2 em{font-style:italic;color:var(--dorado)}
+.section-p{font-size:1rem;line-height:1.75;color:var(--gris-med);max-width:560px;margin-top:14px}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.svc-card{border:1px solid var(--gris-brd);padding:40px 32px;margin:-1px 0 0 -1px;transition:box-shadow .25s,transform .25s;position:relative;background:var(--blanco)}
+.svc-card:hover{z-index:1;box-shadow:0 8px 40px rgba(0,0,0,.1);transform:translateY(-2px)}
+.svc-tag{display:inline-flex;align-items:center;gap:6px;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--dorado);margin-bottom:16px}
+.svc-tag::before{content:'';width:16px;height:2px;background:var(--dorado)}
+.svc-title{font-size:1.05rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--negro);line-height:1.25}
+.svc-desc{font-size:.875rem;line-height:1.7;color:var(--gris-med);margin-top:12px}
+@media(max-width:900px){.services{padding:64px 24px}.services-grid{grid-template-columns:1fr}.svc-card{margin:0;border-top:none}.svc-card:first-child{border-top:1px solid var(--gris-brd)}}
+
+/* ============================================================
+   ESSAYS
+============================================================ */
+.essays{background:var(--gris-bg);padding:96px 56px}
+.essays-wrap{max-width:1200px;margin:0 auto}
+.essays-hdr{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:48px}
+.essays-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.essay-card{border:1px solid var(--gris-brd);background:var(--blanco);display:flex;flex-direction:column;transition:box-shadow .25s}
+.essay-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.08)}
+.essay-img{height:160px;background:linear-gradient(135deg,var(--gris-bg) 0%,var(--gris-brd) 100%);display:flex;align-items:center;justify-content:center}
+.essay-img-inner{font-size:.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gris-cla);opacity:.5}
+.essay-body{padding:24px;flex:1;display:flex;flex-direction:column}
+.essay-cat{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--dorado);margin-bottom:10px}
+.essay-title{font-size:1rem;font-weight:800;line-height:1.35;color:var(--negro);text-wrap:balance;flex:1}
+.essay-desc{font-size:.84rem;line-height:1.65;color:var(--gris-med);margin-top:10px}
+.essay-footer{margin-top:20px;display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--gris-brd)}
+.essay-author{font-size:.72rem;font-weight:600;color:var(--gris-cla);text-transform:uppercase;letter-spacing:1px}
+.essay-link{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--negro);transition:color .2s}
+.essay-link:hover{color:var(--dorado)}
+@media(max-width:900px){.essays{padding:64px 24px}.essays-grid{grid-template-columns:1fr}.essays-hdr{flex-direction:column;align-items:flex-start}}
+
+/* ============================================================
+   CTA — always dark
+============================================================ */
+.cta-section{background:#0d0d0d;padding:96px 56px;text-align:center}
+.cta-eyebrow{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-size:.72rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--dorado);margin-bottom:16px}
+.cta-h2{font-size:clamp(2rem,4vw,3.5rem);font-weight:900;text-transform:uppercase;line-height:1.1;color:#f0ede8;text-wrap:balance;max-width:640px;margin:0 auto}
+.cta-h2 em{font-style:italic;color:var(--dorado)}
+.cta-p{font-size:1rem;line-height:1.75;color:rgba(255,255,255,.45);max-width:480px;margin:20px auto 0}
+.cta-form{display:flex;max-width:480px;margin:40px auto 0}
+.cta-input{flex:1;height:52px;padding:0 20px;font-family:inherit;font-size:.88rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-right:none;color:#f0ede8;outline:none;transition:border-color .2s}
+.cta-input::placeholder{color:rgba(255,255,255,.3);font-size:.84rem}
+.cta-input:focus{border-color:var(--dorado)}
+.cta-submit{height:52px;padding:0 28px;background:var(--dorado);color:#0d0d0d;font-family:inherit;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;border:1px solid var(--dorado);cursor:pointer;transition:all .25s;white-space:nowrap}
+.cta-submit:hover{background:transparent;color:var(--dorado)}
+@media(max-width:768px){.cta-section{padding:64px 24px}.cta-form{flex-direction:column}.cta-input{border-right:1px solid rgba(255,255,255,.15);border-bottom:none}}
+
+/* ============================================================
+   FOOTER — always dark
+============================================================ */
+.footer{background:#0d0d0d;border-top:1px solid rgba(255,255,255,.06);padding:48px 56px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.footer-brand{font-size:.9rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.footer-brand span{color:var(--dorado)}
+.footer-links{display:flex;gap:28px;list-style:none}
+.footer-links a{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.3);transition:color .2s}
+.footer-links a:hover{color:rgba(255,255,255,.65)}
+.footer-copy{font-size:.68rem;color:rgba(255,255,255,.18);letter-spacing:.5px}
+@media(max-width:768px){.footer{padding:40px 24px;flex-direction:column;gap:20px;text-align:center}.footer-links{flex-wrap:wrap;justify-content:center}}
+
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" role="banner">
+  <a href="#" class="nav-brand" aria-label="Libertarian Forum">LF<span class="nav-brand-gold">.</span></a>
+  <ul class="nav-links" role="list">
+    <li><a href="#about" data-i18n="navAbout">Nosotros</a></li>
+    <li><a href="#services" data-i18n="navServices">Servicios</a></li>
+    <li><a href="#essays" data-i18n="navEssays">Ensayos</a></li>
+    <li><a href="#contact" data-i18n="navContact">Contacto</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="lang-btn" id="lang-btn" onclick="toggleLang()" aria-label="Switch language">EN</button>
+    <a href="#services" class="btn btn-p nav-cta" data-i18n="navCta">Servicios</a>
+    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMenu()" aria-label="Menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="nav-mobile" id="nav-mobile" aria-hidden="true">
+  <ul class="nav-mobile-links" role="list">
+    <li><a href="#about"    data-i18n="navAbout"    onclick="closeMenu()">Nosotros</a></li>
+    <li><a href="#services" data-i18n="navServices"  onclick="closeMenu()">Servicios</a></li>
+    <li><a href="#essays"   data-i18n="navEssays"    onclick="closeMenu()">Ensayos</a></li>
+    <li><a href="#contact"  data-i18n="navContact"   onclick="closeMenu()">Contacto</a></li>
+  </ul>
+  <div class="nav-mobile-footer">
+    <button class="lang-btn" onclick="toggleLang()" aria-label="Switch language" id="lang-btn-mobile">EN</button>
+    <a href="#services" class="btn btn-p nav-cta" onclick="closeMenu()" data-i18n="navCta">Servicios</a>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- HERO -->
+<section id="hero" class="hero" aria-label="Portada">
+  <div class="hero-shape" aria-hidden="true"></div>
+  <span class="hero-watermark" aria-hidden="true">LIBERTAD</span>
+
+  <div class="hero-left">
+    <div class="eyebrow au d1" data-i18n="heroEyebrow">Think Tank Libertario</div>
+    <h1 class="hero-h1 au d2" data-i18n-html="heroH1">El laboratorio de ideas<br>que <em>rompe paradigmas</em></h1>
+    <div class="gold-rule au d2" aria-hidden="true"></div>
+    <p class="hero-p au d3" data-i18n-html="heroDesc">Las mejores ideas sobre libertad no deberían quedarse en los libros. Producimos <strong>investigación, análisis y estrategia</strong> para construir partidos y movimientos libertarios sólidos en todo el mundo.</p>
+    <div class="hero-actions au d4">
+      <a href="#services" class="btn btn-p" data-i18n="heroCta1">Nuestros Servicios</a>
+      <a href="#essays"   class="btn btn-o" data-i18n="heroCta2">Ver Ensayos →</a>
+    </div>
+  </div>
+
+  <div class="hero-right au d3">
+    <div class="stats-grid">
+      <article class="stat-card sc-gold"><div class="stat-badge" data-i18n="s1Badge">Ideas.</div><div class="stat-desc" data-i18n="s1Desc">Investigación &amp; Análisis</div></article>
+      <article class="stat-card sc-dark"><div class="stat-badge" data-i18n="s2Badge">Tesis.</div><div class="stat-desc" data-i18n="s2Desc">Programas Políticos</div></article>
+      <article class="stat-card sc-dark"><div class="stat-badge" data-i18n="s3Badge">Strat.</div><div class="stat-desc" data-i18n="s3Desc">Estrategia Electoral</div></article>
+      <article class="stat-card sc-gold"><div class="stat-badge" data-i18n="s4Badge">Mktg.</div><div class="stat-desc" data-i18n="s4Desc">Marketing Político</div></article>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="features reveal" aria-label="Pilares">
+  <article class="feature">
+    <div class="feature-num" data-i18n="f1Num">01</div>
+    <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
+    <h3 class="feature-title" data-i18n="f1Title">Investigación</h3>
+    <p class="feature-p" data-i18n="f1Desc">Producimos ensayos, tesis y análisis sobre libertad individual, mercados libres y Estado limitado, con rigor académico y visión práctica.</p>
+    <div class="feature-rule" aria-hidden="true"></div>
+  </article>
+  <article class="feature">
+    <div class="feature-num" data-i18n="f2Num">02</div>
+    <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+    <h3 class="feature-title" data-i18n="f2Title">Debate de Ideas</h3>
+    <p class="feature-p" data-i18n="f2Desc">Somos un foro abierto donde las ideas libertarias se confrontan, refinan y fortalecen. El debate intelectual es nuestro método.</p>
+    <div class="feature-rule" aria-hidden="true"></div>
+  </article>
+  <article class="feature">
+    <div class="feature-num" data-i18n="f3Num">03</div>
+    <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+    <h3 class="feature-title" data-i18n="f3Title">Asesoramiento</h3>
+    <p class="feature-p" data-i18n="f3Desc">Trabajamos con partidos y movimientos libertarios para desarrollar programas políticos sólidos y estrategias efectivas de crecimiento.</p>
+    <div class="feature-rule" aria-hidden="true"></div>
+  </article>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="about">
+  <div class="about-inner">
+    <div class="reveal">
+      <div class="eyebrow" data-i18n="aboutEyebrow">Quiénes somos</div>
+      <h2 class="about-h2" data-i18n-html="aboutH2">Un foro donde las ideas de la <em>libertad</em> toman forma</h2>
+      <div class="gold-rule" aria-hidden="true"></div>
+      <p class="about-p" data-i18n-html="aboutP1">Libertarian Forum es un <strong>laboratorio de pensamiento (think tank)</strong> dedicado a promover y desarrollar las ideas de la libertad individual, los mercados libres y el Estado limitado.</p>
+      <p class="about-p" data-i18n-html="aboutP2">Existimos para llevar las mejores ideas libertarias al debate político, a las políticas de Estado y a quienes toman las decisiones que afectan a millones de personas, con especial foco en <strong>América Latina</strong>.</p>
+      <p class="about-p" data-i18n="aboutP3">No somos un partido político. Somos el espacio intelectual donde los movimientos libertarios encuentran sus fundamentos teóricos, sus programas y su estrategia.</p>
+      <div class="about-cta"><a href="#contact" class="btn btn-p" data-i18n="aboutCta">Conocer más →</a></div>
+    </div>
+    <div class="values reveal" role="list">
+      <article class="value-card" role="listitem">
+        <div class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+        <div><div class="value-title" data-i18n="v1Title">Rigor Académico</div><p class="value-desc" data-i18n="v1Desc">Cada publicación y análisis cumple estándares de investigación serios, con fuentes y argumentación sólida.</p></div>
+      </article>
+      <article class="value-card" role="listitem">
+        <div class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18.364 4.636a9 9 0 1 1-12.728 0M12 2v10"/></svg></div>
+        <div><div class="value-title" data-i18n="v2Title">Libertad Individual</div><p class="value-desc" data-i18n="v2Desc">Defendemos el principio de que cada individuo es dueño de su vida, sus decisiones y el fruto de su trabajo.</p></div>
+      </article>
+      <article class="value-card" role="listitem">
+        <div class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+        <div><div class="value-title" data-i18n="v3Title">Estado Limitado</div><p class="value-desc" data-i18n="v3Desc">Propugnamos instituciones mínimas, eficientes y transparentes, al servicio del ciudadano, no al revés.</p></div>
+      </article>
+      <article class="value-card" role="listitem">
+        <div class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div><div class="value-title" data-i18n="v4Title">Red Global</div><p class="value-desc" data-i18n="v4Desc">Conectamos a pensadores, activistas y organizaciones libertarias de todo el mundo para multiplicar el impacto.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services">
+  <div class="services-wrap">
+    <div class="section-hdr reveal">
+      <div class="eyebrow" data-i18n="svcEyebrow">Lo que hacemos</div>
+      <h2 class="section-h2" data-i18n-html="svcH2">Servicios para <em>movimientos libertarios</em></h2>
+      <p class="section-p" data-i18n="svcDesc">Ofrecemos asesoramiento especializado para partidos políticos, movimientos y organizaciones que trabajan desde los principios de la libertad.</p>
+    </div>
+    <div class="services-grid reveal" role="list">
+      <article class="svc-card" role="listitem"><div class="svc-tag" data-i18n="sv1Tag">Estrategia</div><h3 class="svc-title" data-i18n="sv1Title">Diseño de Programa Político</h3><p class="svc-desc" data-i18n="sv1Desc">Desarrollamos programas de gobierno coherentes con los principios libertarios, adaptados al contexto político y legal de cada país.</p></article>
+      <article class="svc-card" role="listitem"><div class="svc-tag" data-i18n="sv2Tag">Electoral</div><h3 class="svc-title" data-i18n="sv2Title">Estrategia Electoral</h3><p class="svc-desc" data-i18n="sv2Desc">Asesoramos en comunicación política, posicionamiento y estrategia de campaña para candidatos y partidos libertarios.</p></article>
+      <article class="svc-card" role="listitem"><div class="svc-tag" data-i18n="sv3Tag">Formación</div><h3 class="svc-title" data-i18n="sv3Title">Capacitación de Cuadros</h3><p class="svc-desc" data-i18n="sv3Desc">Formamos a militantes y funcionarios en teoría libertaria, economía de mercado, filosofía política y oratoria.</p></article>
+      <article class="svc-card" role="listitem"><div class="svc-tag" data-i18n="sv4Tag">Investigación</div><h3 class="svc-title" data-i18n="sv4Title">Policy Research</h3><p class="svc-desc" data-i18n="sv4Desc">Producimos informes, análisis comparados y propuestas de reforma sobre políticas públicas desde una perspectiva de libertad.</p></article>
+      <article class="svc-card" role="listitem"><div class="svc-tag" data-i18n="sv5Tag">Comunicación</div><h3 class="svc-title" data-i18n="sv5Title">Marketing Político</h3><p class="svc-desc" data-i18n="sv5Desc">Diseñamos estrategias de comunicación y marketing digital para expandir el alcance de los mensajes libertarios.</p></article>
+      <article class="svc-card" role="listitem"><div class="svc-tag" data-i18n="sv6Tag">Red</div><h3 class="svc-title" data-i18n="sv6Title">Networking Internacional</h3><p class="svc-desc" data-i18n="sv6Desc">Conectamos a las organizaciones con la red global de think tanks, partidos y figuras clave del movimiento libertario mundial.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ESSAYS -->
+<section id="essays" class="essays">
+  <div class="essays-wrap">
+    <div class="essays-hdr reveal">
+      <div>
+        <div class="eyebrow" data-i18n="essaysEyebrow">Publicaciones</div>
+        <h2 class="section-h2" data-i18n-html="essaysH2">Últimos <em>ensayos</em></h2>
+      </div>
+      <a href="#" class="btn btn-o" style="white-space:nowrap" data-i18n="essaysCta">Ver todos los ensayos →</a>
+    </div>
+    <div class="essays-grid reveal" role="list">
+      <article class="essay-card" role="listitem">
+        <div class="essay-img" aria-hidden="true"><div class="essay-img-inner">LF</div></div>
+        <div class="essay-body">
+          <div class="essay-cat" data-i18n="e1Cat">Economía</div>
+          <h3 class="essay-title" data-i18n="e1Title">El mito del fallo de mercado: una revisión crítica desde la economía austriaca</h3>
+          <p class="essay-desc" data-i18n="e1Desc">Examinamos los argumentos más comunes sobre el fallo de mercado y su uso como justificación para la intervención estatal.</p>
+          <div class="essay-footer">
+            <span class="essay-author" data-i18n="e1Author">Juan Pérez</span>
+            <a href="#" class="essay-link" data-i18n="readMore">Leer →</a>
+          </div>
+        </div>
+      </article>
+      <article class="essay-card" role="listitem">
+        <div class="essay-img" aria-hidden="true"><div class="essay-img-inner">LF</div></div>
+        <div class="essay-body">
+          <div class="essay-cat" data-i18n="e2Cat">Filosofía Política</div>
+          <h3 class="essay-title" data-i18n="e2Title">Hayek, el conocimiento disperso y el orden espontáneo en el siglo XXI</h3>
+          <p class="essay-desc" data-i18n="e2Desc">La vigencia del pensamiento hayekiano frente a los nuevos intentos de planificación centralizada digital.</p>
+          <div class="essay-footer">
+            <span class="essay-author" data-i18n="e2Author">María García</span>
+            <a href="#" class="essay-link" data-i18n="readMore">Leer →</a>
+          </div>
+        </div>
+      </article>
+      <article class="essay-card" role="listitem">
+        <div class="essay-img" aria-hidden="true"><div class="essay-img-inner">LF</div></div>
+        <div class="essay-body">
+          <div class="essay-cat" data-i18n="e3Cat">Estrategia</div>
+          <h3 class="essay-title" data-i18n="e3Title">Cómo los movimientos libertarios ganan elecciones: lecciones de Argentina y Países Bajos</h3>
+          <p class="essay-desc" data-i18n="e3Desc">Análisis comparado de las victorias libertarias recientes y sus estrategias replicables para América Latina.</p>
+          <div class="essay-footer">
+            <span class="essay-author" data-i18n="e3Author">Carlos Ruiz</span>
+            <a href="#" class="essay-link" data-i18n="readMore">Leer →</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact" class="cta-section">
+  <div class="cta-eyebrow reveal" data-i18n="ctaEyebrow">Mantenete informado</div>
+  <h2 class="cta-h2 reveal" data-i18n-html="ctaH2">Ideas que <em>transforman</em> el debate público</h2>
+  <p class="cta-p reveal" data-i18n="ctaDesc">Recibí nuestros ensayos, análisis y novedades directamente en tu correo. Sin spam, solo ideas.</p>
+  <form class="cta-form reveal" onsubmit="return false" aria-label="Newsletter">
+    <label for="email" class="sr-only">Email</label>
+    <input id="email" class="cta-input" type="email" required data-i18n-ph="ctaPlaceholder" placeholder="tu@correo.com">
+    <button type="submit" class="cta-submit" data-i18n="ctaSubmit">Suscribirse</button>
+  </form>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-brand">LF<span>.</span></div>
+  <ul class="footer-links" role="list">
+    <li><a href="#" data-i18n="fAbout">Nosotros</a></li>
+    <li><a href="#" data-i18n="fServices">Servicios</a></li>
+    <li><a href="#" data-i18n="fEssays">Ensayos</a></li>
+    <li><a href="#" data-i18n="fContact">Contacto</a></li>
+    <li><a href="#" data-i18n="fPrivacy">Privacidad</a></li>
+  </ul>
+  <p class="footer-copy" data-i18n="fCopy">© 2025 Libertarian Forum. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+const T = {
+  es: {
+    navAbout:'Nosotros', navServices:'Servicios', navEssays:'Ensayos', navContact:'Contacto', navCta:'Servicios',
+    heroEyebrow:'Think Tank Libertario',
+    heroH1:'El laboratorio de ideas<br>que <em>rompe paradigmas</em>',
+    heroDesc:'Las mejores ideas sobre libertad no deberían quedarse en los libros. Producimos <strong>investigación, análisis y estrategia</strong> para construir partidos y movimientos libertarios sólidos en todo el mundo.',
+    heroCta1:'Nuestros Servicios', heroCta2:'Ver Ensayos →',
+    s1Badge:'Ideas.', s1Desc:'Investigación & Análisis',
+    s2Badge:'Tesis.', s2Desc:'Programas Políticos',
+    s3Badge:'Strat.', s3Desc:'Estrategia Electoral',
+    s4Badge:'Mktg.', s4Desc:'Marketing Político',
+    f1Num:'01', f1Title:'Investigación', f1Desc:'Producimos ensayos, tesis y análisis sobre libertad individual, mercados libres y Estado limitado, con rigor académico y visión práctica.',
+    f2Num:'02', f2Title:'Debate de Ideas', f2Desc:'Somos un foro abierto donde las ideas libertarias se confrontan, refinan y fortalecen. El debate intelectual es nuestro método.',
+    f3Num:'03', f3Title:'Asesoramiento', f3Desc:'Trabajamos con partidos y movimientos libertarios para desarrollar programas políticos sólidos y estrategias efectivas de crecimiento.',
+    aboutEyebrow:'Quiénes somos',
+    aboutH2:'Un foro donde las ideas de la <em>libertad</em> toman forma',
+    aboutP1:'Libertarian Forum es un <strong>laboratorio de pensamiento (think tank)</strong> dedicado a promover y desarrollar las ideas de la libertad individual, los mercados libres y el Estado limitado.',
+    aboutP2:'Existimos para llevar las mejores ideas libertarias al debate político, a las políticas de Estado y a quienes toman las decisiones que afectan a millones de personas, con especial foco en <strong>América Latina</strong>.',
+    aboutP3:'No somos un partido político. Somos el espacio intelectual donde los movimientos libertarios encuentran sus fundamentos teóricos, sus programas y su estrategia.',
+    aboutCta:'Conocer más →',
+    v1Title:'Rigor Académico', v1Desc:'Cada publicación y análisis cumple estándares de investigación serios, con fuentes y argumentación sólida.',
+    v2Title:'Libertad Individual', v2Desc:'Defendemos el principio de que cada individuo es dueño de su vida, sus decisiones y el fruto de su trabajo.',
+    v3Title:'Estado Limitado', v3Desc:'Propugnamos instituciones mínimas, eficientes y transparentes, al servicio del ciudadano, no al revés.',
+    v4Title:'Red Global', v4Desc:'Conectamos a pensadores, activistas y organizaciones libertarias de todo el mundo para multiplicar el impacto.',
+    svcEyebrow:'Lo que hacemos',
+    svcH2:'Servicios para <em>movimientos libertarios</em>',
+    svcDesc:'Ofrecemos asesoramiento especializado para partidos políticos, movimientos y organizaciones que trabajan desde los principios de la libertad.',
+    sv1Tag:'Estrategia', sv1Title:'Diseño de Programa Político', sv1Desc:'Desarrollamos programas de gobierno coherentes con los principios libertarios, adaptados al contexto político y legal de cada país.',
+    sv2Tag:'Electoral', sv2Title:'Estrategia Electoral', sv2Desc:'Asesoramos en comunicación política, posicionamiento y estrategia de campaña para candidatos y partidos libertarios.',
+    sv3Tag:'Formación', sv3Title:'Capacitación de Cuadros', sv3Desc:'Formamos a militantes y funcionarios en teoría libertaria, economía de mercado, filosofía política y oratoria.',
+    sv4Tag:'Investigación', sv4Title:'Policy Research', sv4Desc:'Producimos informes, análisis comparados y propuestas de reforma sobre políticas públicas desde una perspectiva de libertad.',
+    sv5Tag:'Comunicación', sv5Title:'Marketing Político', sv5Desc:'Diseñamos estrategias de comunicación y marketing digital para expandir el alcance de los mensajes libertarios.',
+    sv6Tag:'Red', sv6Title:'Networking Internacional', sv6Desc:'Conectamos a las organizaciones con la red global de think tanks, partidos y figuras clave del movimiento libertario mundial.',
+    essaysEyebrow:'Publicaciones',
+    essaysH2:'Últimos <em>ensayos</em>',
+    essaysCta:'Ver todos los ensayos →',
+    e1Cat:'Economía', e1Title:'El mito del fallo de mercado: una revisión crítica desde la economía austriaca', e1Desc:'Examinamos los argumentos más comunes sobre el fallo de mercado y su uso como justificación para la intervención estatal.', e1Author:'Juan Pérez',
+    e2Cat:'Filosofía Política', e2Title:'Hayek, el conocimiento disperso y el orden espontáneo en el siglo XXI', e2Desc:'La vigencia del pensamiento hayekiano frente a los nuevos intentos de planificación centralizada digital.', e2Author:'María García',
+    e3Cat:'Estrategia', e3Title:'Cómo los movimientos libertarios ganan elecciones: lecciones de Argentina y Países Bajos', e3Desc:'Análisis comparado de las victorias libertarias recientes y sus estrategias replicables para América Latina.', e3Author:'Carlos Ruiz',
+    readMore:'Leer →',
+    ctaEyebrow:'Mantenete informado',
+    ctaH2:'Ideas que <em>transforman</em> el debate público',
+    ctaDesc:'Recibí nuestros ensayos, análisis y novedades directamente en tu correo. Sin spam, solo ideas.',
+    ctaPlaceholder:'tu@correo.com', ctaSubmit:'Suscribirse',
+    fAbout:'Nosotros', fServices:'Servicios', fEssays:'Ensayos', fContact:'Contacto', fPrivacy:'Privacidad',
+    fCopy:'© 2025 Libertarian Forum. Todos los derechos reservados.',
+    pageTitle:'Libertarian Forum — Think Tank Libertario',
+  },
+  en: {
+    navAbout:'About', navServices:'Services', navEssays:'Essays', navContact:'Contact', navCta:'Services',
+    heroEyebrow:'Libertarian Think Tank',
+    heroH1:'The ideas lab that<br><em>breaks paradigms</em>',
+    heroDesc:'The best ideas about freedom shouldn\'t stay in books. We produce <strong>research, analysis and strategy</strong> to build solid libertarian parties and movements worldwide.',
+    heroCta1:'Our Services', heroCta2:'See Essays →',
+    s1Badge:'Ideas.', s1Desc:'Research & Analysis',
+    s2Badge:'Thesis.', s2Desc:'Political Programs',
+    s3Badge:'Strat.', s3Desc:'Electoral Strategy',
+    s4Badge:'Mktg.', s4Desc:'Political Marketing',
+    f1Num:'01', f1Title:'Research', f1Desc:'We produce essays, theses and analysis on individual freedom, free markets and limited government, with academic rigor and practical vision.',
+    f2Num:'02', f2Title:'Debate of Ideas', f2Desc:'We are an open forum where libertarian ideas are confronted, refined and strengthened. Intellectual debate is our method.',
+    f3Num:'03', f3Title:'Advisory', f3Desc:'We work with libertarian parties and movements to develop solid political programs and effective growth strategies.',
+    aboutEyebrow:'Who we are',
+    aboutH2:'A forum where the ideas of <em>freedom</em> take shape',
+    aboutP1:'Libertarian Forum is a <strong>think tank</strong> dedicated to promoting and developing the ideas of individual freedom, free markets and limited government.',
+    aboutP2:'We exist to bring the best libertarian ideas to political debate, to state policies and to those who make decisions affecting millions of people, with a special focus on <strong>Latin America</strong>.',
+    aboutP3:'We are not a political party. We are the intellectual space where libertarian movements find their theoretical foundations, programs and strategy.',
+    aboutCta:'Learn more →',
+    v1Title:'Academic Rigor', v1Desc:'Every publication and analysis meets serious research standards, with solid sources and argumentation.',
+    v2Title:'Individual Freedom', v2Desc:'We defend the principle that every individual owns their life, their decisions and the fruit of their labor.',
+    v3Title:'Limited Government', v3Desc:'We advocate for minimal, efficient and transparent institutions in the service of citizens, not the other way around.',
+    v4Title:'Global Network', v4Desc:'We connect libertarian thinkers, activists and organizations worldwide to multiply impact.',
+    svcEyebrow:'What we do',
+    svcH2:'Services for <em>libertarian movements</em>',
+    svcDesc:'We offer specialized advisory for political parties, movements and organizations working from the principles of freedom.',
+    sv1Tag:'Strategy', sv1Title:'Political Program Design', sv1Desc:'We develop comprehensive government programs grounded in libertarian principles, adapted to each country\'s political and legal context.',
+    sv2Tag:'Electoral', sv2Title:'Electoral Strategy', sv2Desc:'We advise on political communication, positioning and campaign strategy for libertarian candidates and parties.',
+    sv3Tag:'Training', sv3Title:'Cadre Training', sv3Desc:'We train activists and officials in libertarian theory, market economics, political philosophy and public speaking.',
+    sv4Tag:'Research', sv4Title:'Policy Research', sv4Desc:'We produce reports, comparative analyses and reform proposals on public policies from a freedom perspective.',
+    sv5Tag:'Communication', sv5Title:'Political Marketing', sv5Desc:'We design communication and digital marketing strategies to expand the reach of libertarian messages.',
+    sv6Tag:'Network', sv6Title:'International Networking', sv6Desc:'We connect organizations with the global network of think tanks, parties and key figures of the worldwide libertarian movement.',
+    essaysEyebrow:'Publications',
+    essaysH2:'Latest <em>essays</em>',
+    essaysCta:'See all essays →',
+    e1Cat:'Economics', e1Title:'The myth of market failure: a critical review from Austrian economics', e1Desc:'We examine the most common arguments about market failure and their use as justification for state intervention.', e1Author:'Juan Pérez',
+    e2Cat:'Political Philosophy', e2Title:'Hayek, dispersed knowledge and spontaneous order in the 21st century', e2Desc:'The relevance of Hayekian thought against new attempts at digital central planning.', e2Author:'María García',
+    e3Cat:'Strategy', e3Title:'How libertarian movements win elections: lessons from Argentina and the Netherlands', e3Desc:'Comparative analysis of recent libertarian victories and their replicable strategies for Latin America.', e3Author:'Carlos Ruiz',
+    readMore:'Read →',
+    ctaEyebrow:'Stay informed',
+    ctaH2:'Ideas that <em>transform</em> public debate',
+    ctaDesc:'Receive our essays, analysis and news directly in your inbox. No spam, just ideas.',
+    ctaPlaceholder:'your@email.com', ctaSubmit:'Subscribe',
+    fAbout:'About', fServices:'Services', fEssays:'Essays', fContact:'Contact', fPrivacy:'Privacy',
+    fCopy:'© 2025 Libertarian Forum. All rights reserved.',
+    pageTitle:'Libertarian Forum — Libertarian Think Tank',
+  }
+};
+
+let lang = localStorage.getItem('lf-lang') || (navigator.language.startsWith('en') ? 'en' : 'es');
+
+function apply(l) {
+  lang = l;
+  localStorage.setItem('lf-lang', l);
+  document.documentElement.lang = l;
+  document.title = T[l].pageTitle;
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = T[l][el.dataset.i18n] ?? ''; });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = T[l][el.dataset.i18nHtml] ?? ''; });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = T[l][el.dataset.i18nPh] ?? ''; });
+  const label = l === 'es' ? 'EN' : 'ES';
+  document.getElementById('lang-btn').textContent = label;
+  const mob = document.getElementById('lang-btn-mobile');
+  if (mob) mob.textContent = label;
+}
+
+function toggleLang() { apply(lang === 'es' ? 'en' : 'es'); }
+
+// Mobile menu
+const hamburger = document.getElementById('nav-hamburger');
+const mobileMenu = document.getElementById('nav-mobile');
+
+function toggleMenu() {
+  const open = mobileMenu.classList.toggle('open');
+  hamburger.classList.toggle('open', open);
+  hamburger.setAttribute('aria-expanded', open);
+  mobileMenu.setAttribute('aria-hidden', !open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+function closeMenu() {
+  mobileMenu.classList.remove('open');
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+  mobileMenu.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+// Close mobile menu on resize to desktop
+window.addEventListener('resize', () => { if (window.innerWidth > 800) closeMenu(); });
+
+// Init
+apply(lang);
+
+// Scroll reveals
+if ('IntersectionObserver' in window) {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+}
+
+// Active nav link on scroll
+const sections = [
+  { id: 'about',    href: '#about' },
+  { id: 'services', href: '#services' },
+  { id: 'essays',   href: '#essays' },
+  { id: 'contact',  href: '#contact' },
+];
+const navLinks = document.querySelectorAll('.nav-links a, .nav-mobile-links a');
+
+function setActive(id) {
+  navLinks.forEach(a => {
+    a.classList.toggle('nav-link-active', a.getAttribute('href') === '#' + id);
+  });
+}
+
+if ('IntersectionObserver' in window) {
+  const sectionObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => {
+    const el = document.getElementById(s.id);
+    if (el) sectionObs.observe(el);
+  });
+}
+
+// Nav scroll shadow
+const nav = document.querySelector('.nav');
+window.addEventListener('scroll', () => {
+  nav.style.boxShadow = scrollY > 20 ? '0 2px 24px rgba(0,0,0,0.08)' : 'none';
+}, { passive: true });
+</script>
+</body>
+</html>

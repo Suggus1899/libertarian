@@ -6,6 +6,7 @@ import { AboutPreview } from '@/components/AboutPreview';
 import { ServicesPreview } from '@/components/ServicesPreview';
 import { EssaysPreview } from '@/components/EssaysPreview';
 import { FinalCta } from '@/components/FinalCta';
+import { RevealSection } from '@/components/RevealSection';
 import { getEssays } from '@/lib/essays';
 import { buildAlternates } from '@/lib/seo';
 
@@ -32,11 +33,11 @@ export default async function HomePage({ params }: Props) {
   return (
     <>
       <Hero />
-      <Features />
-      <AboutPreview />
-      <ServicesPreview />
-      <EssaysPreview items={essays} />
-      <FinalCta />
+      <RevealSection><Features /></RevealSection>
+      <RevealSection><AboutPreview /></RevealSection>
+      <RevealSection><ServicesPreview /></RevealSection>
+      <RevealSection><EssaysPreview items={essays} /></RevealSection>
+      <RevealSection><FinalCta /></RevealSection>
     </>
   );
 }

@@ -17,6 +17,10 @@ export function Hero() {
     <section className="relative grid min-h-screen items-start gap-12 overflow-hidden bg-blanco px-6 pb-20 pt-32 lg:grid-cols-2 lg:items-start lg:px-14 lg:pb-20 lg:pt-32">
       {/* Decorative clipped background */}
       <div className="absolute right-0 top-0 -z-0 hidden h-full w-[45%] bg-gris-bg hero-bg-shape lg:block" />
+      {/* Watermark */}
+      <span className="page-hero-watermark pointer-events-none absolute bottom-0 left-0 select-none text-negro" aria-hidden="true">
+        LIBERTAD
+      </span>
 
       <div className="relative z-10 max-w-2xl">
         <div className="eyebrow animate-fade-up opacity-0">{t('eyebrow')}</div>

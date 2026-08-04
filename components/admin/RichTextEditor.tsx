@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import { FigureImage } from './tiptap/FigureImage';
 import { EmbedHtml } from './tiptap/EmbedHtml';
 import { MediaLibrary } from './MediaLibrary';
+import { PromptModal, type PromptField } from './PromptModal';
 
 function ToolbarButton({
   onClick,
@@ -47,11 +48,19 @@ function ToolbarDivider() {
 export function RichTextEditor({
   name,
   defaultValue,
+  onChange,
 }: {
   name: string;
   defaultValue?: string;
+  onChange?: (html: string) => void;
 }) {
   const [mediaOpen, setMediaOpen] = useState(false);
+  const [prompt, setPrompt] = useState<{
+    title: string;
+    fields: PromptField[];
+    submitLabel?: string;
+    onSubmit: (values: Record<string, string>) => void;
+  } | null>(null);
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -86,7 +95,11 @@ export function RichTextEditor({
 
   useEffect(() => {
     if (!editor) return;
-    const onUpdate = () => setHtml(editor.getHTML());
+    const onUpdate = () => {
+      const next = editor.getHTML();
+      setHtml(next);
+      onChange?.(next);
+    };
     const onSelectionChange = () => forceRerender((n) => n + 1);
     editor.on('update', onUpdate);
     editor.on('selectionUpdate', onSelectionChange);
@@ -94,7 +107,7 @@ export function RichTextEditor({
       editor.off('update', onUpdate);
       editor.off('selectionUpdate', onSelectionChange);
     };
-  }, [editor]);
+  }, [editor, onChange]);
 
   if (!editor) return null;
 
@@ -103,38 +116,71 @@ export function RichTextEditor({
   }
 
   function insertImageFromUrl() {
-    const url = window.prompt('URL de la imagen:');
-    if (!url) return;
-    const caption = window.prompt('Leyenda (opcional, dejar vacío para omitir):') || '';
-    editor?.chain().focus().setFigureImage({ src: url, caption, align: 'center', width: '100%' }).run();
-    focusEnd();
+    setPrompt({
+      title: 'Insertar imagen',
+      fields: [
+        { name: 'url', label: 'URL de la imagen', placeholder: 'https://...', required: true },
+        { name: 'caption', label: 'Leyenda (opcional)', placeholder: 'Pie de foto' },
+      ],
+      onSubmit: ({ url, caption }) => {
+        if (!url) return;
+        editor?.chain().focus().setFigureImage({ src: url, caption: caption || '', align: 'center', width: '100%' }).run();
+        focusEnd();
+      },
+    });
   }
 
   function insertImageFromLibrary(url: string) {
-    const caption = window.prompt('Leyenda (opcional, dejar vacío para omitir):') || '';
-    editor?.chain().focus().setFigureImage({ src: url, caption, align: 'center', width: '100%' }).run();
-    focusEnd();
+    setPrompt({
+      title: 'Leyenda de la imagen',
+      submitLabel: 'Insertar',
+      fields: [{ name: 'caption', label: 'Leyenda (opcional)', placeholder: 'Pie de foto' }],
+      onSubmit: ({ caption }) => {
+        editor?.chain().focus().setFigureImage({ src: url, caption: caption || '', align: 'center', width: '100%' }).run();
+        focusEnd();
+      },
+    });
   }
 
   function insertVideo() {
-    const url = window.prompt('URL del video de YouTube:');
-    if (!url) return;
-    editor?.commands.setYoutubeVideo({ src: url });
-    focusEnd();
+    setPrompt({
+      title: 'Insertar video de YouTube',
+      fields: [{ name: 'url', label: 'URL del video', placeholder: 'https://youtube.com/watch?v=...', required: true }],
+      onSubmit: ({ url }) => {
+        if (!url) return;
+        editor?.commands.setYoutubeVideo({ src: url });
+        focusEnd();
+      },
+    });
   }
 
   function insertEmbed() {
-    const input = window.prompt(
-      'Pegá una URL de Vimeo/Spotify, o el código de inserción ("embed code") de Twitter/X, Instagram, TikTok, etc.:',
-    );
-    if (!input) return;
-    editor?.chain().focus().setEmbedHtml({ html: input }).run();
-    focusEnd();
+    setPrompt({
+      title: 'Insertar embed',
+      fields: [
+        {
+          name: 'html',
+          label: 'URL (Vimeo/Spotify) o código de embed (Twitter/X, Instagram, TikTok...)',
+          multiline: true,
+          required: true,
+        },
+      ],
+      onSubmit: ({ html }) => {
+        if (!html) return;
+        editor?.chain().focus().setEmbedHtml({ html }).run();
+        focusEnd();
+      },
+    });
   }
 
   function insertLink() {
-    const url = window.prompt('URL del enlace:');
-    if (url) editor?.chain().focus().setLink({ href: url }).run();
+    setPrompt({
+      title: 'Insertar enlace',
+      fields: [{ name: 'url', label: 'URL del enlace', placeholder: 'https://...', required: true }],
+      onSubmit: ({ url }) => {
+        if (url) editor?.chain().focus().setLink({ href: url }).run();
+      },
+    });
   }
 
   function insertTable() {
@@ -144,9 +190,14 @@ export function RichTextEditor({
   function editCaption() {
     if (!editor) return;
     const current = (editor.getAttributes('figureImage').caption as string) || '';
-    const caption = window.prompt('Leyenda de la imagen:', current);
-    if (caption === null) return;
-    editor.chain().focus().updateFigureImage({ caption }).run();
+    setPrompt({
+      title: 'Editar leyenda',
+      submitLabel: 'Guardar',
+      fields: [{ name: 'caption', label: 'Leyenda de la imagen', defaultValue: current }],
+      onSubmit: ({ caption }) => {
+        editor.chain().focus().updateFigureImage({ caption }).run();
+      },
+    });
   }
 
   const isFigureSelected = editor.isActive('figureImage');
@@ -285,6 +336,15 @@ export function RichTextEditor({
       <input type="hidden" name={name} value={html} />
 
       <MediaLibrary open={mediaOpen} onClose={() => setMediaOpen(false)} onSelect={insertImageFromLibrary} />
+
+      <PromptModal
+        open={prompt !== null}
+        title={prompt?.title ?? ''}
+        fields={prompt?.fields ?? []}
+        submitLabel={prompt?.submitLabel}
+        onSubmit={(v) => prompt?.onSubmit(v)}
+        onClose={() => setPrompt(null)}
+      />
     </div>
   );
 }

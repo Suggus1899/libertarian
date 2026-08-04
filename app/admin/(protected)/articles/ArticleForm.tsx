@@ -1,12 +1,30 @@
 'use client';
 
-import { useActionState, useState } from 'react';
+import { useActionState, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import type { Article } from '@/lib/db/schema';
 import { RichTextEditor } from '@/components/admin/RichTextEditor';
 import { MediaLibrary } from '@/components/admin/MediaLibrary';
 
 type FormAction = (prevState: unknown, formData: FormData) => Promise<{ error: string } | void>;
+
+type Draft = {
+  ts: number;
+  values: Record<string, string>;
+  content: string;
+};
+
+const AUTOSAVE_MS = 5000;
+
+function relativeTime(from: number): string {
+  const s = Math.round((Date.now() - from) / 1000);
+  if (s < 60) return `hace ${s}s`;
+  const m = Math.round(s / 60);
+  if (m < 60) return `hace ${m} min`;
+  const h = Math.round(m / 60);
+  if (h < 24) return `hace ${h} h`;
+  return `hace ${Math.round(h / 24)} d`;
+}
 
 export function ArticleForm({
   action,
@@ -18,9 +36,122 @@ export function ArticleForm({
   const [state, formAction, pending] = useActionState(action, null);
   const [featuredImage, setFeaturedImage] = useState(article?.featuredImage ?? '');
   const [mediaOpen, setMediaOpen] = useState(false);
+  const [content, setContent] = useState(article?.content ?? '');
+  const [savedAt, setSavedAt] = useState<number | null>(null);
+  const [draftOffer, setDraftOffer] = useState<Draft | null>(null);
+  const [, tick] = useState(0);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const storageKey = `article-draft-${article?.id ?? 'new'}`;
+
+  // Offer to restore a draft on mount if one exists and differs from the article.
+  useEffect(() => {
+    const raw = typeof window !== 'undefined' ? localStorage.getItem(storageKey) : null;
+    if (!raw) return;
+    try {
+      const draft = JSON.parse(raw) as Draft;
+      const differs =
+        draft.content !== (article?.content ?? '') ||
+        draft.values.title !== (article?.title ?? '') ||
+        draft.values.description !== (article?.description ?? '');
+      if (differs) setDraftOffer(draft);
+    } catch {
+      localStorage.removeItem(storageKey);
+    }
+  }, [storageKey, article]);
+
+  // Autosave loop.
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (!formRef.current) return;
+      const fd = new FormData(formRef.current);
+      const values: Record<string, string> = {};
+      for (const [k, v] of fd.entries()) {
+        if (typeof v === 'string' && k !== 'content') values[k] = v;
+      }
+      const draft: Draft = { ts: Date.now(), values, content };
+      localStorage.setItem(storageKey, JSON.stringify(draft));
+      setSavedAt(draft.ts);
+    }, AUTOSAVE_MS);
+    return () => clearInterval(id);
+  }, [content, storageKey]);
+
+  // Tick every 15s so "hace Xs" updates without saving.
+  useEffect(() => {
+    const id = setInterval(() => tick((n) => n + 1), 15000);
+    return () => clearInterval(id);
+  }, []);
+
+  function restoreDraft() {
+    if (!draftOffer || !formRef.current) return;
+    const form = formRef.current;
+    for (const [name, value] of Object.entries(draftOffer.values)) {
+      const el = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null;
+      if (!el) continue;
+      if (el instanceof HTMLInputElement && el.type === 'checkbox') {
+        el.checked = value === 'on';
+      } else {
+        el.value = value;
+      }
+    }
+    if (draftOffer.values.featuredImage) setFeaturedImage(draftOffer.values.featuredImage);
+    setContent(draftOffer.content);
+    setDraftOffer(null);
+  }
+
+  function discardDraft() {
+    localStorage.removeItem(storageKey);
+    setDraftOffer(null);
+    setSavedAt(null);
+  }
+
+  function handleSubmit() {
+    localStorage.removeItem(storageKey);
+  }
+
+  function openPreview() {
+    if (!formRef.current) return;
+    const fd = new FormData(formRef.current);
+    const preview = {
+      title: String(fd.get('title') ?? ''),
+      description: String(fd.get('description') ?? ''),
+      category: String(fd.get('category') ?? ''),
+      author: String(fd.get('author') ?? ''),
+      locale: String(fd.get('locale') ?? 'es'),
+      featuredImage: String(fd.get('featuredImage') ?? ''),
+      content,
+      ts: Date.now(),
+    };
+    sessionStorage.setItem('article-preview', JSON.stringify(preview));
+    window.open('/admin/preview', '_blank', 'noopener');
+  }
 
   return (
-    <form action={formAction} className="max-w-3xl space-y-5">
+    <form ref={formRef} action={formAction} onSubmit={handleSubmit} className="max-w-3xl space-y-5">
+      {draftOffer && (
+        <div className="flex items-center justify-between border border-dorado bg-dorado/10 px-4 py-3">
+          <span className="text-sm text-negro">
+            Hay un borrador sin guardar de {relativeTime(draftOffer.ts)}.
+          </span>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={restoreDraft}
+              className="border border-negro bg-negro px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-blanco"
+            >
+              Restaurar
+            </button>
+            <button
+              type="button"
+              onClick={discardDraft}
+              className="border border-gris-brd bg-blanco px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-gris-med hover:border-negro hover:text-negro"
+            >
+              Descartar
+            </button>
+          </div>
+        </div>
+      )}
+
       <div>
         <label htmlFor="title" className="mb-1 block text-xs font-semibold uppercase tracking-widest text-gris-med">
           Título *
@@ -155,7 +286,7 @@ export function ArticleForm({
         <label className="mb-1 block text-xs font-semibold uppercase tracking-widest text-gris-med">
           Contenido completo *
         </label>
-        <RichTextEditor name="content" defaultValue={article?.content} />
+        <RichTextEditor name="content" defaultValue={article?.content} onChange={setContent} />
       </div>
 
       <fieldset className="border border-gris-brd p-4">
@@ -206,9 +337,17 @@ export function ArticleForm({
         <p className="text-sm font-semibold text-red-600">{state.error}</p>
       )}
 
-      <button type="submit" disabled={pending} className="btn-p">
-        {pending ? 'Guardando...' : 'Guardar artículo'}
-      </button>
+      <div className="flex flex-wrap items-center gap-3">
+        <button type="submit" disabled={pending} className="btn-p">
+          {pending ? 'Guardando...' : 'Guardar artículo'}
+        </button>
+        <button type="button" onClick={openPreview} className="btn-o py-2.5 text-xs">
+          Vista previa
+        </button>
+        <span className="text-xs text-gris-cla">
+          {savedAt ? `Borrador guardado ${relativeTime(savedAt)}` : 'Autosave activo'}
+        </span>
+      </div>
     </form>
   );
 }

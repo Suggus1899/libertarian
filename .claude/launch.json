@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "libertarian-dev",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev"],
+      "port": 3000
+    },
+    {
+      "name": "libertarian-landing",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "landing", "-p", "3001", "--no-clipboard"],
+      "port": 3001
+    }
+  ]
+}
