@@ -217,6 +217,32 @@ a{text-decoration:none;color:inherit}
 @media(max-width:768px){.footer{padding:40px 24px;flex-direction:column;gap:20px;text-align:center}.footer-links{flex-wrap:wrap;justify-content:center}}
 
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+
+/* ============================================================
+   DARK MODE COMPONENT OVERRIDES
+   Must come last — token inversion needs explicit overrides for
+   elements that use --negro as fill (icons, badges, CTAs, cards).
+============================================================ */
+@media (prefers-color-scheme: dark) {
+  .btn-p { background:var(--dorado);color:#0d0d0d;border-color:var(--dorado) }
+  .btn-p:hover { background:transparent;color:var(--dorado) }
+  .value-icon { background:#2c2c2a }
+  .stat-badge { background:var(--dorado);color:#0d0d0d }
+  .value-card { background:#141412;border-color:#383836 }
+  .svc-card { background:#1c1c1a;border-color:#3a3a38 }
+  .essay-card { background:#1c1c1a;border-color:#3a3a38 }
+  .essay-img { background:linear-gradient(135deg,#222220 0%,#2e2e2c 100%) }
+  .sc-dark { border-top-color:var(--dorado-v) }
+}
+:root[data-theme="dark"] .btn-p { background:var(--dorado);color:#0d0d0d;border-color:var(--dorado) }
+:root[data-theme="dark"] .btn-p:hover { background:transparent;color:var(--dorado) }
+:root[data-theme="dark"] .value-icon { background:#2c2c2a }
+:root[data-theme="dark"] .stat-badge { background:var(--dorado);color:#0d0d0d }
+:root[data-theme="dark"] .value-card { background:#141412;border-color:#383836 }
+:root[data-theme="dark"] .svc-card { background:#1c1c1a;border-color:#3a3a38 }
+:root[data-theme="dark"] .essay-card { background:#1c1c1a;border-color:#3a3a38 }
+:root[data-theme="dark"] .essay-img { background:linear-gradient(135deg,#222220 0%,#2e2e2c 100%) }
+:root[data-theme="dark"] .sc-dark { border-top-color:var(--dorado-v) }
   </style>
 </head>
 <body>

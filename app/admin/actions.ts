@@ -127,8 +127,9 @@ async function autoTranslateToOtherLocale(slug: string, sourceLocale: 'es' | 'en
       seoDescription: source.seoDescription,
       published: true,
     });
-  } catch {
-    // Silent fail — the article is still published in the source locale
+  } catch (err) {
+    // Non-blocking: article is published in source locale, translation is best-effort
+    console.error('[auto-translate] failed for slug:', slug, err);
   }
 }
 
