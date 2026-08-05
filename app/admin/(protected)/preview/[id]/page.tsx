@@ -4,7 +4,8 @@ import Image from 'next/image';
 import { db } from '@/lib/db';
 import { articles } from '@/lib/db/schema';
 import { requireAdmin } from '@/lib/auth';
-import { TableOfContents, addHeadingIds } from '@/components/TableOfContents';
+import { TableOfContents } from '@/components/TableOfContents';
+import { addHeadingIds } from '@/lib/heading-ids';
 
 export default async function PreviewByIdPage({
   params,

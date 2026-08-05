@@ -4,7 +4,8 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { PageHero } from '@/components/PageHero';
-import { TableOfContents, addHeadingIds } from '@/components/TableOfContents';
+import { TableOfContents } from '@/components/TableOfContents';
+import { addHeadingIds } from '@/lib/heading-ids';
 import { getEssayBySlug } from '@/lib/essays';
 import { buildCanonical } from '@/lib/seo';
 
