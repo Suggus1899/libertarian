@@ -17,6 +17,12 @@
 - **Featured image & SEO fields**: `articles.featuredImage`, `articles.seoTitle`, `articles.seoDescription` — shown on essay cards/detail pages and used in `generateMetadata` (falls back to title/description when empty)
 - **Demo mode**: `DEMO_MODE=true` + `NEXT_PUBLIC_DEMO_MODE=true` show a "Probar demo" button on `/admin/login` that bypasses the password check via the `demoLogin` server action. ONLY for local dev/demos — never enable in production.
 - **SEO**: `lib/seo.ts` (`buildAlternates` for hreflang), `app/sitemap.ts` (dynamic: pages + published essays), `app/robots.ts` (blocks `/admin`), `app/[locale]/opengraph-image.tsx` (1200×630 dynamic OG image), `app/icon.tsx`, `app/manifest.ts`. DB pooling (`lib/db/index.ts`) is `max: 1` by default for serverless; set `DB_POOL_MAX=10` on VPS for a real pool.
+- **Slug auto-generation**: typing a title auto-generates the slug in real-time (client-side `slugify`). The slug field shows "generado del título" / "editado manualmente" and has an "Auto" button to reset back to auto-generation after manual editing.
+- **Word count & reading time**: `useWordCount` hook in `RichTextEditor` shows "X palabras · ~Y min de lectura" in a status bar below the editor (200 wpm).
+- **Callout extension**: custom Tiptap node (`components/admin/tiptap/Callout.ts`) for `<blockquote class="callout" data-variant="quote|info|warning">` blocks with optional `<footer class="callout-cite">` for author attribution. Keyboard shortcut: `Ctrl+Shift+C`. Contextual toolbar for variant switching and cite editing. Styles in `globals.css`.
+- **DB autosave**: every 30s the `ArticleForm` calls `saveDraft` server action to upsert an unpublished draft row in the DB. Status shows "Guardando en DB..." / "DB guardado hace Xs". Falls back to localStorage autosave (5s) as safety net. The `draftIdRef` tracks the DB row so new articles get an ID on first save.
+- **DB-based preview**: `/admin/preview/[id]` reads the article from DB (works across tabs/devices/sessions). Falls back to sessionStorage-based `/admin/preview` for brand-new unsaved articles.
+- **Table of contents**: `components/TableOfContents.tsx` extracts H2/H3 headings from article HTML and renders a collapsible "Contenido" nav with anchor links. `addHeadingIds()` injects `id` attributes on headings. Used on the public essay detail page and admin preview.
 
 ## Commands
 

@@ -13,6 +13,7 @@ import { Table, TableRow, TableHeader, TableCell } from '@tiptap/extension-table
 import { useEffect, useState } from 'react';
 import { FigureImage } from './tiptap/FigureImage';
 import { EmbedHtml } from './tiptap/EmbedHtml';
+import { Callout } from './tiptap/Callout';
 import { MediaLibrary } from './MediaLibrary';
 import { PromptModal, type PromptField } from './PromptModal';
 
@@ -45,6 +46,22 @@ function ToolbarDivider() {
   return <span className="mx-0.5 w-px self-stretch bg-gris-brd" />;
 }
 
+function useWordCount(editor: ReturnType<typeof useEditor> | null) {
+  const [stats, setStats] = useState({ words: 0, readingMin: 0 });
+  useEffect(() => {
+    if (!editor) return;
+    const update = () => {
+      const text = editor.getText();
+      const words = text.split(/\s+/).filter(Boolean).length;
+      setStats({ words, readingMin: Math.max(1, Math.ceil(words / 200)) });
+    };
+    update();
+    editor.on('update', update);
+    return () => { editor.off('update', update); };
+  }, [editor]);
+  return stats;
+}
+
 export function RichTextEditor({
   name,
   defaultValue,
@@ -72,6 +89,7 @@ export function RichTextEditor({
       Image, // kept for parsing legacy/plain <img> content
       FigureImage,
       EmbedHtml,
+      Callout,
       Youtube.configure({ width: 640, height: 360 }),
       Table.configure({ resizable: true }),
       TableRow,
@@ -85,6 +103,8 @@ export function RichTextEditor({
       },
     },
   });
+
+  const { words, readingMin } = useWordCount(editor);
 
   const [html, setHtml] = useState(defaultValue || '');
   // Forces a re-render on selection changes (e.g. clicking an image) even when
@@ -183,6 +203,40 @@ export function RichTextEditor({
     });
   }
 
+  function insertCallout() {
+    if (editor?.isActive('callout')) {
+      editor.commands.lift('callout');
+    } else {
+      setPrompt({
+        title: 'Cita destacada (callout)',
+        submitLabel: 'Insertar',
+        fields: [
+          {
+            name: 'cite',
+            label: 'Autor de la cita (opcional)',
+            placeholder: 'Friedrich Hayek',
+          },
+        ],
+        onSubmit: ({ cite }) => {
+          editor?.chain().focus().setCallout({ variant: 'quote', cite: cite || '' }).run();
+        },
+      });
+    }
+  }
+
+  function editCalloutCite() {
+    if (!editor) return;
+    const current = (editor.getAttributes('callout').cite as string) || '';
+    setPrompt({
+      title: 'Editar autor de la cita',
+      submitLabel: 'Guardar',
+      fields: [{ name: 'cite', label: 'Autor', defaultValue: current }],
+      onSubmit: ({ cite }) => {
+        editor.chain().focus().updateCallout({ cite }).run();
+      },
+    });
+  }
+
   function insertTable() {
     editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
   }
@@ -201,6 +255,7 @@ export function RichTextEditor({
   }
 
   const isFigureSelected = editor.isActive('figureImage');
+  const isInCallout = editor.isActive('callout');
   const isInTable = editor.isActive('table');
 
   return (
@@ -250,6 +305,9 @@ export function RichTextEditor({
         </ToolbarButton>
         <ToolbarButton title="Cita" active={editor.isActive('blockquote')} onClick={() => editor.chain().focus().toggleBlockquote().run()}>
           Cita
+        </ToolbarButton>
+        <ToolbarButton title="Cita destacada (Ctrl+Shift+C)" active={editor.isActive('callout')} onClick={insertCallout}>
+          Callout
         </ToolbarButton>
         <ToolbarButton title="Línea horizontal" onClick={() => editor.chain().focus().setHorizontalRule().run()}>
           ―
@@ -311,6 +369,24 @@ export function RichTextEditor({
         </div>
       )}
 
+      {isInCallout && (
+        <div className="flex flex-wrap items-center gap-1.5 border-b border-gris-brd bg-dorado/10 p-2">
+          <span className="text-[0.68rem] font-bold uppercase tracking-widest text-gris-med">Callout:</span>
+          {(['quote', 'info', 'warning'] as const).map((v) => (
+            <ToolbarButton key={v} title={`Variante: ${v}`} active={editor.getAttributes('callout').variant === v} onClick={() => editor.chain().focus().updateCallout({ variant: v }).run()}>
+              {v === 'quote' ? 'Cita' : v === 'info' ? 'Info' : 'Aviso'}
+            </ToolbarButton>
+          ))}
+          <ToolbarDivider />
+          <ToolbarButton title="Editar autor" onClick={editCalloutCite}>
+            Autor
+          </ToolbarButton>
+          <ToolbarButton title="Quitar callout" onClick={() => editor.chain().focus().lift('callout').run()}>
+            Quitar
+          </ToolbarButton>
+        </div>
+      )}
+
       {isInTable && (
         <div className="flex flex-wrap items-center gap-1.5 border-b border-gris-brd bg-dorado/10 p-2">
           <span className="text-[0.68rem] font-bold uppercase tracking-widest text-gris-med">Tabla:</span>
@@ -333,6 +409,9 @@ export function RichTextEditor({
       )}
 
       <EditorContent editor={editor} />
+      <div className="flex items-center justify-between border-t border-gris-brd bg-gris-bg px-4 py-1.5 text-[0.7rem] text-gris-cla">
+        <span>{words.toLocaleString('es-AR')} palabras · ~{readingMin} min de lectura</span>
+      </div>
       <input type="hidden" name={name} value={html} />
 
       <MediaLibrary open={mediaOpen} onClose={() => setMediaOpen(false)} onSelect={insertImageFromLibrary} />

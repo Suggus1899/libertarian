@@ -196,6 +196,60 @@ export async function deleteArticle(id: number) {
 }
 
 /**
+ * Auto-save a draft to the DB without publishing. Creates a new unpublished
+ * article if `id` is undefined, or updates the existing one in-place.
+ * Returns the article id so the client can keep saving to the same row.
+ */
+export async function saveDraft(
+  id: number | undefined,
+  data: {
+    title: string;
+    slug: string;
+    locale: string;
+    type: string;
+    category: string;
+    description: string;
+    author: string;
+    content: string;
+    featuredImage: string;
+    seoTitle: string;
+    seoDescription: string;
+  }
+): Promise<{ id: number; error?: string }> {
+  await requireAdmin();
+
+  const slug = slugify(data.slug || data.title || 'borrador');
+
+  const values = {
+    slug,
+    locale: (data.locale || 'es') as 'es' | 'en',
+    type: (data.type || 'opinion') as 'ensayo' | 'opinion',
+    category: data.category || 'Sin categoría',
+    title: data.title || 'Sin título',
+    description: data.description || '',
+    author: data.author || '',
+    content: data.content || '<p></p>',
+    featuredImage: data.featuredImage || null,
+    seoTitle: data.seoTitle || null,
+    seoDescription: data.seoDescription || null,
+    published: false,
+    updatedAt: new Date(),
+  };
+
+  try {
+    if (id) {
+      await db.update(articles).set(values).where(eq(articles.id, id));
+      return { id };
+    }
+
+    const [row] = await db.insert(articles).values(values).returning({ id: articles.id });
+    return { id: row.id };
+  } catch {
+    return { id: id ?? 0, error: 'Error al guardar borrador.' };
+  }
+}
+
+/**
  * Translates an article to the other locale and saves it as a new DB row.
  * If a translation with the same slug already exists in the target locale,
  * it updates that row instead of creating a duplicate.

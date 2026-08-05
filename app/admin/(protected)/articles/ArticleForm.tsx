@@ -1,10 +1,11 @@
 'use client';
 
-import { useActionState, useEffect, useRef, useState } from 'react';
+import { useActionState, useEffect, useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
 import type { Article } from '@/lib/db/schema';
 import { RichTextEditor } from '@/components/admin/RichTextEditor';
 import { MediaLibrary } from '@/components/admin/MediaLibrary';
+import { saveDraft } from '../../actions';
 
 type FormAction = (prevState: unknown, formData: FormData) => Promise<{ error: string } | void>;
 
@@ -15,6 +16,16 @@ type Draft = {
 };
 
 const AUTOSAVE_MS = 5000;
+const DB_AUTOSAVE_MS = 30_000;
+
+function slugify(input: string) {
+  return input
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
 
 function relativeTime(from: number): string {
   const s = Math.round((Date.now() - from) / 1000);
@@ -38,9 +49,32 @@ export function ArticleForm({
   const [mediaOpen, setMediaOpen] = useState(false);
   const [content, setContent] = useState(article?.content ?? '');
   const [savedAt, setSavedAt] = useState<number | null>(null);
+  const [dbSavedAt, setDbSavedAt] = useState<number | null>(null);
+  const [dbSaving, setDbSaving] = useState(false);
   const [draftOffer, setDraftOffer] = useState<Draft | null>(null);
   const [, tick] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
+
+  // Slug auto-generation
+  const [slug, setSlug] = useState(article?.slug ?? '');
+  const [slugManual, setSlugManual] = useState(!!article?.slug);
+
+  const handleTitleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!slugManual) {
+      setSlug(slugify(e.target.value));
+    }
+  }, [slugManual]);
+
+  const handleSlugChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSlugManual(true);
+    setSlug(e.target.value);
+  }, []);
+
+  const handleSlugReset = useCallback(() => {
+    setSlugManual(false);
+    const titleInput = formRef.current?.elements.namedItem('title') as HTMLInputElement | null;
+    if (titleInput) setSlug(slugify(titleInput.value));
+  }, []);
 
   const storageKey = `article-draft-${article?.id ?? 'new'}`;
 
@@ -76,6 +110,43 @@ export function ArticleForm({
     return () => clearInterval(id);
   }, [content, storageKey]);
 
+  // DB autosave — debounced 30s, creates/updates an unpublished draft row.
+  const draftIdRef = useRef<number | undefined>(article?.id);
+  useEffect(() => {
+    const id = setInterval(async () => {
+      if (!formRef.current || dbSaving) return;
+      const fd = new FormData(formRef.current);
+      const title = String(fd.get('title') ?? '');
+      // Don't save empty drafts
+      if (!title && !content) return;
+      setDbSaving(true);
+      try {
+        const res = await saveDraft(draftIdRef.current, {
+          title,
+          slug: String(fd.get('slug') ?? ''),
+          locale: String(fd.get('locale') ?? 'es'),
+          type: String(fd.get('type') ?? 'opinion'),
+          category: String(fd.get('category') ?? ''),
+          description: String(fd.get('description') ?? ''),
+          author: String(fd.get('author') ?? ''),
+          content,
+          featuredImage: String(fd.get('featuredImage') ?? ''),
+          seoTitle: String(fd.get('seoTitle') ?? ''),
+          seoDescription: String(fd.get('seoDescription') ?? ''),
+        });
+        if (!res.error && res.id) {
+          draftIdRef.current = res.id;
+          setDbSavedAt(Date.now());
+        }
+      } catch {
+        // silent — localStorage autosave is still the safety net
+      } finally {
+        setDbSaving(false);
+      }
+    }, DB_AUTOSAVE_MS);
+    return () => clearInterval(id);
+  }, [content, dbSaving]);
+
   // Tick every 15s so "hace Xs" updates without saving.
   useEffect(() => {
     const id = setInterval(() => tick((n) => n + 1), 15000);
@@ -110,6 +181,13 @@ export function ArticleForm({
   }
 
   function openPreview() {
+    const id = draftIdRef.current;
+    if (id) {
+      // Use the DB-based preview route (works across tabs/devices)
+      window.open(`/admin/preview/${id}`, '_blank', 'noopener');
+      return;
+    }
+    // Fallback: sessionStorage for brand-new unsaved articles
     if (!formRef.current) return;
     const fd = new FormData(formRef.current);
     const preview = {
@@ -161,21 +239,35 @@ export function ArticleForm({
           name="title"
           required
           defaultValue={article?.title}
+          onChange={handleTitleChange}
           className="w-full border border-gris-brd bg-blanco px-3 py-2.5 text-sm outline-none focus:border-negro"
         />
       </div>
 
       <div>
         <label htmlFor="slug" className="mb-1 block text-xs font-semibold uppercase tracking-widest text-gris-med">
-          Slug (URL) — se genera del título si lo dejás vacío
+          Slug (URL) {slugManual ? '· editado manualmente' : '· generado del título'}
         </label>
-        <input
-          id="slug"
-          name="slug"
-          defaultValue={article?.slug}
-          placeholder="mi-articulo-de-opinion"
-          className="w-full border border-gris-brd bg-blanco px-3 py-2.5 text-sm outline-none focus:border-negro"
-        />
+        <div className="flex gap-2">
+          <input
+            id="slug"
+            name="slug"
+            value={slug}
+            onChange={handleSlugChange}
+            placeholder="mi-articulo-de-opinion"
+            className="w-full border border-gris-brd bg-blanco px-3 py-2.5 text-sm outline-none focus:border-negro"
+          />
+          {slugManual && (
+            <button
+              type="button"
+              onClick={handleSlugReset}
+              className="whitespace-nowrap border border-gris-brd bg-blanco px-3 py-2.5 text-xs font-semibold uppercase tracking-widest text-gris-med hover:border-negro hover:text-negro"
+              title="Volver a generar automáticamente del título"
+            >
+              Auto
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -345,7 +437,13 @@ export function ArticleForm({
           Vista previa
         </button>
         <span className="text-xs text-gris-cla">
-          {savedAt ? `Borrador guardado ${relativeTime(savedAt)}` : 'Autosave activo'}
+          {dbSaving
+            ? 'Guardando en DB...'
+            : dbSavedAt
+              ? `DB guardado ${relativeTime(dbSavedAt)}`
+              : savedAt
+                ? `Local guardado ${relativeTime(savedAt)}`
+                : 'Autosave activo'}
         </span>
       </div>
     </form>

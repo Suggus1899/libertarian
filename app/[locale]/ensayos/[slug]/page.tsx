@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { PageHero } from '@/components/PageHero';
+import { TableOfContents, addHeadingIds } from '@/components/TableOfContents';
 import { getEssayBySlug } from '@/lib/essays';
 import { buildCanonical } from '@/lib/seo';
 
@@ -148,11 +149,12 @@ export default async function EssayDetailPage({ params }: Props) {
               />
             </div>
           )}
+          <TableOfContents html={essay.contentHtml} />
           <div
             className="prose prose-lg max-w-none prose-headings:font-display prose-headings:text-negro prose-p:text-gris-med prose-a:text-dorado"
             // Content is authored exclusively by the site's single trusted admin via the
             // Tiptap editor (or hardcoded in messages/*.json), never by public visitors.
-            dangerouslySetInnerHTML={{ __html: essay.contentHtml }}
+            dangerouslySetInnerHTML={{ __html: addHeadingIds(essay.contentHtml) }}
           />
           <div className="mt-12 border-t border-gris-brd pt-10">
             <Link href="/ensayos" className="btn-p">

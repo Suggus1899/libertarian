@@ -263,6 +263,38 @@ body {
   }
 }
 
+/* Callout blocks — used both in the Tiptap editor and public article pages */
+blockquote.callout {
+  position: relative;
+  border-left: 4px solid var(--dorado);
+  background-color: var(--gris-bg);
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+}
+
+blockquote.callout[data-variant='info'] {
+  border-left-color: #2563eb;
+  background-color: #eff6ff;
+}
+
+blockquote.callout[data-variant='warning'] {
+  border-left-color: #d97706;
+  background-color: #fffbeb;
+}
+
+blockquote.callout p {
+  margin: 0.25rem 0;
+}
+
+blockquote.callout footer.callout-cite {
+  font-style: normal;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gris-med);
+  margin-top: 0.75rem;
+}
+
 /* Focus visible */
 :focus-visible {
   outline: 2px solid var(--dorado);
