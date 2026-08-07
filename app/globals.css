@@ -13,7 +13,7 @@
   --color-dorado: var(--dorado);
   --color-dorado-v: var(--dorado-v);
   --color-dorado-p: var(--dorado-p);
-  --font-sans: var(--font-montserrat);
+  --font-sans: var(--font-gotham);
 }
 
 :root {

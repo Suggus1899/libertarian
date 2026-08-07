@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Link, usePathname } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 import { X } from 'lucide-react';
+import Image from 'next/image';
 import { LocaleSwitcher } from './LocaleSwitcher';
 
 export function Navigation() {
@@ -36,8 +37,15 @@ export function Navigation() {
   return (
     <header className="fixed left-0 right-0 top-0 z-50 h-20 border-b border-gris-brd bg-blanco/97 backdrop-blur-md">
       <nav className="mx-auto flex h-full max-w-7xl items-center justify-between px-6 lg:px-14">
-        <Link href="/" className="text-xl font-black uppercase tracking-tight text-negro">
-          {t('brand')}
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/images/logo-color.png"
+            alt="Libertarian Forum"
+            height={44}
+            width={220}
+            className="h-11 w-auto object-contain"
+            priority
+          />
         </Link>
 
         {/* Desktop nav */}

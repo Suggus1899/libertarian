@@ -1,4 +1,4 @@
-import { Montserrat } from 'next/font/google';
+import localFont from 'next/font/local';
 import { getLocale } from 'next-intl/server';
 import { ReactNode } from 'react';
 import { Metadata } from 'next';
@@ -6,11 +6,17 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  variable: '--font-montserrat',
-  weight: ['300', '400', '500', '700', '900'],
-  style: ['normal', 'italic'],
+const gotham = localFont({
+  src: [
+    { path: './fonts/gotham/Gotham-Light.otf',      weight: '300', style: 'normal' },
+    { path: './fonts/gotham/Gotham-Book.otf',        weight: '400', style: 'normal' },
+    { path: './fonts/gotham/Gotham-BookItalic.otf',  weight: '400', style: 'italic' },
+    { path: './fonts/gotham/Gotham-Medium.otf',      weight: '500', style: 'normal' },
+    { path: './fonts/gotham/Gotham-Bold.otf',        weight: '700', style: 'normal' },
+    { path: './fonts/gotham/Gotham-BoldItalic.otf',  weight: '700', style: 'italic' },
+    { path: './fonts/gotham/Gotham-Black.otf',       weight: '900', style: 'normal' },
+  ],
+  variable: '--font-gotham',
   display: 'swap',
 });
 
@@ -30,7 +36,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const locale = await getLocale();
 
   return (
-    <html lang={locale} data-scroll-behavior="smooth" className={`${montserrat.variable} antialiased`}>
+    <html lang={locale} data-scroll-behavior="smooth" className={`${gotham.variable} antialiased`}>
       <body className="min-h-screen bg-blanco text-negro font-sans">
         {children}
         <Analytics />

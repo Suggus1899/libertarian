@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { useRouter } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
+import Image from 'next/image';
 
 export function Footer() {
   const t = useTranslations();
@@ -29,11 +30,17 @@ export function Footer() {
       <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-2 lg:grid-cols-5 lg:gap-10">
         <div className="lg:col-span-2">
           <div
-            className="mb-4 cursor-default select-none text-xl font-black uppercase tracking-tight text-blanco"
+            className="mb-4 cursor-default select-none"
             onClick={handleBrandClick}
             title={t('nav.brand')}
           >
-            {t('nav.brand')}
+            <Image
+              src="/images/logo-white.png"
+              alt="Libertarian Forum"
+              height={48}
+              width={240}
+              className="h-12 w-auto object-contain"
+            />
           </div>
           <p className="max-w-sm text-[0.85rem] leading-[1.75] text-white/40">
             {t('footer.tagline')}

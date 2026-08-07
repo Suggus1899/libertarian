@@ -6,6 +6,17 @@
   <title>Libertarian Forum — Think Tank Libertario</title>
   <style>
 /* ============================================================
+   GOTHAM (brand typeface — self-hosted)
+============================================================ */
+@font-face{font-family:'Gotham';src:url('fonts/Gotham-Light.otf') format('opentype');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'Gotham';src:url('fonts/Gotham-Book.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Gotham';src:url('fonts/Gotham-BookItalic.otf') format('opentype');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Gotham';src:url('fonts/Gotham-Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Gotham';src:url('fonts/Gotham-Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Gotham';src:url('fonts/Gotham-BoldItalic.otf') format('opentype');font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:'Gotham';src:url('fonts/Gotham-Black.otf') format('opentype');font-weight:900;font-style:normal;font-display:swap}
+
+/* ============================================================
    TOKENS
 ============================================================ */
 :root {
@@ -30,7 +41,7 @@
 ============================================================ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--blanco);color:var(--negro);font-family:'Montserrat','Arial Black','Arial',system-ui,sans-serif;overflow-x:hidden;line-height:1.6}
+body{background:var(--blanco);color:var(--negro);font-family:'Gotham','Montserrat','Arial Black',system-ui,sans-serif;overflow-x:hidden;line-height:1.6}
 ::selection{background:var(--dorado);color:#0d0d0d}
 a{text-decoration:none;color:inherit}
 :focus-visible{outline:2px solid var(--dorado);outline-offset:2px}
@@ -65,7 +76,7 @@ a{text-decoration:none;color:inherit}
    NAV
 ============================================================ */
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:72px;background:var(--blanco);border-bottom:1px solid var(--gris-brd);transition:background .3s,border-color .3s}
-.nav-brand{font-size:1rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:var(--negro)}
+.nav-brand{display:flex;align-items:center}
 .nav-brand-gold{color:var(--dorado)}
 .nav-links{display:flex;gap:32px;list-style:none;align-items:center}
 .nav-links a{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gris-med);transition:color .2s}
@@ -253,7 +264,9 @@ a{text-decoration:none;color:inherit}
 
 <!-- NAV -->
 <nav class="nav" role="banner">
-  <a href="#" class="nav-brand" aria-label="Libertarian Forum">LF<span class="nav-brand-gold">.</span></a>
+  <a href="#" class="nav-brand" aria-label="Libertarian Forum">
+    <img src="images/logo-color.png" alt="Libertarian Forum" height="40" style="height:40px;width:auto;display:block;object-fit:contain">
+  </a>
   <ul class="nav-links" role="list">
     <li><a href="#about" data-i18n="navAbout">Nosotros</a></li>
     <li><a href="#services" data-i18n="navServices">Servicios</a></li>
