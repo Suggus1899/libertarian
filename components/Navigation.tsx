@@ -37,15 +37,18 @@ export function Navigation() {
   return (
     <header className="fixed left-0 right-0 top-0 z-50 h-20 border-b border-gris-brd bg-blanco/97 backdrop-blur-md">
       <nav className="mx-auto flex h-full max-w-7xl items-center justify-between px-6 lg:px-14">
-        <Link href="/" className="flex items-center">
+        <Link href="/" className="flex flex-shrink-0 items-center gap-3">
           <Image
-            src="/images/logo-color.png"
+            src="/images/logo-icon.png"
             alt="Libertarian Forum"
-            height={44}
-            width={220}
-            className="h-11 w-auto object-contain"
+            height={40}
+            width={42}
+            className="h-10 w-auto"
             priority
           />
+          <span className="font-black uppercase leading-[1.05] tracking-tight text-negro" style={{ fontSize: '0.875rem' }}>
+            Libertarian<br />Forum
+          </span>
         </Link>
 
         {/* Desktop nav */}

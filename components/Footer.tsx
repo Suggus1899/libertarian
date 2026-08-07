@@ -30,17 +30,20 @@ export function Footer() {
       <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-2 lg:grid-cols-5 lg:gap-10">
         <div className="lg:col-span-2">
           <div
-            className="mb-4 cursor-default select-none"
+            className="mb-4 flex cursor-default select-none items-center gap-3"
             onClick={handleBrandClick}
             title={t('nav.brand')}
           >
             <Image
-              src="/images/logo-white.png"
+              src="/images/logo-icon.png"
               alt="Libertarian Forum"
               height={48}
-              width={240}
-              className="h-12 w-auto object-contain"
+              width={50}
+              className="h-12 w-auto brightness-0 invert"
             />
+            <span className="font-black uppercase leading-[1.05] tracking-tight text-blanco" style={{ fontSize: '0.95rem' }}>
+              Libertarian<br />Forum
+            </span>
           </div>
           <p className="max-w-sm text-[0.85rem] leading-[1.75] text-white/40">
             {t('footer.tagline')}
