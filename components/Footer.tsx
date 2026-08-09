@@ -159,6 +159,7 @@ export function Footer() {
       <div className="mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-white/[0.06] pt-6 text-[0.75rem] text-white/25 md:flex-row">
         <span>{t('footer.copy')}</span>
         <span>{t('footer.motto')}</span>
+        <a href="/admin/login" className="transition hover:text-white/50">Admin</a>
       </div>
     </footer>
   );
