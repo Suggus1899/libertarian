@@ -16,10 +16,10 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'metadata' });
+  const msgs = (await import(`../../messages/${locale}.json`)).default as { metadata: { title: string; description: string } };
   return {
-    title: { absolute: t('title') },
-    description: t('description'),
+    title: { absolute: msgs.metadata.title },
+    description: msgs.metadata.description,
     alternates: buildAlternates(locale, '/'),
   };
 }

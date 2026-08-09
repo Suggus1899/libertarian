@@ -1,5 +1,5 @@
 import localFont from 'next/font/local';
-import { getLocale } from 'next-intl/server';
+import { headers } from 'next/headers';
 import { ReactNode } from 'react';
 import { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/next';
@@ -33,7 +33,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   // it reads the middleware's own resolution instead of a route param. This
   // keeps the whole layout a Server Component (no client-side JS needed just
   // to set <html lang>).
-  const locale = await getLocale();
+  const headersList = await headers();
+  const locale = headersList.get('x-next-intl-locale') ?? 'es';
 
   return (
     <html lang={locale} data-scroll-behavior="smooth" className={`${gotham.variable} antialiased`}>

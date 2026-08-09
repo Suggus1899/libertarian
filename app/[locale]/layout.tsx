@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { getMessages, getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ReactNode } from 'react';
 import { Metadata } from 'next';
 import { routing, getPathname } from '@/i18n/routing';
@@ -20,14 +20,14 @@ type Props = {
 // preview image or title.
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'metadata' });
+  const msgs = (await import(`../../messages/${locale}.json`)).default as { metadata: { title: string; description: string } };
 
   return {
     title: {
-      template: `%s — ${t('title')}`,
-      default: t('title'),
+      template: `%s — ${msgs.metadata.title}`,
+      default: msgs.metadata.title,
     },
-    description: t('description'),
+    description: msgs.metadata.description,
     keywords: [
       'libertarianismo',
       'think tank',
@@ -85,8 +85,9 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+  setRequestLocale(locale);
 
-  const messages = await getMessages();
+  const messages = (await import(`../../messages/${locale}.json`)).default;
   const t = await getTranslations({ locale, namespace: 'metadata' });
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
@@ -109,7 +110,7 @@ export default async function LocaleLayout({
   ];
 
   return (
-    <NextIntlClientProvider messages={messages}>
+    <NextIntlClientProvider messages={messages} locale={locale}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
