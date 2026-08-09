@@ -12,8 +12,8 @@ export async function login(_prevState: unknown, formData: FormData) {
     return { error: 'Datos inválidos.' };
   }
 
-  const adminEmail = process.env.ADMIN_EMAIL;
-  const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
+  const adminEmail = process.env.ADMIN_EMAIL?.trim();
+  const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH?.trim().replace(/^['"]|['"]$/g, '');
 
   if (!adminEmail || !adminPasswordHash) {
     return { error: 'El admin no está configurado. Contacta al desarrollador.' };
