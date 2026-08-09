@@ -1,41 +1,50 @@
 /**
- * Translation service using DeepL API.
- * Set DEEPL_API_KEY in .env.local — free keys end with ':fx' (api-free.deepl.com).
- * Paid keys use api.deepl.com. The base URL is auto-detected from the key suffix.
+ * Translation via MyMemory (free, no key required).
+ * Optional: set MYMEMORY_API_KEY (free registration at mymemory.translated.net)
+ * to raise the daily limit from ~1K to 10K words/day.
  */
 
-function getBaseUrl(): string {
-  const key = process.env.DEEPL_API_KEY;
-  if (!key) throw new Error('DEEPL_API_KEY is not set');
-  return key.endsWith(':fx')
-    ? 'https://api-free.deepl.com'
-    : 'https://api.deepl.com';
+const MYMEMORY = 'https://api.mymemory.translated.net/get';
+const CHUNK = 480; // stay under the 500-char free-tier per-request limit
+
+async function callApi(text: string, langpair: string): Promise<string> {
+  const url = new URL(MYMEMORY);
+  url.searchParams.set('q', text);
+  url.searchParams.set('langpair', langpair);
+  const key = process.env.MYMEMORY_API_KEY;
+  if (key) url.searchParams.set('key', key);
+
+  const res = await fetch(url.toString());
+  if (!res.ok) throw new Error(`MyMemory ${res.status}`);
+  const data = await res.json() as { responseData: { translatedText: string }; responseStatus: number };
+  if (data.responseStatus !== 200) throw new Error(`MyMemory status ${data.responseStatus}`);
+  return data.responseData.translatedText;
 }
 
-async function deepl(texts: string[], target: 'es' | 'en', isHtml = false): Promise<string[]> {
-  const key = process.env.DEEPL_API_KEY;
-  if (!key) throw new Error('DEEPL_API_KEY is not set');
+async function translateChunked(text: string, langpair: string): Promise<string> {
+  if (!text.trim()) return text;
+  if (text.length <= CHUNK) return callApi(text, langpair);
 
-  const res = await fetch(`${getBaseUrl()}/v2/translate`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `DeepL-Auth-Key ${key}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      text: texts,
-      target_lang: target.toUpperCase(),
-      ...(isHtml ? { tag_handling: 'html' } : {}),
-    }),
-  });
-
-  if (!res.ok) {
-    const body = await res.text().catch(() => '');
-    throw new Error(`DeepL error ${res.status}: ${body || res.statusText}`);
+  // Split on sentence boundaries, then batch into ≤CHUNK chunks
+  const sentences = text.match(/[^.!?\n]+[.!?\n]*/g) ?? [text];
+  const batches: string[] = [];
+  let current = '';
+  for (const s of sentences) {
+    if (current.length + s.length > CHUNK && current) {
+      batches.push(current);
+      current = s;
+    } else {
+      current += s;
+    }
   }
+  if (current) batches.push(current);
 
-  const data = await res.json() as { translations: { text: string }[] };
-  return data.translations.map((t) => t.text);
+  const parts: string[] = [];
+  for (const batch of batches) {
+    parts.push(await callApi(batch, langpair));
+    if (batches.length > 1) await new Promise((r) => setTimeout(r, 200));
+  }
+  return parts.join(' ');
 }
 
 export async function translateText(
@@ -44,19 +53,24 @@ export async function translateText(
   target: 'es' | 'en'
 ): Promise<string> {
   if (source === target || !text.trim()) return text;
-  const [result] = await deepl([text], target);
-  return result;
+  return translateChunked(text, `${source}|${target}`);
 }
 
-// DeepL handles HTML natively — no manual tag-splitting needed.
+// Replaces HTML tags with numbered placeholders before sending to MyMemory,
+// then restores them — so the API never sees or corrupts markup.
 export async function translateHtml(
   html: string,
   source: 'es' | 'en',
   target: 'es' | 'en'
 ): Promise<string> {
   if (source === target || !html.trim()) return html;
-  const [result] = await deepl([html], target, true);
-  return result;
+  const tags: string[] = [];
+  const stripped = html.replace(/<[^>]+>/g, (tag) => {
+    tags.push(tag);
+    return `[${tags.length - 1}]`;
+  });
+  const translated = await translateChunked(stripped, `${source}|${target}`);
+  return translated.replace(/\[(\d+)\]/g, (_, i) => tags[+i] ?? '');
 }
 
 export async function translateArticleFields(
@@ -76,11 +90,12 @@ export async function translateArticleFields(
   content: string;
   author: string;
 }> {
-  // Batch plain-text fields and HTML content in parallel
-  const [[title, description, category], content] = await Promise.all([
-    deepl([article.title, article.description, article.category], target),
-    deepl([article.content], target, true).then((r) => r[0]),
+  const lp = `${source}|${target}`;
+  const [title, description, category] = await Promise.all([
+    translateChunked(article.title, lp),
+    translateChunked(article.description, lp),
+    translateChunked(article.category, lp),
   ]);
-
+  const content = await translateHtml(article.content, source, target);
   return { title, description, category, content, author: article.author };
 }
