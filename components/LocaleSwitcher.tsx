@@ -1,18 +1,19 @@
 'use client';
 
-import { useLocale } from 'next-intl';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 export function LocaleSwitcher() {
   const t = useTranslations('nav');
   const currentLocale = useLocale();
 
   function onChange(nextLocale: string) {
-    const withoutLocale =
-      window.location.pathname.replace(new RegExp(`^/${currentLocale}`), '') || '/';
+    // Read from URL at click time — avoids stale closure / hydration mismatch
+    const path = window.location.pathname;
+    const match = path.match(/^\/(es|en)(\/.*)?$/);
+    const locale = match?.[1] ?? 'es';
+    const rest = match?.[2] ?? '/';
     window.location.href =
-      `/${nextLocale}${withoutLocale === '/' ? '' : withoutLocale}` +
-      window.location.search;
+      `/${nextLocale}${rest === '/' ? '' : rest}` + window.location.search;
   }
 
   return (
