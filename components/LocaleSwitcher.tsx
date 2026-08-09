@@ -1,22 +1,18 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import { usePathname, useRouter } from '@/i18n/routing';
+import { useLocale } from 'next-intl';
 import { useTranslations } from 'next-intl';
 
 export function LocaleSwitcher() {
   const t = useTranslations('nav');
-  const router = useRouter();
-  const pathname = usePathname();
-  const params = useParams();
-  const currentLocale = (params?.locale as string) ?? 'es';
+  const currentLocale = useLocale();
 
   function onChange(nextLocale: string) {
-    // next-intl 4.13.4 returns the pathname WITH the locale prefix (e.g. "/en"
-    // instead of "/"). Strip it so router.replace doesn't double-nest the
-    // locale (e.g. "/es/en").
-    const stripped = pathname.replace(new RegExp(`^/${currentLocale}`), '') || '/';
-    router.replace(stripped as Parameters<typeof router.replace>[0], { locale: nextLocale });
+    const withoutLocale =
+      window.location.pathname.replace(new RegExp(`^/${currentLocale}`), '') || '/';
+    window.location.href =
+      `/${nextLocale}${withoutLocale === '/' ? '' : withoutLocale}` +
+      window.location.search;
   }
 
   return (
