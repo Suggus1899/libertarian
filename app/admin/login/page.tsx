@@ -1,13 +1,14 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import Link from 'next/link';
-import { Lock, ArrowLeft, Sparkles } from 'lucide-react';
+import { Lock, ArrowLeft, Sparkles, Eye, EyeOff } from 'lucide-react';
 import { login, demoLogin } from './actions';
 
 export default function AdminLoginPage() {
   const [state, formAction, pending] = useActionState(login, null);
   const [demoState, demoAction, demoPending] = useActionState(demoLogin, null);
+  const [showPassword, setShowPassword] = useState(false);
   const demoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
 
   return (
@@ -60,14 +61,24 @@ export default function AdminLoginPage() {
           >
             Contraseña
           </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            required
-            autoComplete="current-password"
-            className="mb-6 w-full border border-gris-brd bg-blanco px-3.5 py-3 text-sm text-negro outline-none transition focus:border-negro"
-          />
+          <div className="relative mb-6">
+            <input
+              id="password"
+              name="password"
+              type={showPassword ? 'text' : 'password'}
+              required
+              autoComplete="current-password"
+              className="w-full border border-gris-brd bg-blanco px-3.5 py-3 pr-11 text-sm text-negro outline-none transition focus:border-negro"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(v => !v)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gris-med transition hover:text-negro"
+              aria-label={showPassword ? 'Ocultar contraseña' : 'Ver contraseña'}
+            >
+              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
 
           {state?.error && (
             <p className="mb-5 border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm font-medium text-red-600">
