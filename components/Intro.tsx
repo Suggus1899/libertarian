@@ -32,16 +32,18 @@ export function Intro() {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-negro ${
+      className={`fixed inset-0 z-[9999] flex items-center justify-center ${
         fading ? 'animate-[introOut_0.6s_ease_forwards]' : ''
       }`}
+      style={{ background: '#0d0d0d' }}
       aria-hidden="true"
     >
       {words.map((word, i) => (
         <span
           key={word}
-          className="absolute font-display font-black text-blanco opacity-0"
+          className="absolute font-display font-black opacity-0"
           style={{
+            color: '#ffffff',
             fontSize: 'clamp(1.6rem, 6vw, 3.2rem)',
             letterSpacing: '0.18em',
             animation: `wordFlash 0.75s ease ${i * 0.65 + 0.1}s both`,
@@ -75,8 +77,8 @@ export function Intro() {
           style={{ animation: 'dividerSlide 0.8s ease 2.95s forwards' }}
         />
         <div
-          className="opacity-0 text-[0.72rem] font-medium uppercase tracking-[5px] text-gris-cla"
-          style={{ animation: 'tagFade 0.8s ease 3.3s forwards' }}
+          className="opacity-0 text-[0.72rem] font-medium uppercase tracking-[5px]"
+          style={{ color: '#888888', animation: 'tagFade 0.8s ease 3.3s forwards' }}
         >
           {t('title')}
         </div>

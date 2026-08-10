@@ -201,6 +201,20 @@ export async function deleteArticle(id: number) {
   revalidatePath('/admin');
 }
 
+export async function duplicateArticle(id: number) {
+  await requireAdmin();
+  const [src] = await db.select().from(articles).where(eq(articles.id, id));
+  if (!src) return;
+  const { id: _id, createdAt: _c, updatedAt: _u, views: _v, ...rest } = src;
+  const baseSlug = `${src.slug}-copia`;
+  try {
+    await db.insert(articles).values({ ...rest, slug: baseSlug, published: false });
+  } catch {
+    await db.insert(articles).values({ ...rest, slug: `${baseSlug}-${Date.now()}`, published: false });
+  }
+  revalidatePath('/admin');
+}
+
 export async function bulkUpdateArticles(ids: number[], action: 'publish' | 'unpublish' | 'delete') {
   await requireAdmin();
   if (!ids.length) return;

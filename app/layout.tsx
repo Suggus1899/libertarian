@@ -37,7 +37,11 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const locale = headersList.get('x-next-intl-locale') ?? 'es';
 
   return (
-    <html lang={locale} data-scroll-behavior="smooth" className={`${gotham.variable} antialiased`}>
+    <html lang={locale} data-scroll-behavior="smooth" className={`${gotham.variable} antialiased`} suppressHydrationWarning>
+      <head>
+        {/* Prevents flash of wrong theme on load */}
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();` }} />
+      </head>
       <body className="min-h-screen bg-blanco text-negro font-sans">
         {children}
         <Analytics />

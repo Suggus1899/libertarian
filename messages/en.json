@@ -143,6 +143,8 @@
       "opinion": "Opinion articles",
       "search": "Search articles...",
       "allCategories": "All categories",
+      "allAuthors": "All authors",
+      "loadMore": "Load more",
       "noResults": "No articles found."
     },
     "soon": {

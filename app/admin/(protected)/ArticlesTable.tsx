@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
-import { bulkUpdateArticles } from '@/app/admin/actions';
+import { bulkUpdateArticles, duplicateArticle } from '@/app/admin/actions';
 import { TranslateButton } from './TranslateButton';
 import { DeleteButton } from './DeleteButton';
 import type { Article } from '@/lib/db/schema';
@@ -167,6 +167,12 @@ export function ArticlesTable({ items }: { items: Article[] }) {
                       Editar
                     </Link>
                     <TranslateButton id={item.id} locale={item.locale} />
+                    <button
+                      onClick={() => duplicateArticle(item.id)}
+                      className="border border-gris-brd px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-widest text-gris-med transition hover:border-negro hover:text-negro"
+                    >
+                      Dupl.
+                    </button>
                     <DeleteButton id={item.id} />
                   </div>
                 </td>
@@ -222,6 +228,12 @@ export function ArticlesTable({ items }: { items: Article[] }) {
                     Editar
                   </Link>
                   <TranslateButton id={item.id} locale={item.locale} />
+                  <button
+                    onClick={() => duplicateArticle(item.id)}
+                    className="border border-gris-brd px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-widest text-gris-med transition hover:border-negro hover:text-negro"
+                  >
+                    Dupl.
+                  </button>
                   <DeleteButton id={item.id} />
                 </div>
               </div>

@@ -30,6 +30,20 @@
   --dorado-p: rgba(212, 160, 23, 0.08);
 }
 
+[data-theme="dark"] {
+  --negro: #f0f0ee;
+  --negro-s: #d8d8d6;
+  --gris-osc: #bbbbba;
+  --gris-med: #909090;
+  --gris-cla: #606060;
+  --gris-bg: #1a1a18;
+  --gris-brd: #2e2e2c;
+  --blanco: #0f0f0e;
+  --dorado: #d4a017;
+  --dorado-v: #e8b420;
+  --dorado-p: rgba(212, 160, 23, 0.12);
+}
+
 *,
 *::before,
 *::after {

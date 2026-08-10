@@ -7,8 +7,9 @@ import { Link } from '@/i18n/routing';
 import { PageHero } from '@/components/PageHero';
 import { TableOfContents } from '@/components/TableOfContents';
 import { ShareButtons } from '@/components/ShareButtons';
+import { ReadingProgress } from '@/components/ReadingProgress';
 import { addHeadingIds } from '@/lib/heading-ids';
-import { getEssayBySlug } from '@/lib/essays';
+import { getEssays } from '@/lib/essays';
 import { buildCanonical } from '@/lib/seo';
 import { incrementViews } from '@/app/admin/actions';
 
@@ -18,7 +19,8 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const essay = await getEssayBySlug(locale, slug);
+  const allEssays = await getEssays(locale);
+  const essay = allEssays.find((e) => e.slug === slug) ?? null;
 
   if (!essay) {
     const t = await getTranslations({ locale });
@@ -84,13 +86,18 @@ export default async function EssayDetailPage({ params }: Props) {
   setRequestLocale(locale);
 
   const t = await getTranslations();
-  const essay = await getEssayBySlug(locale, slug);
+  const allEssays = await getEssays(locale);
+  const essay = allEssays.find((e) => e.slug === slug) ?? null;
 
   if (!essay) {
     notFound();
   }
 
   after(() => incrementViews(slug, locale).catch(() => {}));
+
+  const related = allEssays
+    .filter((e) => e.category === essay.category && e.slug !== slug)
+    .slice(0, 3);
 
   const canonicalUrl = buildCanonical(locale, `/ensayos/${slug}`);
   const jsonLd = {
@@ -117,6 +124,7 @@ export default async function EssayDetailPage({ params }: Props) {
 
   return (
     <>
+      <ReadingProgress />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -137,10 +145,12 @@ export default async function EssayDetailPage({ params }: Props) {
             <h1 className="mt-3 font-display text-[clamp(1.8rem,4vw,2.8rem)] font-black leading-[1.15] text-negro">
               {essay.title}
             </h1>
-            <div className="mt-4 flex gap-4 text-sm text-gris-cla">
+            <div className="mt-4 flex flex-wrap gap-4 text-sm text-gris-cla">
               <span>{essay.date}</span>
               <span>·</span>
               <span>{essay.author}</span>
+              <span>·</span>
+              <span>{essay.readingTime} min {locale === 'en' ? 'read' : 'de lectura'}</span>
             </div>
           </div>
           {essay.featuredImage && (
@@ -168,6 +178,29 @@ export default async function EssayDetailPage({ params }: Props) {
             </Link>
             <ShareButtons url={canonicalUrl} title={essay.title} />
           </div>
+
+          {related.length > 0 && (
+            <div className="mt-16 border-t border-gris-brd pt-10">
+              <h2 className="mb-6 text-[0.65rem] font-semibold uppercase tracking-[3px] text-gris-cla">
+                {locale === 'en' ? 'Related articles' : 'Artículos relacionados'}
+              </h2>
+              <div className="grid gap-4 sm:grid-cols-3">
+                {related.map((r) => (
+                  <Link
+                    key={r.slug}
+                    href={{ pathname: '/ensayos/[slug]', params: { slug: r.slug } } as Parameters<typeof Link>[0]['href']}
+                    className="group block border border-gris-brd p-5 transition hover:border-negro"
+                  >
+                    <span className="text-[0.6rem] font-bold uppercase tracking-[2px] text-dorado">{r.category}</span>
+                    <h3 className="mt-2 text-sm font-semibold leading-[1.4] text-negro group-hover:text-dorado transition-colors">
+                      {r.title}
+                    </h3>
+                    <p className="mt-1.5 text-[0.7rem] text-gris-cla">{r.author} · {r.readingTime} min</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </article>
     </>

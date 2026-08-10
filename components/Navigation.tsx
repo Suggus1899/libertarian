@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { X } from 'lucide-react';
 import Image from 'next/image';
 import { LocaleSwitcher } from './LocaleSwitcher';
+import { ThemeToggle } from './ThemeToggle';
 
 export function Navigation() {
   const t = useTranslations('nav');
@@ -88,7 +89,8 @@ export function Navigation() {
             {t('contacto')}
           </Link>
 
-          <div className="ml-3 flex items-center">
+          <div className="ml-3 flex items-center gap-1">
+            <ThemeToggle />
             <LocaleSwitcher />
           </div>
         </div>

@@ -2,6 +2,7 @@ import { desc, eq, and, or, isNotNull, lte } from 'drizzle-orm';
 import { getTranslations } from 'next-intl/server';
 import { db } from './db';
 import { articles } from './db/schema';
+import { readingTime } from './reading-time';
 
 export type EssayItem = {
   slug: string;
@@ -17,6 +18,7 @@ export type EssayItem = {
   type: 'ensayo' | 'opinion' | null;
   publishedAt: Date | null;
   updatedAt: Date | null;
+  readingTime: number;
 };
 
 function formatDate(date: Date, locale: string) {
@@ -48,21 +50,25 @@ export async function getEssays(locale: string): Promise<EssayItem[]> {
     full: string[];
   }>;
 
-  const staticMapped: EssayItem[] = staticItems.map((item) => ({
-    slug: item.slug,
-    category: item.category,
-    title: item.title,
-    description: item.description,
-    date: item.date,
-    author: item.author,
-    contentHtml: item.full.map((p) => `<p>${escapeHtml(p)}</p>`).join(''),
-    featuredImage: null,
-    seoTitle: null,
-    seoDescription: null,
-    type: null,
-    publishedAt: null,
-    updatedAt: null,
-  }));
+  const staticMapped: EssayItem[] = staticItems.map((item) => {
+    const html = item.full.map((p) => `<p>${escapeHtml(p)}</p>`).join('');
+    return {
+      slug: item.slug,
+      category: item.category,
+      title: item.title,
+      description: item.description,
+      date: item.date,
+      author: item.author,
+      contentHtml: html,
+      featuredImage: null,
+      seoTitle: null,
+      seoDescription: null,
+      type: null,
+      publishedAt: null,
+      updatedAt: null,
+      readingTime: readingTime(html),
+    };
+  });
 
   let dbItems: EssayItem[] = [];
   try {
@@ -96,6 +102,7 @@ export async function getEssays(locale: string): Promise<EssayItem[]> {
       type: row.type,
       publishedAt: row.createdAt,
       updatedAt: row.updatedAt,
+      readingTime: readingTime(row.content),
     }));
   } catch {
     // DB not configured yet (e.g. local dev without DATABASE_URL) — fall back to static content only.
