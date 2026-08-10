@@ -24,7 +24,7 @@ export function PageHero({ eyebrowKey, titleKey, introKey, bgText }: PageHeroPro
 
       <div className="relative z-10 mx-auto max-w-3xl lg:mx-0">
         <div className="eyebrow mb-3.5">{t(eyebrowKey)}</div>
-        <h1 className="font-display text-[clamp(2.4rem,4.5vw,3.6rem)] font-black leading-[1.1] text-blanco">
+        <h1 className="font-display text-[clamp(1.6rem,5.5vw,3.6rem)] font-black leading-[1.1] text-blanco">
           {t.rich(titleKey, {
             br: () => <br />,
             em: (chunks) => <em className="italic text-dorado">{chunks}</em>,

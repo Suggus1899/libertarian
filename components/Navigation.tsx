@@ -152,6 +152,7 @@ export function Navigation() {
             </Link>
           </div>
           <div className="mt-6 flex gap-2 border-t border-gris-brd pt-4">
+            <ThemeToggle />
             <LocaleSwitcher />
           </div>
         </div>
