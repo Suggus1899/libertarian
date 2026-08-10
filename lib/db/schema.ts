@@ -17,6 +17,8 @@ export const articles = pgTable('articles', {
   seoTitle: text('seo_title'),
   seoDescription: text('seo_description'),
   published: boolean('published').notNull().default(true),
+  publishAt: timestamp('publish_at', { withTimezone: true }),
+  views: integer('views').notNull().default(0),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 }, (t) => [

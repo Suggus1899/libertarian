@@ -48,6 +48,7 @@ export function ArticleForm({
   const [featuredImage, setFeaturedImage] = useState(article?.featuredImage ?? '');
   const [mediaOpen, setMediaOpen] = useState(false);
   const [content, setContent] = useState(article?.content ?? '');
+  const [isPublished, setIsPublished] = useState(article?.published ?? true);
   const [savedAt, setSavedAt] = useState<number | null>(null);
   const [dbSavedAt, setDbSavedAt] = useState<number | null>(null);
   const [dbSaving, setDbSaving] = useState(false);
@@ -412,17 +413,39 @@ export function ArticleForm({
         </div>
       </fieldset>
 
-      <div className="flex items-center gap-2">
-        <input
-          id="published"
-          name="published"
-          type="checkbox"
-          defaultChecked={article?.published ?? true}
-          className="h-4 w-4"
-        />
-        <label htmlFor="published" className="text-sm text-gris-med">
-          Publicado (visible en el sitio)
-        </label>
+      <div className="space-y-3">
+        <div className="flex items-center gap-2">
+          <input
+            id="published"
+            name="published"
+            type="checkbox"
+            checked={isPublished}
+            onChange={(e) => setIsPublished(e.target.checked)}
+            className="h-4 w-4"
+          />
+          <label htmlFor="published" className="text-sm text-gris-med">
+            Publicado (visible en el sitio)
+          </label>
+        </div>
+
+        {!isPublished && (
+          <div>
+            <label htmlFor="publishAt" className="mb-1 block text-xs font-semibold uppercase tracking-widest text-gris-med">
+              Publicar automáticamente el (opcional)
+            </label>
+            <input
+              id="publishAt"
+              name="publishAt"
+              type="datetime-local"
+              defaultValue={
+                article?.publishAt
+                  ? new Date(article.publishAt).toISOString().slice(0, 16)
+                  : undefined
+              }
+              className="border border-gris-brd bg-blanco px-3 py-2.5 text-sm outline-none focus:border-negro"
+            />
+          </div>
+        )}
       </div>
 
       {state?.error && (

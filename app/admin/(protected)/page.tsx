@@ -3,17 +3,11 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { db } from '@/lib/db';
 import { articles } from '@/lib/db/schema';
-import { DeleteButton } from './DeleteButton';
-import { TranslateButton } from './TranslateButton';
+import { ArticlesTable } from './ArticlesTable';
 
 export const metadata: Metadata = {
   title: 'Admin · Libertarian Forum',
 };
-
-function publicUrl(locale: string, slug: string) {
-  const path = locale === 'en' ? 'essays' : 'ensayos';
-  return `/${locale}/${path}/${slug}`;
-}
 
 function filterHref(locale?: string, status?: string) {
   const params = new URLSearchParams();
@@ -37,7 +31,7 @@ export default async function AdminDashboard({
   if (sf === 'published') conds.push(eq(articles.published, true));
   if (sf === 'draft') conds.push(eq(articles.published, false));
 
-  const [items, [{ total }], [{ pub }], [{ draft }]] = await Promise.all([
+  const [items, [{ total }], [{ pub }], [{ draft }], topRead] = await Promise.all([
     db
       .select()
       .from(articles)
@@ -46,6 +40,11 @@ export default async function AdminDashboard({
     db.select({ total: count() }).from(articles),
     db.select({ pub: count() }).from(articles).where(eq(articles.published, true)),
     db.select({ draft: count() }).from(articles).where(eq(articles.published, false)),
+    db
+      .select({ id: articles.id, title: articles.title, locale: articles.locale, slug: articles.slug, views: articles.views })
+      .from(articles)
+      .orderBy(desc(articles.views))
+      .limit(5),
   ]);
 
   const filterDefs = [
@@ -82,6 +81,32 @@ export default async function AdminDashboard({
         ))}
       </div>
 
+      {/* Analytics: most-read */}
+      {topRead.some((r) => (r.views ?? 0) > 0) && (
+        <div className="mb-6 border border-gris-brd bg-blanco p-4">
+          <h2 className="mb-3 text-[0.65rem] font-semibold uppercase tracking-[2px] text-gris-med">
+            Más leídos
+          </h2>
+          <ol className="space-y-2">
+            {topRead.filter((r) => (r.views ?? 0) > 0).map((r, i) => (
+              <li key={r.id} className="flex items-center gap-3 text-sm">
+                <span className="w-4 shrink-0 text-right text-[0.6rem] font-bold text-gris-cla">{i + 1}</span>
+                <Link
+                  href={`/admin/articles/${r.id}/edit`}
+                  className="flex-1 truncate font-medium text-negro hover:text-dorado"
+                >
+                  {r.title}
+                </Link>
+                <span className="shrink-0 border border-gris-brd px-1.5 py-0.5 text-[0.6rem] font-bold uppercase tracking-widest text-gris-med">
+                  {r.locale}
+                </span>
+                <span className="shrink-0 text-xs font-semibold text-gris-med">{r.views} vistas</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+
       {/* Filters */}
       <div className="mb-4 flex flex-wrap gap-2">
         {filterDefs.map(({ label, locale, status }) => {
@@ -106,113 +131,7 @@ export default async function AdminDashboard({
       {items.length === 0 ? (
         <p className="py-8 text-center text-gris-med">No hay artículos que coincidan.</p>
       ) : (
-        <>
-          {/* Desktop: table */}
-          <div className="hidden overflow-x-auto border border-gris-brd bg-blanco md:block">
-            <table className="w-full text-left text-sm">
-              <thead className="border-b border-gris-brd bg-gris-bg text-xs uppercase tracking-widest text-gris-cla">
-                <tr>
-                  <th className="px-4 py-3">Título</th>
-                  <th className="px-4 py-3">Tipo</th>
-                  <th className="px-4 py-3">Idioma</th>
-                  <th className="px-4 py-3">Estado</th>
-                  <th className="px-4 py-3">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((item) => (
-                  <tr key={item.id} className="border-b border-gris-brd last:border-0 transition hover:bg-gris-bg/50">
-                    <td className="px-4 py-3 font-medium text-negro">{item.title}</td>
-                    <td className="px-4 py-3 capitalize text-gris-med">{item.type}</td>
-                    <td className="px-4 py-3">
-                      <span className="border border-gris-brd px-1.5 py-0.5 text-[0.6rem] font-bold uppercase tracking-widest text-gris-med">
-                        {item.locale}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      {item.published ? (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase text-green-700">
-                          <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                          Publicado
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase text-gris-cla">
-                          <span className="h-1.5 w-1.5 rounded-full bg-gris-cla" />
-                          Borrador
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        {item.published && (
-                          <a
-                            href={publicUrl(item.locale, item.slug)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="border border-gris-brd px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-widest text-gris-med transition hover:border-negro hover:text-negro"
-                          >
-                            Ver
-                          </a>
-                        )}
-                        <Link
-                          href={`/admin/articles/${item.id}/edit`}
-                          className="border border-negro px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-widest text-negro transition hover:bg-negro hover:text-blanco"
-                        >
-                          Editar
-                        </Link>
-                        <TranslateButton id={item.id} locale={item.locale} />
-                        <DeleteButton id={item.id} />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Mobile: cards */}
-          <div className="flex flex-col gap-3 md:hidden">
-            {items.map((item) => (
-              <article key={item.id} className="border border-gris-brd bg-blanco p-4">
-                <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-medium text-negro">{item.title}</h3>
-                  <span className="shrink-0 border border-gris-brd px-1.5 py-0.5 text-[0.6rem] font-bold uppercase tracking-widest text-gris-med">
-                    {item.locale}
-                  </span>
-                </div>
-                <div className="mt-1.5 flex flex-wrap gap-2 text-xs text-gris-med">
-                  <span className="capitalize">{item.type}</span>
-                  <span>·</span>
-                  {item.published ? (
-                    <span className="font-semibold text-green-700">Publicado</span>
-                  ) : (
-                    <span>Borrador</span>
-                  )}
-                </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {item.published && (
-                    <a
-                      href={publicUrl(item.locale, item.slug)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="border border-gris-brd px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-widest text-gris-med transition hover:border-negro hover:text-negro"
-                    >
-                      Ver
-                    </a>
-                  )}
-                  <Link
-                    href={`/admin/articles/${item.id}/edit`}
-                    className="border border-negro px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-widest text-negro transition hover:bg-negro hover:text-blanco"
-                  >
-                    Editar
-                  </Link>
-                  <TranslateButton id={item.id} locale={item.locale} />
-                  <DeleteButton id={item.id} />
-                </div>
-              </article>
-            ))}
-          </div>
-        </>
+        <ArticlesTable items={items} />
       )}
     </div>
   );

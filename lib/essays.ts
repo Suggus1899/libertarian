@@ -1,4 +1,4 @@
-import { desc, eq, and } from 'drizzle-orm';
+import { desc, eq, and, or, isNotNull, lte } from 'drizzle-orm';
 import { getTranslations } from 'next-intl/server';
 import { db } from './db';
 import { articles } from './db/schema';
@@ -66,10 +66,19 @@ export async function getEssays(locale: string): Promise<EssayItem[]> {
 
   let dbItems: EssayItem[] = [];
   try {
+    const now = new Date();
     const rows = await db
       .select()
       .from(articles)
-      .where(and(eq(articles.locale, locale as 'es' | 'en'), eq(articles.published, true)))
+      .where(
+        and(
+          eq(articles.locale, locale as 'es' | 'en'),
+          or(
+            eq(articles.published, true),
+            and(isNotNull(articles.publishAt), lte(articles.publishAt, now)),
+          ),
+        ),
+      )
       .orderBy(desc(articles.createdAt));
 
     dbItems = rows.map((row) => ({

@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { after } from 'next/server';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Metadata } from 'next';
 import Image from 'next/image';
@@ -9,6 +10,7 @@ import { ShareButtons } from '@/components/ShareButtons';
 import { addHeadingIds } from '@/lib/heading-ids';
 import { getEssayBySlug } from '@/lib/essays';
 import { buildCanonical } from '@/lib/seo';
+import { incrementViews } from '@/app/admin/actions';
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -87,6 +89,8 @@ export default async function EssayDetailPage({ params }: Props) {
   if (!essay) {
     notFound();
   }
+
+  after(() => incrementViews(slug, locale).catch(() => {}));
 
   const canonicalUrl = buildCanonical(locale, `/ensayos/${slug}`);
   const jsonLd = {

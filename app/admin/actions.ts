@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, inArray, sql } from 'drizzle-orm';
 import { db } from '@/lib/db';
 import { articles } from '@/lib/db/schema';
 import { requireAdmin, destroySession } from '@/lib/auth';
@@ -43,6 +43,8 @@ export async function createArticle(_prevState: unknown, formData: FormData) {
   const seoTitle = (formData.get('seoTitle') as string) || null;
   const seoDescription = (formData.get('seoDescription') as string) || null;
   const published = formData.get('published') === 'on';
+  const publishAtRaw = formData.get('publishAt') as string;
+  const publishAt = !published && publishAtRaw ? new Date(publishAtRaw) : null;
 
   if (!title || !locale || !type || !category || !description || !author || isContentEmpty(content)) {
     return { error: 'Completa todos los campos obligatorios.' };
@@ -64,6 +66,7 @@ export async function createArticle(_prevState: unknown, formData: FormData) {
       seoTitle,
       seoDescription,
       published,
+      publishAt,
     });
   } catch {
     return { error: 'Ya existe un artículo con ese slug en ese idioma. Elegí otro.' };
@@ -148,6 +151,8 @@ export async function updateArticle(id: number, _prevState: unknown, formData: F
   const seoTitle = (formData.get('seoTitle') as string) || null;
   const seoDescription = (formData.get('seoDescription') as string) || null;
   const published = formData.get('published') === 'on';
+  const publishAtRaw = formData.get('publishAt') as string;
+  const publishAt = !published && publishAtRaw ? new Date(publishAtRaw) : null;
 
   if (!title || !locale || !type || !category || !description || !author || isContentEmpty(content)) {
     return { error: 'Completa todos los campos obligatorios.' };
@@ -171,6 +176,7 @@ export async function updateArticle(id: number, _prevState: unknown, formData: F
         seoTitle,
         seoDescription,
         published,
+        publishAt,
         updatedAt: new Date(),
       })
       .where(eq(articles.id, id));
@@ -193,6 +199,25 @@ export async function deleteArticle(id: number) {
   await db.delete(articles).where(eq(articles.id, id));
   revalidatePath('/[locale]/ensayos', 'page');
   revalidatePath('/admin');
+}
+
+export async function bulkUpdateArticles(ids: number[], action: 'publish' | 'unpublish' | 'delete') {
+  await requireAdmin();
+  if (!ids.length) return;
+  if (action === 'delete') {
+    await db.delete(articles).where(inArray(articles.id, ids));
+  } else {
+    await db.update(articles).set({ published: action === 'publish' }).where(inArray(articles.id, ids));
+  }
+  revalidatePath('/[locale]/ensayos', 'page');
+  revalidatePath('/admin');
+}
+
+export async function incrementViews(slug: string, locale: string) {
+  await db
+    .update(articles)
+    .set({ views: sql`${articles.views} + 1` })
+    .where(and(eq(articles.slug, slug), eq(articles.locale, locale as 'es' | 'en')));
 }
 
 /**
