@@ -24,7 +24,7 @@ export function Hero() {
 
       <div className="relative z-10 max-w-2xl">
         <div className="eyebrow animate-fade-up opacity-0">{t('eyebrow')}</div>
-        <h1 className="animate-fade-up animation-delay-200 font-display text-[clamp(1.4rem,7vw,4.4rem)] font-black uppercase leading-[1.08] tracking-[1px] text-negro opacity-0">
+        <h1 className="animate-fade-up animation-delay-200 font-display text-[clamp(1.4rem,5vw,4.4rem)] font-black uppercase leading-[1.08] tracking-[1px] text-negro opacity-0">
           {t.rich('h1', {
             br: () => <br />,
             em: (chunks) => <em className="italic text-dorado">{chunks}</em>,
