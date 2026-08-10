@@ -13,7 +13,7 @@ export function Features() {
   ] as const;
 
   return (
-    <section className="grid gap-px bg-negro px-6 lg:grid-cols-3 lg:px-14">
+    <section className="section-dark grid gap-px bg-negro px-6 lg:grid-cols-3 lg:px-14">
       {items.map((item) => {
         const Icon = item.icon;
         return (
