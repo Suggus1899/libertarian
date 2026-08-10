@@ -1,8 +1,24 @@
 'use server';
 
 import bcrypt from 'bcryptjs';
+import fs from 'fs';
+import path from 'path';
 import { redirect } from 'next/navigation';
 import { createSession } from '@/lib/auth';
+
+function readEnvLocal(): Record<string, string> {
+  try {
+    const content = fs.readFileSync(path.join(process.cwd(), '.env.local'), 'utf8');
+    const env: Record<string, string> = {};
+    for (const line of content.split('\n')) {
+      const m = line.match(/^([^=#][^=]*)=(.*)/s);
+      if (m) env[m[1].trim()] = m[2].trim().replace(/^['"]|['"]$/g, '');
+    }
+    return env;
+  } catch {
+    return {};
+  }
+}
 
 export async function login(_prevState: unknown, formData: FormData) {
   const email = formData.get('email');
@@ -12,8 +28,9 @@ export async function login(_prevState: unknown, formData: FormData) {
     return { error: 'Datos inválidos.' };
   }
 
-  const adminEmail = process.env.ADMIN_EMAIL?.trim();
-  const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH?.trim().replace(/^['"]|['"]$/g, '');
+  const env = readEnvLocal();
+  const adminEmail = (process.env.ADMIN_EMAIL ?? env.ADMIN_EMAIL)?.trim();
+  const adminPasswordHash = (process.env.ADMIN_PASSWORD_HASH ?? env.ADMIN_PASSWORD_HASH)?.trim().replace(/^['"]|['"]$/g, '');
 
   if (!adminEmail || !adminPasswordHash) {
     return { error: 'El admin no está configurado. Contacta al desarrollador.' };
