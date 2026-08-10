@@ -11,7 +11,7 @@ function readEnvLocal(): Record<string, string> {
     const content = fs.readFileSync(path.join(process.cwd(), '.env.local'), 'utf8');
     const env: Record<string, string> = {};
     for (const line of content.split('\n')) {
-      const m = line.match(/^([^=#][^=]*)=(.*)/s);
+      const m = line.match(/^([^=#][^=]*)=(.*)/);
       if (m) env[m[1].trim()] = m[2].trim().replace(/^['"]|['"]$/g, '');
     }
     return env;
