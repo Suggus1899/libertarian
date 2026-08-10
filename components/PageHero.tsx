@@ -13,7 +13,7 @@ export function PageHero({ eyebrowKey, titleKey, introKey, bgText }: PageHeroPro
   const t = useTranslations();
 
   return (
-    <div className="relative overflow-hidden bg-negro px-6 py-20 lg:px-14 lg:py-24">
+    <div className="section-dark relative overflow-hidden bg-negro px-6 py-20 lg:px-14 lg:py-24">
       {bgText && (
         <div className="pointer-events-none absolute -right-4 top-1/2 -translate-y-1/2 select-none overflow-hidden sm:right-0">
           <span className="page-hero-watermark block -translate-x-5 font-display font-black uppercase">

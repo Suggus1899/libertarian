@@ -44,6 +44,15 @@
   --dorado-p: rgba(212, 160, 23, 0.12);
 }
 
+/* Sections intentionally dark in both themes (Footer, FinalCta, PageHero) */
+[data-theme="dark"] .section-dark {
+  --negro: #0d0d0d;
+  --negro-s: #1a1a1a;
+  --blanco: #f0f0ee;
+  --gris-bg: #1a1a18;
+  --gris-brd: #2e2e2c;
+}
+
 *,
 *::before,
 *::after {

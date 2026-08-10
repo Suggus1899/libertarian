@@ -26,7 +26,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-negro px-6 py-14 lg:px-14">
+    <footer className="section-dark bg-negro px-6 py-14 lg:px-14">
       <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-2 lg:grid-cols-5 lg:gap-10">
         <div className="lg:col-span-2">
           <div
