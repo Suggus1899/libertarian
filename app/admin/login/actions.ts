@@ -29,8 +29,8 @@ export async function login(_prevState: unknown, formData: FormData) {
   }
 
   const env = readEnvLocal();
-  const adminEmail = (process.env.ADMIN_EMAIL ?? env.ADMIN_EMAIL)?.trim();
-  const adminPasswordHash = (process.env.ADMIN_PASSWORD_HASH ?? env.ADMIN_PASSWORD_HASH)?.trim().replace(/^['"]|['"]$/g, '');
+  const adminEmail = (process.env.ADMIN_EMAIL || env.ADMIN_EMAIL)?.trim();
+  const adminPasswordHash = (process.env.ADMIN_PASSWORD_HASH || env.ADMIN_PASSWORD_HASH)?.trim().replace(/^['"]|['"]$/g, '');
 
   if (!adminEmail || !adminPasswordHash) {
     return { error: 'El admin no está configurado. Contacta al desarrollador.' };
