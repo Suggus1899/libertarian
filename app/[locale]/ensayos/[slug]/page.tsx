@@ -29,32 +29,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = essay.seoTitle || essay.title;
   const description = essay.seoDescription || essay.description;
-
-  // Always define openGraph so the page gets og:title/og:description from the
-  // essay (not the layout defaults). When there's no featured image we omit
-  // `images` so the file-based app/[locale]/opengraph-image.tsx is inherited.
-  // `type: 'article'` is set only when there's a featured image, because
-  // without one the essay is more of a text opinion piece.
-  if (essay.featuredImage) {
-    return {
-      title: essay.seoTitle ? { absolute: title } : title,
-      description,
-      alternates: { canonical: buildCanonical(locale, `/ensayos/${slug}`) },
-      openGraph: {
-        title,
-        description,
-        type: 'article',
-        url: buildCanonical(locale, `/ensayos/${slug}`),
-        images: [essay.featuredImage],
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title,
-        description,
-        images: [essay.featuredImage],
-      },
-    };
-  }
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  const ogImage = essay.featuredImage
+    ? essay.featuredImage
+    : `${siteUrl}/api/og?title=${encodeURIComponent(title)}&category=${encodeURIComponent(essay.category)}`;
 
   return {
     title: essay.seoTitle ? { absolute: title } : title,
@@ -65,15 +43,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       type: 'article',
       url: buildCanonical(locale, `/ensayos/${slug}`),
-      // Explicitly reference the file-based OG image so it appears even though
-      // we're defining openGraph here (which would otherwise suppress the
-      // inherited file-based convention).
-      images: [buildCanonical(locale, '/opengraph-image')],
+      images: [ogImage],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: [ogImage],
     },
   };
   // No cross-locale `alternates.languages` here: admin-authored essays/opinion
@@ -162,6 +138,8 @@ export default async function EssayDetailPage({ params }: Props) {
                 sizes="(max-width: 768px) 100vw, 768px"
                 className="object-cover"
                 priority
+                placeholder="blur"
+                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNmNWY1ZjMiLz48L3N2Zz4="
               />
             </div>
           )}
