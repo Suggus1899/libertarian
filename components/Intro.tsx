@@ -1,12 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
-const WORDS = ['LIBERTAD', 'PROPIEDAD', 'LIBRE MERCADO'];
+const WORDS = {
+  es: ['LIBERTAD', 'PROPIEDAD', 'LIBRE MERCADO'],
+  en: ['FREEDOM', 'PROPERTY', 'FREE MARKET'],
+};
 
 export function Intro() {
   const t = useTranslations('metadata');
+  const locale = useLocale();
+  const words = WORDS[locale as 'es' | 'en'] ?? WORDS.es;
   const [visible, setVisible] = useState(false);
   const [fading, setFading] = useState(false);
 
@@ -32,7 +37,7 @@ export function Intro() {
       }`}
       aria-hidden="true"
     >
-      {WORDS.map((word, i) => (
+      {words.map((word, i) => (
         <span
           key={word}
           className="absolute font-display font-black text-blanco opacity-0"
