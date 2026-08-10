@@ -18,7 +18,7 @@ export function DeleteButton({ id }: { id: number }) {
       type="button"
       onClick={handleDelete}
       disabled={pending}
-      className="text-xs font-semibold uppercase tracking-widest text-red-600 hover:text-red-800"
+      className="border border-red-200 px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-widest text-red-600 transition hover:bg-red-50 disabled:opacity-50"
     >
       {pending ? 'Eliminando...' : 'Eliminar'}
     </button>

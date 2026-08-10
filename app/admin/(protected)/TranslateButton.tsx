@@ -28,12 +28,12 @@ export function TranslateButton({ id, locale }: { id: number; locale: string }) 
       <button
         onClick={handleClick}
         disabled={pending}
-        className="text-xs font-semibold uppercase tracking-widest text-dorado hover:text-negro disabled:opacity-50"
+        className="border border-dorado/50 bg-dorado/5 px-2 py-1 text-[0.6rem] font-semibold uppercase tracking-widest text-dorado transition hover:bg-dorado/15 disabled:opacity-50"
       >
         {pending ? 'Traduciendo...' : `Traducir ${targetLocale}`}
       </button>
       {message && (
-        <span className="text-[0.65rem] text-gris-med">{message}</span>
+        <span className="text-[0.6rem] text-gris-med">{message}</span>
       )}
     </span>
   );
