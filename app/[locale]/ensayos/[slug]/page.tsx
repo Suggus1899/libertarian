@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { PageHero } from '@/components/PageHero';
 import { TableOfContents } from '@/components/TableOfContents';
+import { ShareButtons } from '@/components/ShareButtons';
 import { addHeadingIds } from '@/lib/heading-ids';
 import { getEssayBySlug } from '@/lib/essays';
 import { buildCanonical } from '@/lib/seo';
@@ -157,10 +158,11 @@ export default async function EssayDetailPage({ params }: Props) {
             // Tiptap editor (or hardcoded in messages/*.json), never by public visitors.
             dangerouslySetInnerHTML={{ __html: addHeadingIds(essay.contentHtml) }}
           />
-          <div className="mt-12 border-t border-gris-brd pt-10">
+          <div className="mt-12 border-t border-gris-brd pt-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <Link href="/ensayos" className="btn-p">
               ← {t('essays.cta')}
             </Link>
+            <ShareButtons url={canonicalUrl} title={essay.title} />
           </div>
         </div>
       </article>

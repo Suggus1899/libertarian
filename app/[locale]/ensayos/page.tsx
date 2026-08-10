@@ -13,10 +13,14 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale });
+  const base = (process.env.NEXT_PUBLIC_SITE_URL || 'https://libertarianforum.org').replace(/\/$/, '');
   return {
     title: t('essaysPage.pageTitle'),
     description: t('metadata.description'),
-    alternates: buildAlternates(locale, '/ensayos'),
+    alternates: {
+      ...buildAlternates(locale, '/ensayos'),
+      types: { 'application/rss+xml': `${base}/rss.xml` },
+    },
   };
 }
 

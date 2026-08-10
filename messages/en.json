@@ -36,10 +36,22 @@
     "ctaPrimary": "Our Services",
     "ctaSecondary": "Read Our Essays →",
     "stats": {
-      "ideas": { "label": "Ideas.", "desc": "Research & Analysis" },
-      "tesis": { "label": "Tesis.", "desc": "Policy Platforms" },
-      "strat": { "label": "Strat.", "desc": "Electoral Strategy" },
-      "mktg": { "label": "Mktg.", "desc": "Political Marketing" }
+      "ideas": {
+        "label": "Ideas.",
+        "desc": "Research & Analysis"
+      },
+      "tesis": {
+        "label": "Tesis.",
+        "desc": "Policy Platforms"
+      },
+      "strat": {
+        "label": "Strat.",
+        "desc": "Electoral Strategy"
+      },
+      "mktg": {
+        "label": "Mktg.",
+        "desc": "Political Marketing"
+      }
     }
   },
   "features": {
@@ -67,10 +79,22 @@
     "p3": "We are not a political party. We are the independent intellectual space where libertarian movements find their theoretical foundations, policy programs and growth strategy.",
     "cta": "Learn More →",
     "values": {
-      "rigor": { "title": "Academic Rigor", "description": "Every publication and analysis meets serious research standards, with solid sourcing and well-grounded argumentation." },
-      "freedom": { "title": "Individual Freedom", "description": "We uphold the principle that every individual owns their life, their choices and the fruits of their labor." },
-      "state": { "title": "Limited Government", "description": "We advocate for lean, efficient and transparent institutions that serve the citizen — not the other way around." },
-      "network": { "title": "Global Network", "description": "We connect libertarian thinkers, activists and organizations worldwide to multiply our collective impact." }
+      "rigor": {
+        "title": "Academic Rigor",
+        "description": "Every publication and analysis meets serious research standards, with solid sourcing and well-grounded argumentation."
+      },
+      "freedom": {
+        "title": "Individual Freedom",
+        "description": "We uphold the principle that every individual owns their life, their choices and the fruits of their labor."
+      },
+      "state": {
+        "title": "Limited Government",
+        "description": "We advocate for lean, efficient and transparent institutions that serve the citizen — not the other way around."
+      },
+      "network": {
+        "title": "Global Network",
+        "description": "We connect libertarian thinkers, activists and organizations worldwide to multiply our collective impact."
+      }
     }
   },
   "services": {
@@ -116,7 +140,10 @@
     "filter": {
       "all": "All",
       "essays": "Essays",
-      "opinion": "Opinion articles"
+      "opinion": "Opinion articles",
+      "search": "Search articles...",
+      "allCategories": "All categories",
+      "noResults": "No articles found."
     },
     "soon": {
       "eyebrow": "Coming Soon",
@@ -240,12 +267,30 @@
     "infoDescription": "Write to us for inquiries about services, collaborations, publications or any project related to libertarian thought.",
     "formTitle": "Send us a message",
     "fields": {
-      "name": { "label": "Name *", "placeholder": "Your name" },
-      "org": { "label": "Organization", "placeholder": "Party, movement or org" },
-      "email": { "label": "Email *", "placeholder": "you@example.com" },
-      "country": { "label": "Country", "placeholder": "Your country" },
-      "service": { "label": "Service of interest", "placeholder": "Select an option" },
-      "message": { "label": "Message *", "placeholder": "Tell us about your project or inquiry..." }
+      "name": {
+        "label": "Name *",
+        "placeholder": "Your name"
+      },
+      "org": {
+        "label": "Organization",
+        "placeholder": "Party, movement or org"
+      },
+      "email": {
+        "label": "Email *",
+        "placeholder": "you@example.com"
+      },
+      "country": {
+        "label": "Country",
+        "placeholder": "Your country"
+      },
+      "service": {
+        "label": "Service of interest",
+        "placeholder": "Select an option"
+      },
+      "message": {
+        "label": "Message *",
+        "placeholder": "Tell us about your project or inquiry..."
+      }
     },
     "serviceOptions": [
       "Policy Platform",
@@ -274,10 +319,26 @@
     "intro": "Researchers, strategists and activists united by the mission of bringing freedom to the center of public debate."
   },
   "team": [
-    { "name": "Dr. Alejandro Ríos", "role": "Executive Director", "bio": "PhD in Political Science from the University of Buenos Aires. Researcher in libertarian political philosophy and institutional design advisor." },
-    { "name": "Mariana Gómez", "role": "Research Director", "bio": "Economist specialized in comparative public policy analysis and free markets in Latin America." },
-    { "name": "Julián Vargas", "role": "Political Strategist", "bio": "Electoral consultant with experience in libertarian party campaigns across Argentina, Chile and Spain." },
-    { "name": "Lucía Fernández", "role": "Communications & Content", "bio": "Journalist and editor. Leads the production of essays, analyses and training programs." }
+    {
+      "name": "Dr. Alejandro Ríos",
+      "role": "Executive Director",
+      "bio": "PhD in Political Science from the University of Buenos Aires. Researcher in libertarian political philosophy and institutional design advisor."
+    },
+    {
+      "name": "Mariana Gómez",
+      "role": "Research Director",
+      "bio": "Economist specialized in comparative public policy analysis and free markets in Latin America."
+    },
+    {
+      "name": "Julián Vargas",
+      "role": "Political Strategist",
+      "bio": "Electoral consultant with experience in libertarian party campaigns across Argentina, Chile and Spain."
+    },
+    {
+      "name": "Lucía Fernández",
+      "role": "Communications & Content",
+      "bio": "Journalist and editor. Leads the production of essays, analyses and training programs."
+    }
   ],
   "resourcesPage": {
     "pageTitle": "Resources",
@@ -287,9 +348,24 @@
   },
   "resources": {
     "items": [
-      { "title": "Policy Platform 2025", "description": "Public policy proposals grounded in private property, free markets and limited government.", "format": "PDF", "size": "2.4 MB" },
-      { "title": "Libertarian Activist Handbook", "description": "Practical guide on public speaking, debate and organization for activists.", "format": "PDF", "size": "1.8 MB" },
-      { "title": "Comparative Economic Analysis", "description": "Comparative study of economic freedom in Latin America.", "format": "PDF", "size": "3.1 MB" }
+      {
+        "title": "Policy Platform 2025",
+        "description": "Public policy proposals grounded in private property, free markets and limited government.",
+        "format": "PDF",
+        "size": "2.4 MB"
+      },
+      {
+        "title": "Libertarian Activist Handbook",
+        "description": "Practical guide on public speaking, debate and organization for activists.",
+        "format": "PDF",
+        "size": "1.8 MB"
+      },
+      {
+        "title": "Comparative Economic Analysis",
+        "description": "Comparative study of economic freedom in Latin America.",
+        "format": "PDF",
+        "size": "3.1 MB"
+      }
     ],
     "download": "Download",
     "soon": "Coming soon: more audio and video resources."
@@ -315,10 +391,22 @@
     "intro": "We are an independent organization. Your contribution allows us to produce research, training and advisory work without depending on parties or states.",
     "methodsTitle": "Ways to contribute",
     "methods": [
-      { "name": "PayPal", "description": "Quick and secure donation from any country." },
-      { "name": "Patreon", "description": "Monthly support with early access to publications." },
-      { "name": "Bank transfer", "description": "Contact us for account details." },
-      { "name": "Cryptocurrencies", "description": "We accept BTC, ETH and stablecoins. Request the address." }
+      {
+        "name": "PayPal",
+        "description": "Quick and secure donation from any country."
+      },
+      {
+        "name": "Patreon",
+        "description": "Monthly support with early access to publications."
+      },
+      {
+        "name": "Bank transfer",
+        "description": "Contact us for account details."
+      },
+      {
+        "name": "Cryptocurrencies",
+        "description": "We accept BTC, ETH and stablecoins. Request the address."
+      }
     ],
     "cta": "Contact us to donate"
   },

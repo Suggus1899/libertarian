@@ -36,10 +36,22 @@
     "ctaPrimary": "Nuestros Servicios",
     "ctaSecondary": "Ver Ensayos →",
     "stats": {
-      "ideas": { "label": "Ideas.", "desc": "Investigación & Análisis" },
-      "tesis": { "label": "Tesis.", "desc": "Programas Políticos" },
-      "strat": { "label": "Strat.", "desc": "Estrategia Electoral" },
-      "mktg": { "label": "Mktg.", "desc": "Marketing Político" }
+      "ideas": {
+        "label": "Ideas.",
+        "desc": "Investigación & Análisis"
+      },
+      "tesis": {
+        "label": "Tesis.",
+        "desc": "Programas Políticos"
+      },
+      "strat": {
+        "label": "Strat.",
+        "desc": "Estrategia Electoral"
+      },
+      "mktg": {
+        "label": "Mktg.",
+        "desc": "Marketing Político"
+      }
     }
   },
   "features": {
@@ -67,10 +79,22 @@
     "p3": "No somos un partido político. Somos el espacio intelectual donde los movimientos libertarios encuentran sus fundamentos teóricos, sus programas y su estrategia.",
     "cta": "Conocer más →",
     "values": {
-      "rigor": { "title": "Rigor Académico", "description": "Cada publicación y análisis cumple estándares de investigación serios, con fuentes y argumentación sólida." },
-      "freedom": { "title": "Libertad Individual", "description": "Defendemos el principio de que cada individuo es dueño de su vida, sus decisiones y el fruto de su trabajo." },
-      "state": { "title": "Estado Limitado", "description": "Propugnamos instituciones mínimas, eficientes y transparentes, al servicio del ciudadano, no al revés." },
-      "network": { "title": "Red Global", "description": "Conectamos a pensadores, activistas y organizaciones libertarias de todo el mundo para multiplicar el impacto." }
+      "rigor": {
+        "title": "Rigor Académico",
+        "description": "Cada publicación y análisis cumple estándares de investigación serios, con fuentes y argumentación sólida."
+      },
+      "freedom": {
+        "title": "Libertad Individual",
+        "description": "Defendemos el principio de que cada individuo es dueño de su vida, sus decisiones y el fruto de su trabajo."
+      },
+      "state": {
+        "title": "Estado Limitado",
+        "description": "Propugnamos instituciones mínimas, eficientes y transparentes, al servicio del ciudadano, no al revés."
+      },
+      "network": {
+        "title": "Red Global",
+        "description": "Conectamos a pensadores, activistas y organizaciones libertarias de todo el mundo para multiplicar el impacto."
+      }
     }
   },
   "services": {
@@ -116,7 +140,10 @@
     "filter": {
       "all": "Todos",
       "essays": "Ensayos",
-      "opinion": "Artículos de opinión"
+      "opinion": "Artículos de opinión",
+      "search": "Buscar artículos...",
+      "allCategories": "Todas las categorías",
+      "noResults": "No se encontraron artículos."
     },
     "soon": {
       "eyebrow": "Próximamente",
@@ -240,12 +267,30 @@
     "infoDescription": "Escríbenos para consultas sobre servicios, colaboraciones, publicaciones o cualquier proyecto relacionado con el pensamiento libertario.",
     "formTitle": "Envíanos un mensaje",
     "fields": {
-      "name": { "label": "Nombre *", "placeholder": "Tu nombre" },
-      "org": { "label": "Organización", "placeholder": "Partido, movimiento u org." },
-      "email": { "label": "Correo electrónico *", "placeholder": "correo@ejemplo.com" },
-      "country": { "label": "País", "placeholder": "Tu país" },
-      "service": { "label": "Servicio de interés", "placeholder": "Selecciona una opción" },
-      "message": { "label": "Mensaje *", "placeholder": "Cuéntanos sobre tu proyecto o consulta..." }
+      "name": {
+        "label": "Nombre *",
+        "placeholder": "Tu nombre"
+      },
+      "org": {
+        "label": "Organización",
+        "placeholder": "Partido, movimiento u org."
+      },
+      "email": {
+        "label": "Correo electrónico *",
+        "placeholder": "correo@ejemplo.com"
+      },
+      "country": {
+        "label": "País",
+        "placeholder": "Tu país"
+      },
+      "service": {
+        "label": "Servicio de interés",
+        "placeholder": "Selecciona una opción"
+      },
+      "message": {
+        "label": "Mensaje *",
+        "placeholder": "Cuéntanos sobre tu proyecto o consulta..."
+      }
     },
     "serviceOptions": [
       "Tesis Programática",
@@ -274,10 +319,26 @@
     "intro": "Un grupo de investigadores, estrategas y activistas unidos por la misión de llevar las ideas de la libertad al centro del debate público."
   },
   "team": [
-    { "name": "Dr. Alejandro Ríos", "role": "Director Ejecutivo", "bio": "Doctor en Ciencia Política por la Universidad de Buenos Aires. Investigador en filosofía política libertaria y asesor en diseño institucional." },
-    { "name": "Mariana Gómez", "role": "Directora de Investigación", "bio": "Economista especializada en análisis comparado de políticas públicas y mercados libres en América Latina." },
-    { "name": "Julián Vargas", "role": "Estratega Político", "bio": "Consultor electoral con experiencia en campañas de partidos libertarios en Argentina, Chile y España." },
-    { "name": "Lucía Fernández", "role": "Comunicación y Contenidos", "bio": "Periodista y editora. Lidera la producción de ensayos, análisis y programas de formación." }
+    {
+      "name": "Dr. Alejandro Ríos",
+      "role": "Director Ejecutivo",
+      "bio": "Doctor en Ciencia Política por la Universidad de Buenos Aires. Investigador en filosofía política libertaria y asesor en diseño institucional."
+    },
+    {
+      "name": "Mariana Gómez",
+      "role": "Directora de Investigación",
+      "bio": "Economista especializada en análisis comparado de políticas públicas y mercados libres en América Latina."
+    },
+    {
+      "name": "Julián Vargas",
+      "role": "Estratega Político",
+      "bio": "Consultor electoral con experiencia en campañas de partidos libertarios en Argentina, Chile y España."
+    },
+    {
+      "name": "Lucía Fernández",
+      "role": "Comunicación y Contenidos",
+      "bio": "Periodista y editora. Lidera la producción de ensayos, análisis y programas de formación."
+    }
   ],
   "resourcesPage": {
     "pageTitle": "Recursos",
@@ -287,9 +348,24 @@
   },
   "resources": {
     "items": [
-      { "title": "Tesis Programática 2025", "description": "Propuestas de política pública fundamentadas en propiedad privada, libre mercado y Estado limitado.", "format": "PDF", "size": "2.4 MB" },
-      { "title": "Manual del Militante Libertario", "description": "Guía práctica de oratoria, debate y organización para activistas.", "format": "PDF", "size": "1.8 MB" },
-      { "title": "Análisis Económico Comparado", "description": "Estudio comparativo de libertad económica en América Latina.", "format": "PDF", "size": "3.1 MB" }
+      {
+        "title": "Tesis Programática 2025",
+        "description": "Propuestas de política pública fundamentadas en propiedad privada, libre mercado y Estado limitado.",
+        "format": "PDF",
+        "size": "2.4 MB"
+      },
+      {
+        "title": "Manual del Militante Libertario",
+        "description": "Guía práctica de oratoria, debate y organización para activistas.",
+        "format": "PDF",
+        "size": "1.8 MB"
+      },
+      {
+        "title": "Análisis Económico Comparado",
+        "description": "Estudio comparativo de libertad económica en América Latina.",
+        "format": "PDF",
+        "size": "3.1 MB"
+      }
     ],
     "download": "Descargar",
     "soon": "Próximamente: más recursos en audio y video."
@@ -315,10 +391,22 @@
     "intro": "Somos una organización independiente. Tu contribución nos permite producir investigación, formación y asesoramiento sin depender de partidos ni estados.",
     "methodsTitle": "Formas de colaborar",
     "methods": [
-      { "name": "PayPal", "description": "Donación rápida y segura desde cualquier país." },
-      { "name": "Patreon", "description": "Apoyo mensual con acceso anticipado a publicaciones." },
-      { "name": "Transferencia bancaria", "description": "Contactanos para recibir los datos de cuenta." },
-      { "name": "Criptomonedas", "description": "Aceptamos BTC, ETH y stablecoins. Solicitá la dirección." }
+      {
+        "name": "PayPal",
+        "description": "Donación rápida y segura desde cualquier país."
+      },
+      {
+        "name": "Patreon",
+        "description": "Apoyo mensual con acceso anticipado a publicaciones."
+      },
+      {
+        "name": "Transferencia bancaria",
+        "description": "Contactanos para recibir los datos de cuenta."
+      },
+      {
+        "name": "Criptomonedas",
+        "description": "Aceptamos BTC, ETH y stablecoins. Solicitá la dirección."
+      }
     ],
     "cta": "Contactar para donar"
   },
