@@ -52,3 +52,6 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# design assets (local only)
+/nuevo/
