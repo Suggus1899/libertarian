@@ -33,7 +33,6 @@
 | `pnpm build`   | Production build            |
 | `pnpm lint`    | Run ESLint (`eslint`)       |
 | `pnpm start`   | Start production server     |
-| `pnpm exec vercel --prod` | Deploy to Vercel production |
 | `pnpm db:push`   | Push Drizzle schema to the configured `DATABASE_URL` |
 | `pnpm db:studio` | Open Drizzle Studio to inspect the DB |
 | `pnpm hash-password "pw"` | Generate a bcrypt hash for `ADMIN_PASSWORD_HASH` |
@@ -63,7 +62,7 @@
 ## Notes
 
 - The frontend is designed to match the original HTML wireframe: light theme, gold/black palette, uppercase display typography and clip-path hero background.
-- Project is linked to Vercel and deployed to production. Run `pnpm exec vercel --prod` to redeploy after committing.
+- **Deploy:** SSH `root@169.58.139.164`, luego: `cd /var/www/libertarian && git pull && rm -rf .next && pnpm build && pm2 restart libertarian`
 - The middleware file convention is deprecated in Next.js 16; `proxy.ts` is the new convention, but `middleware.ts` still works.
 - `pnpm` ignored build scripts for native deps (`sharp`, `@swc/core`). If image optimization is needed later, approve builds or use a CI with native tooling.
 - Required env vars for the admin/articles feature: `DATABASE_URL`, `SESSION_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` (see `.env.local.example`). Without `DATABASE_URL` the site still works — `lib/essays.ts` falls back to the static JSON essays only.
