@@ -6,6 +6,10 @@
     "title": "Libertarian Forum — Libertarian Think Tank",
     "description": "LIBERTARIANISM for a fantastic life full of meaning. Research, analysis and strategy for libertarian parties and movements."
   },
+  "intro": {
+    "tagline": "Property, freedom, progress!",
+    "tapToContinue": "Tap to continue"
+  },
   "nav": {
     "brand": "Libertarian Forum",
     "nosotros": "About",

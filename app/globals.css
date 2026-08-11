@@ -324,3 +324,119 @@ blockquote.callout footer.callout-cite {
   outline: 2px solid var(--dorado);
   outline-offset: 2px;
 }
+
+/* ---- Intro animation ---- */
+@keyframes lf-emblem-in {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.62);
+    filter: blur(14px);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(0) scale(1.06);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes lf-glow-pulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  45% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.45;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes lf-word-in {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes lf-line-in {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes lf-shimmer {
+  0% {
+    transform: translateX(-140%) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(240%) skewX(-18deg);
+  }
+}
+
+@keyframes lf-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes lf-intro-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.lf-emblem-anim {
+  animation: lf-emblem-in 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.lf-glow-anim {
+  animation: lf-glow-pulse 1.4s ease-out 0.1s both;
+}
+.lf-word-anim {
+  animation: lf-word-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.85s both;
+}
+.lf-line-anim {
+  transform-origin: center;
+  animation: lf-line-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1.15s both;
+}
+.lf-shimmer-anim {
+  animation: lf-shimmer 1.1s ease-in-out 1.5s both;
+}
+.lf-fade-up {
+  animation: lf-fade-up 0.8s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lf-emblem-anim,
+  .lf-glow-anim,
+  .lf-word-anim,
+  .lf-line-anim,
+  .lf-shimmer-anim,
+  .lf-fade-up {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
