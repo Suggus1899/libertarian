@@ -55,3 +55,5 @@ next-env.d.ts
 
 # design assets (local only)
 /nuevo/
+
+.vercel
