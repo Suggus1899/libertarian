@@ -409,6 +409,27 @@ blockquote.callout footer.callout-cite {
   }
 }
 
+@keyframes lf-letter-in {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes lf-line-right {
+  from { width: 0; }
+  to   { width: 50%; }
+}
+
+@keyframes lf-line-left {
+  from { width: 0; }
+  to   { width: 50%; }
+}
+
 .lf-emblem-anim {
   animation: lf-emblem-in 1s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
