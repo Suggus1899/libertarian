@@ -8,11 +8,34 @@ type Phase = 'playing' | 'exiting' | 'done';
 const WORDMARK = ['L', 'i', 'b', 'e', 'r', 't', 'a', 'r', 'i', 'a', 'n', ' ', 'F', 'o', 'r', 'u', 'm'];
 const TOTAL_MS = 3400;
 
+function ProgressBar({ totalMs, active }: { totalMs: number; active: boolean }) {
+  const [elapsed, setElapsed] = useState(0);
+
+  useEffect(() => {
+    if (!active) return;
+    const start = Date.now();
+    const id = setInterval(() => {
+      setElapsed(Math.min(Date.now() - start, totalMs));
+    }, 32);
+    return () => clearInterval(id);
+  }, [active, totalMs]);
+
+  return (
+    <div
+      className="h-full"
+      style={{
+        width: `${(elapsed / totalMs) * 100}%`,
+        background: 'var(--dorado)',
+        transition: 'width 32ms linear',
+      }}
+    />
+  );
+}
+
 export function Intro() {
   const t = useTranslations('intro');
   const [visible, setVisible] = useState(false);
   const [phase, setPhase] = useState<Phase>('playing');
-  const [elapsed, setElapsed] = useState(0);
 
   const finish = useCallback(() => {
     setPhase((p) => (p === 'done' ? p : 'exiting'));
@@ -29,16 +52,6 @@ export function Intro() {
     const exitTimer = setTimeout(finish, TOTAL_MS);
     return () => clearTimeout(exitTimer);
   }, [visible, finish]);
-
-  // Progress bar tick
-  useEffect(() => {
-    if (!visible || phase !== 'playing') return;
-    const start = Date.now();
-    const id = setInterval(() => {
-      setElapsed(Math.min(Date.now() - start, TOTAL_MS));
-    }, 32);
-    return () => clearInterval(id);
-  }, [visible, phase]);
 
   useEffect(() => {
     if (phase !== 'exiting') return;
@@ -58,14 +71,11 @@ export function Intro() {
 
   if (!visible || phase === 'done') return null;
 
-  const progress = elapsed / TOTAL_MS;
-
   return (
     <div
-      role="dialog"
-      aria-label="Intro de Libertarian Forum"
+      aria-hidden="true"
       onClick={finish}
-      className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
+      className="section-dark fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
       style={{
         backgroundColor: 'var(--negro)',
         opacity: phase === 'exiting' ? 0 : 1,
@@ -188,14 +198,7 @@ export function Intro() {
           className="h-px w-full"
           style={{ background: 'rgba(212,160,23,0.15)' }}
         >
-          <div
-            className="h-full"
-            style={{
-              width: `${progress * 100}%`,
-              background: 'var(--dorado)',
-              transition: 'width 32ms linear',
-            }}
-          />
+          <ProgressBar totalMs={TOTAL_MS} active={visible && phase === 'playing'} />
         </div>
       </div>
     </div>
