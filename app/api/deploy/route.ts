@@ -9,7 +9,9 @@ export async function POST(request: Request) {
   const body = await request.text();
   const expected = `sha256=${createHmac('sha256', secret).update(body).digest('hex')}`;
 
-  if (!timingSafeEqual(Buffer.from(sig), Buffer.from(expected))) {
+  const sigBuf = Buffer.from(sig);
+  const expectedBuf = Buffer.from(expected);
+  if (sigBuf.length !== expectedBuf.length || !timingSafeEqual(sigBuf, expectedBuf)) {
     return Response.json({ error: 'invalid signature' }, { status: 401 });
   }
 
