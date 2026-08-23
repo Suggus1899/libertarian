@@ -7,10 +7,12 @@ interface PageHeroProps {
   titleKey: string;
   introKey: string;
   bgText?: string;
+  as?: 'h1' | 'p';
 }
 
-export function PageHero({ eyebrowKey, titleKey, introKey, bgText }: PageHeroProps) {
+export function PageHero({ eyebrowKey, titleKey, introKey, bgText, as = 'h1' }: PageHeroProps) {
   const t = useTranslations();
+  const Heading = as;
 
   return (
     <div className="section-dark relative overflow-hidden bg-negro px-6 py-20 lg:px-14 lg:py-24">
@@ -24,12 +26,12 @@ export function PageHero({ eyebrowKey, titleKey, introKey, bgText }: PageHeroPro
 
       <div className="relative z-10 mx-auto max-w-3xl lg:mx-0">
         <div className="eyebrow mb-3.5">{t(eyebrowKey)}</div>
-        <h1 className="font-display text-[clamp(1.6rem,5.5vw,3.6rem)] font-black leading-[1.1] text-blanco">
+        <Heading className="font-display text-[clamp(1.6rem,5.5vw,3.6rem)] font-black leading-[1.1] text-blanco">
           {t.rich(titleKey, {
             br: () => <br />,
             em: (chunks) => <em className="italic text-dorado">{chunks}</em>,
           })}
-        </h1>
+        </Heading>
         <p className="mt-5 max-w-[640px] text-base leading-[1.8] text-white/60">
           {t(introKey)}
         </p>

@@ -51,9 +51,9 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="mb-4 font-display text-[0.72rem] font-bold uppercase tracking-[3px] text-dorado">
+          <h3 className="mb-4 font-display text-[0.72rem] font-bold uppercase tracking-[3px] text-dorado">
             {t('footer.navigation')}
-          </h4>
+          </h3>
           <ul className="space-y-2 text-[0.85rem]">
             <li>
               <Link href="/" className="block text-white/45 transition hover:text-blanco">
@@ -84,9 +84,9 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="mb-4 font-display text-[0.72rem] font-bold uppercase tracking-[3px] text-dorado">
+          <h3 className="mb-4 font-display text-[0.72rem] font-bold uppercase tracking-[3px] text-dorado">
             {t('footer.explore')}
-          </h4>
+          </h3>
           <ul className="space-y-2 text-[0.85rem]">
             <li>
               <Link href="/equipo" className="block text-white/45 transition hover:text-blanco">
@@ -112,9 +112,9 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="mb-4 font-display text-[0.72rem] font-bold uppercase tracking-[3px] text-dorado">
+          <h3 className="mb-4 font-display text-[0.72rem] font-bold uppercase tracking-[3px] text-dorado">
             {t('footer.legal')}
-          </h4>
+          </h3>
           <ul className="space-y-2 text-[0.85rem]">
             <li>
               <Link href="/privacidad" className="block text-white/45 transition hover:text-blanco">
@@ -128,9 +128,9 @@ export function Footer() {
             </li>
           </ul>
 
-          <h4 className="mb-4 mt-8 font-display text-[0.72rem] font-bold uppercase tracking-[3px] text-dorado">
+          <h3 className="mb-4 mt-8 font-display text-[0.72rem] font-bold uppercase tracking-[3px] text-dorado">
             {t('footer.contact')}
-          </h4>
+          </h3>
           <ul className="space-y-2 text-[0.85rem] text-white/45">
             <li>
               <a href="mailto:info@libertarianforum.org" className="transition hover:text-blanco">

@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale });
   return {
     title: t('privacyPage.pageTitle'),
-    description: t('metadata.description'),
+    description: (t.raw('privacyPage.content') as string[])[0],
     alternates: buildAlternates(locale, '/privacidad'),
   };
 }

@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale });
   return {
     title: t('donatePage.pageTitle'),
-    description: t('metadata.description'),
+    description: t('donatePage.intro'),
     alternates: buildAlternates(locale, '/donar'),
   };
 }

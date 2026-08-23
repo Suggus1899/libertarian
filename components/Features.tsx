@@ -27,9 +27,9 @@ export function Features() {
             <div className="mb-4 mt-5 text-[1.8rem]">
               <Icon className="h-8 w-8 text-blanco" strokeWidth={1.5} />
             </div>
-            <h3 className="font-display text-[1.1rem] font-extrabold uppercase tracking-[1.5px] text-blanco">
+            <h2 className="font-display text-[1.1rem] font-extrabold uppercase tracking-[1.5px] text-blanco">
               {t(`${item.key}.title`)}
-            </h3>
+            </h2>
             <p className="mt-3 text-[0.9rem] leading-[1.75] text-white/50">
               {t(`${item.key}.description`)}
             </p>

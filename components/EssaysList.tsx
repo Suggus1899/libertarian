@@ -148,7 +148,7 @@ export function EssaysList({ items }: { items: EssayItem[] }) {
                   <article>
                     {item.featuredImage && (
                       <div className="relative h-48 w-full overflow-hidden bg-gris-bg">
-                        <Image src={item.featuredImage} alt="" fill unoptimized className="object-cover" />
+                        <Image src={item.featuredImage} alt={item.title} fill className="object-cover" />
                       </div>
                     )}
                     <div className="border-b border-gris-brd bg-gris-bg p-8">

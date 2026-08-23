@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!essay) {
     const t = await getTranslations({ locale });
-    return { title: t('essaysPage.pageTitle'), description: t('metadata.description') };
+    return { title: t('essaysPage.pageTitle'), description: t('essaysPage.intro') };
   }
 
   const title = essay.seoTitle || essay.title;
@@ -110,6 +110,7 @@ export default async function EssayDetailPage({ params }: Props) {
         titleKey="essaysPage.h1"
         introKey="essaysPage.intro"
         bgText="ESSAY"
+        as="p"
       />
       <div className="gold-divider" />
       <article className="bg-blanco px-6 py-16 lg:px-14">

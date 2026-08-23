@@ -51,9 +51,9 @@ export function AboutPreview() {
                 <Icon className="h-5 w-5" strokeWidth={1.5} />
               </div>
               <div>
-                <h4 className="font-display text-[0.95rem] font-extrabold uppercase tracking-[1.5px] text-negro">
+                <h3 className="font-display text-[0.95rem] font-extrabold uppercase tracking-[1.5px] text-negro">
                   {t(`values.${key}.title`)}
-                </h4>
+                </h3>
                 <p className="mt-1.5 text-[0.88rem] leading-[1.65] text-gris-med">
                   {t(`values.${key}.description`)}
                 </p>

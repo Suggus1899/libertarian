@@ -35,7 +35,7 @@ export function EssaysPreview({ items }: { items: EssayItem[] }) {
             >
               {item.featuredImage ? (
                 <div className="relative h-40 w-full overflow-hidden bg-gris-bg">
-                  <Image src={item.featuredImage} alt="" fill unoptimized className="object-cover" />
+                  <Image src={item.featuredImage} alt={item.title} fill className="object-cover" />
                 </div>
               ) : (
                 <div className={`h-[3px] ${index % 2 === 0 ? 'bg-dorado' : 'bg-negro'}`} />
