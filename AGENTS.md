@@ -62,7 +62,7 @@
 ## Notes
 
 - The frontend is designed to match the original HTML wireframe: light theme, gold/black palette, uppercase display typography and clip-path hero background.
-- **Deploy:** SSH `root@169.58.139.164`, luego: `cd /var/www/libertarian && git pull && rm -rf .next && pnpm build && pm2 restart libertarian`
+- **Deploy:** Automático vía GitHub Webhook — cada `git push master` dispara `POST /api/deploy` → `/var/www/libertarian/scripts/deploy.sh` → pm2 restart. Manual de emergencia: `ssh root@169.58.139.164` → `cd /var/www/libertarian && git pull && rm -rf .next && pnpm build && pm2 restart libertarian`
 - The middleware file convention is deprecated in Next.js 16; `proxy.ts` is the new convention, but `middleware.ts` still works.
 - `pnpm` ignored build scripts for native deps (`sharp`, `@swc/core`). If image optimization is needed later, approve builds or use a CI with native tooling.
 - Required env vars for the admin/articles feature: `DATABASE_URL`, `SESSION_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` (see `.env.local.example`). Without `DATABASE_URL` the site still works — `lib/essays.ts` falls back to the static JSON essays only.
@@ -76,3 +76,49 @@
 - When syncing an editor's HTML to a hidden `<input>` via `setState` on Tiptap's `update`/`selectionUpdate` events: a selection-only change (e.g. clicking an image) doesn't change the HTML string, so `setState(sameString)` is a no-op in React and contextual toolbars relying on `editor.isActive(...)` won't refresh. Use a separate incrementing counter state to force re-render on `selectionUpdate`.
 - **File-based metadata routes** (`icon`, `opengraph-image`, `twitter-image`) have no file extension, so the next-intl middleware matcher (`/((?!api|admin|_next|_vercel|.*\\..*).*)`) was intercepting them and redirecting to `/es/opengraph-image` → 404. The matcher now explicitly excludes `icon|opengraph-image|twitter-image`.
 - `opengraph-image.tsx` lives in `app/[locale]/` (not `app/`) because any `openGraph` object in the `[locale]` layout's `generateMetadata` overrides the file-based convention from the parent. A child `openGraph` without `images` still suppresses the parent's file-based image, so pages that want the default image must omit `openGraph` entirely (the essay detail page does this when no featured image is set).
+
+<!-- gitnexus:start -->
+# GitNexus — Code Intelligence
+
+This project is indexed by GitNexus as **libertarian** (905 symbols, 1590 relationships, 73 execution flows).
+
+> Index stale? Run `node .gitnexus/run.cjs analyze --index-only` from the project root — it auto-selects an available runner. No `.gitnexus/run.cjs` yet? Bootstrap with `npx`, `bunx`, or `pnpm dlx` — e.g. `bunx gitnexus@latest analyze` (npm 11 npx crash; #1939).
+
+## Always Do
+
+- **MUST run impact analysis before editing.** Use `impact({target: "symbolName", direction: "upstream"})` (MCP) or `node .gitnexus/run.cjs impact "symbolName" --direction upstream --repo .` (CLI fallback); report callers, processes, and risk. Never substitute grep for graph analysis.
+- **MUST analyze graph changes before committing.** Use `detect_changes({scope: "all"})` (MCP) or `node .gitnexus/run.cjs detect-changes --scope all --repo .` (CLI fallback). `partial: true` or `truncated: true` is not a clean check — a zero means unseen, not unaffected; re-run it. For regression review: `detect_changes({scope: "compare", base_ref: "master"})` or `node .gitnexus/run.cjs detect-changes --scope compare --base-ref "master" --repo .`.
+- **MUST warn the user** if impact analysis returns HIGH or CRITICAL risk before proceeding with edits.
+- **MUST treat `risk: UNKNOWN` as unresolved, not as low.** An empty caller set is not evidence the symbol is unused — it can also mean the callers are not resolvable by the index (plain-object property access, dynamic dispatch, cross-language calls). `impact` pairs `UNKNOWN` with a `riskNote` saying so. Confirm with a text search before treating the symbol as safe to change or delete; do not proceed on the strength of a zero.
+- When exploring unfamiliar code, use `query({search_query: "concept"})` to find execution flows instead of grepping. It returns process-grouped results ranked by relevance.
+- When you need full context on a specific symbol — callers, callees, which execution flows it participates in — use `context({name: "symbolName"})`.
+- For security review, `explain({target: "fileOrSymbol"})` lists taint findings (source→sink flows; needs `analyze --pdg`).
+
+## Never Do
+
+- NEVER edit a function, class, or method before MCP/CLI impact analysis.
+- NEVER ignore HIGH or CRITICAL risk warnings from impact analysis, and never read `UNKNOWN` as an all-clear — it means the walk could not answer, which is the one verdict that requires confirming by other means.
+- NEVER rename symbols with find-and-replace — use `rename` which understands the call graph.
+- NEVER commit before MCP/CLI graph change analysis.
+
+## Resources
+
+| Resource | Use for |
+| --- | --- |
+| `gitnexus://repo/libertarian/context` | Codebase overview, check index freshness |
+| `gitnexus://repo/libertarian/clusters` | All functional areas |
+| `gitnexus://repo/libertarian/processes` | All execution flows |
+| `gitnexus://repo/libertarian/process/{name}` | Step-by-step execution trace |
+
+## CLI
+
+| Task | Read this skill file |
+| --- | --- |
+| Understand architecture / "How does X work?" | `.claude/skills/gitnexus-exploring/SKILL.md` |
+| Blast radius / "What breaks if I change X?" | `.claude/skills/gitnexus-impact-analysis/SKILL.md` |
+| Trace bugs / "Why is X failing?" | `.claude/skills/gitnexus-debugging/SKILL.md` |
+| Rename / extract / split / refactor | `.claude/skills/gitnexus-refactoring/SKILL.md` |
+| Tools, resources, schema reference | `.claude/skills/gitnexus-guide/SKILL.md` |
+| Index, status, clean, wiki CLI commands | `.claude/skills/gitnexus-cli/SKILL.md` |
+
+<!-- gitnexus:end -->
